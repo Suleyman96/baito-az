@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f6f7f9;
+  --surface: #ffffff;
+  --surface-2: #eef1f4;
+  --foreground: #16202a;
+  --muted: #5b6875;
+  --line: #dde3e9;
+  --brand: #0f766e;
+  --brand-strong: #0b5e58;
+  --brand-soft: #d9f2ee;
+  --accent: #9a4d00;
+  --accent-soft: #fdebd5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0e1418;
+    --surface: #161e24;
+    --surface-2: #1f2a32;
+    --foreground: #e6edf2;
+    --muted: #93a2ae;
+    --line: #2a3640;
+    --brand: #2bb3a3;
+    --brand-strong: #46c9b9;
+    --brand-soft: #123a36;
+    --accent: #f0a35a;
+    --accent-soft: #3a2712;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-brand: var(--brand);
+  --color-brand-strong: var(--brand-strong);
+  --color-brand-soft: var(--brand-soft);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  /* System fonts cover Latin, Cyrillic and Japanese without extra downloads */
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Hiragino Sans", "Noto Sans JP", "Noto Sans", sans-serif;
+}

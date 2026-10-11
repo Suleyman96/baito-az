@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "title": "ZaqaWork — local jobs in the district",
+    "description": "Part-time and full-time jobs in our district. For job seekers and employers."
+  },
+  "nav": {
+    "jobs": "Jobs",
+    "login": "Log in",
+    "register": "Sign up",
+    "postJob": "Post a job"
+  },
+  "home": {
+    "title": "Find a job near you",
+    "subtitle": "Part-time and full-time openings from local employers",
+    "searchPlaceholder": "Job title or keyword",
+    "search": "Search",
+    "allCategories": "All categories",
+    "allDistricts": "All districts",
+    "allVillages": "All villages",
+    "allTypes": "All job types",
+    "results": "{count} jobs found",
+    "noResults": "No jobs match these filters.",
+    "clear": "Clear filters",
+    "loading": "Loading…",
+    "prev": "Previous",
+    "next": "Next"
+  },
+  "jobType": {
+    "FULL_TIME": "Full-time",
+    "PART_TIME": "Part-time"
+  },
+  "categories": {
+    "sales": "Sales & retail",
+    "service": "Service & restaurants",
+    "agriculture": "Agriculture",
+    "construction": "Construction",
+    "education": "Education",
+    "healthcare": "Healthcare",
+    "transport": "Transport & driving",
+    "it": "IT & computers",
+    "office": "Office work",
+    "other": "Other"
+  },
+  "districts": {
+    "zaqatala": "Zaqatala",
+    "balaken": "Balakan",
+    "qax": "Qakh",
+    "sheki": "Shaki"
+  },
+  "job": {
+    "negotiable": "Negotiable",
+    "from": "From {min} {currency}",
+    "upTo": "Up to {max} {currency}",
+    "perMonth": "/ month",
+    "description": "About the job",
+    "employer": "Employer",
+    "phone": "Phone",
+    "apply": "Apply",
+    "applySoon": "Online applications are coming soon. For now, please contact the employer by phone.",
+    "back": "All jobs",
+    "notFound": "This job was not found or is no longer active."
+  },
+  "auth": {
+    "loginTitle": "Log in",
+    "registerTitle": "Sign up",
+    "identifier": "Email or phone",
+    "password": "Password",
+    "passwordHint": "At least 8 characters",
+    "name": "Full name",
+    "email": "Email",
+    "phone": "Mobile number",
+    "phoneHint": "For example: 050 123 45 67",
+    "contactHint": "Enter at least one: email or mobile number. You can log in with either.",
+    "companyName": "Business name",
+    "roleQuestion": "Who are you?",
+    "roleSeeker": "I'm looking for a job",
+    "roleSeekerHint": "Apply to job openings",
+    "roleEmployer": "I'm hiring",
+    "roleEmployerHint": "Post job openings",
+    "submitLogin": "Log in",
+    "submitRegister": "Sign up",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "logout": "Log out",
+    "loginToApply": "Log in to apply",
+    "errors": {
+      "nameRequired": "Please enter your name.",
+      "emailInvalid": "This email is not valid.",
+      "phoneInvalid": "This mobile number is not valid. For example: 050 123 45 67",
+      "contactRequired": "Enter an email or a mobile number.",
+      "passwordShort": "Password must be at least 8 characters.",
+      "companyRequired": "Please enter the business name.",
+      "emailTaken": "An account with this email already exists.",
+      "phoneTaken": "An account with this number already exists.",
+      "invalidCredentials": "Wrong email/phone or password."
+    }
+  },
+  "footer": {
+    "text": "For job seekers and employers in our district."
+  }
+}

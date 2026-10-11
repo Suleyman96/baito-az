@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "title": "ZaqaWork — rayonda iş elanları",
+    "description": "Rayonumuzda part-time və full-time iş elanları. İş axtaranlar və işəgötürənlər üçün."
+  },
+  "nav": {
+    "jobs": "Vakansiyalar",
+    "login": "Daxil ol",
+    "register": "Qeydiyyat",
+    "postJob": "Elan yerləşdir"
+  },
+  "home": {
+    "title": "Rayonunda iş tap",
+    "subtitle": "Yerli işəgötürənlərdən part-time və full-time vakansiyalar",
+    "searchPlaceholder": "Vəzifə və ya açar söz",
+    "search": "Axtar",
+    "allCategories": "Bütün kateqoriyalar",
+    "allDistricts": "Bütün rayonlar",
+    "allVillages": "Bütün kəndlər",
+    "allTypes": "Bütün iş növləri",
+    "results": "{count} vakansiya tapıldı",
+    "noResults": "Bu filtrlərə uyğun vakansiya tapılmadı.",
+    "clear": "Filtrləri təmizlə",
+    "loading": "Yüklənir…",
+    "prev": "Əvvəlki",
+    "next": "Növbəti"
+  },
+  "jobType": {
+    "FULL_TIME": "Full-time",
+    "PART_TIME": "Part-time"
+  },
+  "categories": {
+    "sales": "Satış və ticarət",
+    "service": "Xidmət və restoran",
+    "agriculture": "Kənd təsərrüfatı",
+    "construction": "Tikinti",
+    "education": "Təhsil",
+    "healthcare": "Səhiyyə",
+    "transport": "Nəqliyyat və sürücülük",
+    "it": "İT və kompüter",
+    "office": "Ofis işi",
+    "other": "Digər"
+  },
+  "districts": {
+    "zaqatala": "Zaqatala",
+    "balaken": "Balakən",
+    "qax": "Qax",
+    "sheki": "Şəki"
+  },
+  "job": {
+    "negotiable": "Razılaşma yolu ilə",
+    "from": "{min} {currency}-dən",
+    "upTo": "{max} {currency}-dək",
+    "perMonth": "/ ay",
+    "description": "İş haqqında",
+    "employer": "İşəgötürən",
+    "phone": "Telefon",
+    "apply": "Müraciət et",
+    "applySoon": "Onlayn müraciət tezliklə əlavə olunacaq. Hələlik telefonla əlaqə saxlayın.",
+    "back": "Bütün vakansiyalar",
+    "notFound": "Vakansiya tapılmadı və ya artıq aktiv deyil."
+  },
+  "auth": {
+    "loginTitle": "Daxil ol",
+    "registerTitle": "Qeydiyyat",
+    "identifier": "Email və ya telefon",
+    "password": "Şifrə",
+    "passwordHint": "Ən azı 8 simvol",
+    "name": "Ad və soyad",
+    "email": "Email",
+    "phone": "Mobil nömrə",
+    "phoneHint": "Məsələn: 050 123 45 67",
+    "contactHint": "Email və ya mobil nömrədən ən azı birini yazın. Hər ikisi ilə daxil ola bilərsiniz.",
+    "companyName": "Şirkətin və ya obyektin adı",
+    "roleQuestion": "Siz kimsiniz?",
+    "roleSeeker": "İş axtarıram",
+    "roleSeekerHint": "Vakansiyalara müraciət edin",
+    "roleEmployer": "İşçi axtarıram",
+    "roleEmployerHint": "Vakansiya elanı yerləşdirin",
+    "submitLogin": "Daxil ol",
+    "submitRegister": "Qeydiyyatdan keç",
+    "noAccount": "Hesabınız yoxdur?",
+    "haveAccount": "Artıq hesabınız var?",
+    "logout": "Çıxış",
+    "loginToApply": "Müraciət etmək üçün daxil olun",
+    "errors": {
+      "nameRequired": "Adınızı yazın.",
+      "emailInvalid": "Email düzgün deyil.",
+      "phoneInvalid": "Mobil nömrə düzgün deyil. Məsələn: 050 123 45 67",
+      "contactRequired": "Email və ya mobil nömrədən birini yazın.",
+      "passwordShort": "Şifrə ən azı 8 simvol olmalıdır.",
+      "companyRequired": "Şirkətin adını yazın.",
+      "emailTaken": "Bu email ilə artıq hesab var.",
+      "phoneTaken": "Bu nömrə ilə artıq hesab var.",
+      "invalidCredentials": "Email/telefon və ya şifrə yanlışdır."
+    }
+  },
+  "footer": {
+    "text": "Rayonumuzun iş axtaranları və işəgötürənləri üçün."
+  }
+}

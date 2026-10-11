@@ -1,0 +1,135 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  SEEKER
+  EMPLOYER
+  ADMIN
+}
+
+enum EmploymentType {
+  FULL_TIME
+  PART_TIME
+}
+
+/// PENDING: awaiting admin moderation, ACTIVE: publicly listed
+enum JobStatus {
+  PENDING
+  ACTIVE
+  CLOSED
+  REJECTED
+}
+
+enum ApplicationStatus {
+  NEW
+  REVIEWED
+  ACCEPTED
+  REJECTED
+}
+
+/// Signs in with email or phone, so at least one of them is set (checked in the app)
+model User {
+  id           String        @id @default(cuid())
+  email        String?       @unique
+  /// Normalized mobile number, e.g. +994501234567
+  phone        String?       @unique
+  passwordHash String
+  name         String
+  role         Role          @default(SEEKER)
+  company      Company?
+  applications Application[]
+  sessions     Session[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+/// Login session. The browser cookie holds a random token; only its SHA-256 hash is stored here
+model Session {
+  id        String   @id
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Company {
+  id          String   @id @default(cuid())
+  name        String
+  description String?  @db.Text
+  phone       String?
+  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId     String   @unique
+  jobs        Job[]
+  createdAt   DateTime @default(now())
+}
+
+/// Category names are translated in the UI by slug (see dictionaries)
+model Category {
+  id   Int    @id @default(autoincrement())
+  slug String @unique
+  jobs Job[]
+}
+
+/// District names are translated in the UI by slug (see dictionaries)
+model District {
+  id        Int        @id @default(autoincrement())
+  slug      String     @unique
+  locations Location[]
+}
+
+/// Town or village inside a district
+model Location {
+  id         Int      @id @default(autoincrement())
+  name       String
+  district   District @relation(fields: [districtId], references: [id])
+  districtId Int
+  jobs       Job[]
+
+  // Different districts can have villages with the same name
+  @@unique([districtId, name])
+}
+
+model Job {
+  id             String         @id @default(cuid())
+  title          String
+  description    String         @db.Text
+  employmentType EmploymentType
+  /// Monthly salary in AZN
+  salaryMin      Int?
+  salaryMax      Int?
+  status         JobStatus      @default(ACTIVE)
+  company        Company        @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId      String
+  category       Category       @relation(fields: [categoryId], references: [id])
+  categoryId     Int
+  location       Location       @relation(fields: [locationId], references: [id])
+  locationId     Int
+  applications   Application[]
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  @@index([status, createdAt])
+  @@index([categoryId])
+  @@index([locationId])
+}
+
+model Application {
+  id        String            @id @default(cuid())
+  job       Job               @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  jobId     String
+  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  message   String?           @db.Text
+  status    ApplicationStatus @default(NEW)
+  createdAt DateTime          @default(now())
+
+  @@unique([jobId, userId])
+}

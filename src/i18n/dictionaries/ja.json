@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "title": "ZaqaWork — 地域の求人情報",
+    "description": "地域のアルバイト・正社員の求人サイト。求職者と雇用主のために。"
+  },
+  "nav": {
+    "jobs": "求人一覧",
+    "login": "ログイン",
+    "register": "新規登録",
+    "postJob": "求人を掲載"
+  },
+  "home": {
+    "title": "地元で仕事を探そう",
+    "subtitle": "地元企業のアルバイト・正社員求人",
+    "searchPlaceholder": "職種・キーワード",
+    "search": "検索",
+    "allCategories": "すべてのカテゴリ",
+    "allDistricts": "すべての地区",
+    "allVillages": "すべての村",
+    "allTypes": "すべての雇用形態",
+    "results": "{count}件の求人",
+    "noResults": "条件に合う求人が見つかりませんでした。",
+    "clear": "条件をクリア",
+    "loading": "読み込み中…",
+    "prev": "前へ",
+    "next": "次へ"
+  },
+  "jobType": {
+    "FULL_TIME": "正社員",
+    "PART_TIME": "アルバイト"
+  },
+  "categories": {
+    "sales": "販売・小売",
+    "service": "サービス・飲食",
+    "agriculture": "農業",
+    "construction": "建設",
+    "education": "教育",
+    "healthcare": "医療",
+    "transport": "運輸・ドライバー",
+    "it": "IT・パソコン",
+    "office": "事務",
+    "other": "その他"
+  },
+  "districts": {
+    "zaqatala": "ザカタラ",
+    "balaken": "バラケン",
+    "qax": "ガフ",
+    "sheki": "シェキ"
+  },
+  "job": {
+    "negotiable": "応相談",
+    "from": "{min} {currency}〜",
+    "upTo": "〜{max} {currency}",
+    "perMonth": "/ 月",
+    "description": "仕事内容",
+    "employer": "雇用主",
+    "phone": "電話番号",
+    "apply": "応募する",
+    "applySoon": "オンライン応募は近日公開予定です。現在はお電話でお問い合わせください。",
+    "back": "求人一覧へ",
+    "notFound": "求人が見つからないか、掲載が終了しています。"
+  },
+  "auth": {
+    "loginTitle": "ログイン",
+    "registerTitle": "新規登録",
+    "identifier": "メールアドレスまたは電話番号",
+    "password": "パスワード",
+    "passwordHint": "8文字以上",
+    "name": "氏名",
+    "email": "メールアドレス",
+    "phone": "携帯電話番号",
+    "phoneHint": "例：050 123 45 67",
+    "contactHint": "メールアドレスか携帯電話番号のどちらかを入力してください。どちらでもログインできます。",
+    "companyName": "会社名・店舗名",
+    "roleQuestion": "ご利用の目的",
+    "roleSeeker": "仕事を探しています",
+    "roleSeekerHint": "求人に応募できます",
+    "roleEmployer": "人を募集しています",
+    "roleEmployerHint": "求人を掲載できます",
+    "submitLogin": "ログイン",
+    "submitRegister": "登録する",
+    "noAccount": "アカウントをお持ちでないですか？",
+    "haveAccount": "すでにアカウントをお持ちですか？",
+    "logout": "ログアウト",
+    "loginToApply": "ログインして応募する",
+    "errors": {
+      "nameRequired": "氏名を入力してください。",
+      "emailInvalid": "メールアドレスが正しくありません。",
+      "phoneInvalid": "携帯電話番号が正しくありません。例：050 123 45 67",
+      "contactRequired": "メールアドレスか携帯電話番号を入力してください。",
+      "passwordShort": "パスワードは8文字以上にしてください。",
+      "companyRequired": "会社名・店舗名を入力してください。",
+      "emailTaken": "このメールアドレスは既に登録されています。",
+      "phoneTaken": "この電話番号は既に登録されています。",
+      "invalidCredentials": "メールアドレス・電話番号またはパスワードが違います。"
+    }
+  },
+  "footer": {
+    "text": "地域の求職者と雇用主のために。"
+  }
+}
