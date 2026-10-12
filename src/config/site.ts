@@ -14,6 +14,12 @@ export const site = {
     "office",
     "other",
   ],
+  // Contact details on the About page. Empty values are not shown.
+  contact: {
+    email: "",
+    phone: "",
+    whatsapp: "",
+  },
   // District slugs are translated in the UI (see dictionaries); village names are proper nouns
   districts: {
     zaqatala: [

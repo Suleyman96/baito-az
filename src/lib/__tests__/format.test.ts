@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatRelativeDate, formatSalary, t } from "../format";
+import { bakuMidnight, formatRelativeDate, formatSalary, formatWorkStart, t } from "../format";
 
 const labels = { negotiable: "Negotiable", from: "From {min} {currency}", upTo: "Up to {max} {currency}" };
 
@@ -26,5 +26,21 @@ describe("formatRelativeDate", () => {
   });
   it("localizes to Japanese", () => {
     expect(formatRelativeDate(new Date("2026-10-11T09:00:00Z"), "ja", now)).toBe("3 時間前");
+  });
+});
+
+describe("formatWorkStart", () => {
+  it("shows Baku time whatever the machine's time zone", () => {
+    const start = new Date("2026-10-20T05:30:00Z");
+    expect(formatWorkStart(start, "az")).toBe("20 oktyabr, çərşənbə axşamı, 09:30");
+    expect(formatWorkStart(start, "en")).toBe("Tuesday, October 20, 09:30");
+  });
+});
+
+describe("bakuMidnight", () => {
+  it("uses the Baku calendar day, not the UTC one", () => {
+    // 22:30 UTC on the 11th is already 02:30 on the 12th in Baku
+    expect(bakuMidnight(new Date("2026-10-11T22:30:00Z"))).toEqual(new Date("2026-10-11T20:00:00Z"));
+    expect(bakuMidnight(new Date("2026-10-11T22:30:00Z"), 2)).toEqual(new Date("2026-10-13T20:00:00Z"));
   });
 });

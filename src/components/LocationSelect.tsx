@@ -12,12 +12,15 @@ export function LocationSelect({
   location,
   labels,
   className,
+  villageName = "location",
 }: {
   districts: District[];
   district?: string;
   location?: number;
   labels: { allDistricts: string; allVillages: string };
   className: string;
+  /** Form field name of the village select */
+  villageName?: string;
 }) {
   const [district, setDistrict] = useState(initialDistrict ?? "");
   const [village, setVillage] = useState(location ? String(location) : "");
@@ -43,7 +46,7 @@ export function LocationSelect({
         ))}
       </select>
       <select
-        name="location"
+        name={villageName}
         value={village}
         onChange={(e) => setVillage(e.target.value)}
         aria-label={labels.allVillages}

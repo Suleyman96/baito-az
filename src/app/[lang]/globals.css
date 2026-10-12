@@ -1,32 +1,93 @@
 @import "tailwindcss";
 
+/* "Friendly & warm" theme: cream ground, teal brand, apricot accent for one-day jobs */
 :root {
-  --background: #f6f7f9;
+  color-scheme: light;
+  --background: #fffbf5;
   --surface: #ffffff;
-  --surface-2: #eef1f4;
-  --foreground: #16202a;
-  --muted: #5b6875;
-  --line: #dde3e9;
+  --surface-2: #f7f2ea;
+  --foreground: #1f2a24;
+  --muted: #5a615c;
+  --line: #efe5d6;
+  --line-strong: #dccfbb;
   --brand: #0f766e;
   --brand-strong: #0b5e58;
-  --brand-soft: #d9f2ee;
-  --accent: #9a4d00;
-  --accent-soft: #fdebd5;
+  --brand-soft: #e3f2ee;
+  /* Text on a brand-colored fill */
+  --on-brand: #ffffff;
+  --accent: #b4561a;
+  --accent-ink: #8a4a1c;
+  --accent-soft: #fde9d3;
+  --accent-tint: #fff3e6;
+  /* Home page hero and its mountains */
+  --hero: #fdf1de;
+  --mountain-far: #b9d8c9;
+  --mountain-near: #6fae93;
+  --footer: #1f3a33;
+  --on-footer: #dce9e3;
 }
 
+/* Dark colors apply when the user picked dark (data-theme="dark"),
+   or when they picked nothing and the system is dark. See ThemeToggle. */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0e1418;
-    --surface: #161e24;
-    --surface-2: #1f2a32;
-    --foreground: #e6edf2;
-    --muted: #93a2ae;
-    --line: #2a3640;
-    --brand: #2bb3a3;
-    --brand-strong: #46c9b9;
-    --brand-soft: #123a36;
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --background: #12100d;
+    --surface: #1c1915;
+    --surface-2: #26221c;
+    --foreground: #f2ece3;
+    --muted: #aaa194;
+    --line: #332d25;
+    --line-strong: #4a4237;
+    --brand: #3cc2b0;
+    --brand-strong: #5ad3c2;
+    --brand-soft: #143a35;
+    --on-brand: #0b1a17;
     --accent: #f0a35a;
+    --accent-ink: #f6bd86;
     --accent-soft: #3a2712;
+    --accent-tint: #261b10;
+    --hero: #1a1712;
+    --mountain-far: #22403a;
+    --mountain-near: #1b332d;
+    --footer: #0c1a17;
+    --on-footer: #c9dad3;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --background: #12100d;
+  --surface: #1c1915;
+  --surface-2: #26221c;
+  --foreground: #f2ece3;
+  --muted: #aaa194;
+  --line: #332d25;
+  --line-strong: #4a4237;
+  --brand: #3cc2b0;
+  --brand-strong: #5ad3c2;
+  --brand-soft: #143a35;
+  --on-brand: #0b1a17;
+  --accent: #f0a35a;
+  --accent-ink: #f6bd86;
+  --accent-soft: #3a2712;
+  --accent-tint: #261b10;
+  --hero: #1a1712;
+  --mountain-far: #22403a;
+  --mountain-near: #1b332d;
+  --footer: #0c1a17;
+  --on-footer: #c9dad3;
+}
+
+/* Tailwind's dark: variant follows the same rule as the colors above */
+@custom-variant dark {
+  &:where([data-theme="dark"], [data-theme="dark"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme="light"]) *) {
+      @slot;
+    }
   }
 }
 
@@ -37,16 +98,32 @@
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
   --color-brand: var(--brand);
   --color-brand-strong: var(--brand-strong);
   --color-brand-soft: var(--brand-soft);
+  --color-on-brand: var(--on-brand);
   --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
   --color-accent-soft: var(--accent-soft);
+  --color-accent-tint: var(--accent-tint);
+  --color-hero: var(--hero);
+  --color-footer: var(--footer);
+  --color-on-footer: var(--on-footer);
+  /* Fonts are loaded with next/font in the layout. Japanese falls back to the system's Japanese font */
+  --font-sans: var(--font-body), "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif;
+  --font-heading: var(--font-display), var(--font-body), "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  /* System fonts cover Latin, Cyrillic and Japanese without extra downloads */
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Hiragino Sans", "Noto Sans JP", "Noto Sans", sans-serif;
+  font-family: var(--font-sans);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
 }

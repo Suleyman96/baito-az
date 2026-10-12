@@ -40,7 +40,8 @@ export async function register(_prev: AuthFormState, formData: FormData): Promis
         email,
         phone,
         passwordHash: await bcrypt.hash(password, 10),
-        company: role === "EMPLOYER" ? { create: { name: companyName!, phone } } : undefined,
+        // Private persons post under their own name
+        company: role === "EMPLOYER" ? { create: { name: companyName ?? name, phone } } : undefined,
       },
     });
     await createSession(user.id);
@@ -71,6 +72,8 @@ export async function login(_prev: AuthFormState, formData: FormData): Promise<A
   const ok = await bcrypt.compare(parsed.data.password, user?.passwordHash ?? DUMMY_HASH);
   // Same message for unknown account and wrong password, so accounts cannot be probed
   if (!user || !ok) return failed;
+  // Told only after a correct password, so this does not reveal which accounts exist
+  if (user.blockedAt) return { errors: { form: "blocked" }, values };
 
   await createSession(user.id);
   redirect(safeNext(formData.get("next"), homeFor(formData)));

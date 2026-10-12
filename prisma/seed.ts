@@ -35,6 +35,11 @@ const jobs: {
 async function main() {
   // Start from a clean slate so the seed can be re-run safely
   await db.application.deleteMany();
+  // Notifications and CVs go with their users and applications; listed here to keep the order obvious
+  await db.notification.deleteMany();
+  await db.resume.deleteMany();
+  // Uploaded images (job images go with their jobs; profile photos would otherwise be left behind)
+  await db.image.deleteMany();
   await db.job.deleteMany();
   await db.company.deleteMany();
   await db.user.deleteMany();
@@ -90,6 +95,7 @@ async function main() {
         employmentType: job.type,
         salaryMin: job.salary[0],
         salaryMax: job.salary[1],
+        status: "ACTIVE",
         companyId: companies[job.company].id,
         categoryId: categories.find((c) => c.slug === job.category)!.id,
         locationId: locations.find((l) => l.district.slug === job.location[0] && l.name === job.location[1])!.id,
@@ -99,7 +105,40 @@ async function main() {
     });
   }
 
-  console.log(`Seeded ${jobs.length} jobs. Demo password: ${DEMO_PASSWORD}`);
+  // One-day jobs a few days ahead (Baku time, UTC+4), so they stay visible after seeding
+  const daysAhead = (days: number, hour: number) => {
+    const d = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
+    d.setUTCHours(hour - 4, 0, 0, 0);
+    return d;
+  };
+  const place = (district: DistrictSlug, name: string) =>
+    locations.find((l) => l.district.slug === district && l.name === name)!.id;
+  const oneDayJobs = [
+    { title: "Həyət təmizləmə işi", description: "Böyük həyətin yarpaqlardan və budaqlardan təmizlənməsi. Alətlər verilir.", start: daysAhead(4, 10), hours: 5, workers: 2, pay: 40, period: "JOB" as const, district: "zaqatala" as const, village: "Car", status: "ACTIVE" as const },
+    { title: "Toy üçün ofisiant", description: "Şənbə günü toy məclisində xidmət. Ağ köynək, qara şalvar.", start: daysAhead(6, 17), hours: 7, workers: 4, pay: 6, period: "HOUR" as const, district: "sheki" as const, village: "Şəki şəhəri", status: "ACTIVE" as const },
+    // Waits in the admin review queue
+    { title: "Mebel daşınması", description: "İkimərtəbəli evdən mebelin yük maşınına yüklənməsi.", start: daysAhead(3, 9), hours: 3, workers: 3, pay: 25, period: "JOB" as const, district: "qax" as const, village: "İlisu", status: "PENDING" as const },
+  ];
+  for (const job of oneDayJobs) {
+    await db.job.create({
+      data: {
+        title: job.title,
+        description: job.description,
+        employmentType: "ONE_DAY",
+        workStart: job.start,
+        durationHours: job.hours,
+        workersNeeded: job.workers,
+        salaryMin: job.pay,
+        payPeriod: job.period,
+        status: job.status,
+        companyId: companies[1].id,
+        categoryId: categories.find((c) => c.slug === "other")!.id,
+        locationId: place(job.district, job.village),
+      },
+    });
+  }
+
+  console.log(`Seeded ${jobs.length + oneDayJobs.length} jobs. Demo password: ${DEMO_PASSWORD}`);
 }
 
 main()

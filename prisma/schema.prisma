@@ -16,6 +16,17 @@ enum Role {
 enum EmploymentType {
   FULL_TIME
   PART_TIME
+  /// A single day of work at a set date and time, e.g. 5 hours of yard cleaning
+  ONE_DAY
+}
+
+/// What the salary amount is for
+enum PayPeriod {
+  MONTH
+  DAY
+  HOUR
+  /// The whole job (one-day jobs)
+  JOB
 }
 
 /// PENDING: awaiting admin moderation, ACTIVE: publicly listed
@@ -42,6 +53,17 @@ model User {
   passwordHash String
   name         String
   role         Role          @default(SEEKER)
+  /// Set by an admin: the user cannot log in and their jobs are hidden
+  blockedAt    DateTime?
+  /// Profile photo; for employers it is also shown as the company logo
+  avatar       Image?        @relation("UserAvatar", fields: [avatarId], references: [id], onDelete: SetNull)
+  avatarId     String?       @unique
+  /// The CV used for new applications (job seekers)
+  resume       Resume?       @relation("CurrentResume", fields: [resumeId], references: [id], onDelete: SetNull)
+  resumeId     String?       @unique
+  /// Every CV this user uploaded that is still kept (current, or attached to an application)
+  resumes      Resume[]      @relation("ResumeOwner")
+  notifications Notification[]
   company      Company?
   applications Application[]
   sessions     Session[]
@@ -65,6 +87,10 @@ model Company {
   name        String
   description String?  @db.Text
   phone       String?
+  /// Optional business location: a written address and/or a point picked on the map
+  address     String?
+  latitude    Float?
+  longitude   Float?
   owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId     String   @unique
   jobs        Job[]
@@ -102,10 +128,20 @@ model Job {
   title          String
   description    String         @db.Text
   employmentType EmploymentType
-  /// Monthly salary in AZN
+  /// Salary in AZN per payPeriod. One-day jobs use salaryMin only
   salaryMin      Int?
   salaryMax      Int?
-  status         JobStatus      @default(ACTIVE)
+  payPeriod      PayPeriod      @default(MONTH)
+  /// One-day jobs: start date and time, length in hours, and how many workers are needed
+  workStart      DateTime?
+  durationHours  Int?
+  workersNeeded  Int?
+  /// Phone shown on the job; falls back to the company phone
+  contactPhone   String?
+  /// New posts wait for admin approval
+  status         JobStatus      @default(PENDING)
+  /// Admin's reason when rejecting, shown to the employer
+  rejectReason   String?
   company        Company        @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId      String
   category       Category       @relation(fields: [categoryId], references: [id])
@@ -113,10 +149,13 @@ model Job {
   location       Location       @relation(fields: [locationId], references: [id])
   locationId     Int
   applications   Application[]
+  /// Optional photos of the workplace or the work
+  images         Image[]
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
 
   @@index([status, createdAt])
+  @@index([companyId])
   @@index([categoryId])
   @@index([locationId])
 }
@@ -129,7 +168,81 @@ model Application {
   userId    String
   message   String?           @db.Text
   status    ApplicationStatus @default(NEW)
+  /// The CV as it was when the seeker applied; later replacements do not change what the employer received
+  resume    Resume?           @relation(fields: [resumeId], references: [id], onDelete: SetNull)
+  resumeId  String?
+  notification Notification?
   createdAt DateTime          @default(now())
+  updatedAt DateTime          @default(now()) @updatedAt
 
+  // One application per seeker and job: a retried or repeated submit cannot create a second one
   @@unique([jobId, userId])
+  @@index([resumeId])
+}
+
+/// A job seeker's CV file (PDF, DOC or DOCX). Private: served only to its owner,
+/// to employers it was sent to with an application, and to admins (see app/api/resumes/[id]).
+/// Never changed in place: replacing a CV creates a new row.
+model Resume {
+  id           String        @id @default(cuid())
+  owner        User          @relation("ResumeOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId      String
+  currentOf    User?         @relation("CurrentResume")
+  applications Application[]
+  data         Bytes
+  /// application/pdf, application/msword or the .docx type (checked from the file's bytes)
+  mimeType     String
+  /// Original file name, cleaned of paths
+  fileName     String
+  size         Int
+  createdAt    DateTime      @default(now())
+
+  @@index([ownerId])
+}
+
+enum EmailStatus {
+  /// Not tried yet
+  PENDING
+  SENT
+  FAILED
+  /// No email service is configured; the notification is only shown on the site
+  NOT_CONFIGURED
+  /// The recipient has no email address (phone-only account)
+  NO_ADDRESS
+}
+
+/// "Someone applied to your job", for the employer. One per application, so a retried
+/// submit never notifies twice. Shown on the site; emailed when an email service is configured.
+model Notification {
+  id            String      @id @default(cuid())
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String
+  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  applicationId String      @unique
+  readAt        DateTime?
+  emailStatus   EmailStatus @default(PENDING)
+  emailError    String?
+  emailedAt     DateTime?
+  createdAt     DateTime    @default(now())
+
+  @@index([userId, readAt])
+}
+
+/// An uploaded picture, stored in the database (see src/lib/storage.ts).
+/// Either a user's profile photo or one of a job's images.
+model Image {
+  id        String   @id @default(cuid())
+  data      Bytes
+  /// image/jpeg, image/png or image/webp (checked from the file's bytes, not the name)
+  mimeType  String
+  size      Int
+  /// Profile photo of this user
+  avatarOf  User?    @relation("UserAvatar")
+  /// Image of this job, in display order
+  job       Job?     @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  jobId     String?
+  position  Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([jobId, position])
 }

@@ -7,10 +7,15 @@ export type AuthErrorKey =
   | "phoneInvalid"
   | "contactRequired"
   | "passwordShort"
-  | "companyRequired"
   | "emailTaken"
   | "phoneTaken"
-  | "invalidCredentials";
+  | "invalidCredentials"
+  | "blocked"
+  | "currentPasswordWrong"
+  | "companyNameLong"
+  | "descriptionLong"
+  | "addressLong"
+  | "locationInvalid";
 
 // Azerbaijani mobile operator codes (Azercell, Bakcell, Nar, Naxtel)
 const MOBILE_CODES = ["10", "50", "51", "55", "60", "70", "77", "99"];
@@ -53,14 +58,12 @@ export const registerSchema = z
       return phone;
     }),
     password,
-    companyName: optionalText,
+    // Optional: private persons (e.g. someone hiring for one day) leave it empty
+    companyName: optionalText.pipe(z.string().max(100).optional()),
   })
   .superRefine((data, ctx) => {
     if (!data.email && !data.phone) {
       ctx.addIssue({ code: "custom", path: ["email"], message: "contactRequired" });
-    }
-    if (data.role === "EMPLOYER" && (!data.companyName || data.companyName.length < 2)) {
-      ctx.addIssue({ code: "custom", path: ["companyName"], message: "companyRequired" });
     }
   });
 
@@ -98,3 +101,57 @@ export function safeNext(next: unknown, fallback: string): string {
   }
   return next;
 }
+
+const phoneField = optionalText.transform((v, ctx) => {
+  if (v === undefined) return undefined;
+  const phone = normalizePhone(v);
+  if (!phone) {
+    ctx.addIssue({ code: "custom", message: "phoneInvalid" });
+    return z.NEVER;
+  }
+  return phone;
+});
+
+/** Profile: name and contacts. As at sign-up, at least one of email or phone stays set. */
+export const accountSchema = z
+  .object({
+    name: z.string().trim().min(2, "nameRequired").max(80, "nameRequired"),
+    email: optionalText.pipe(z.email("emailInvalid").toLowerCase().optional()),
+    phone: phoneField,
+  })
+  .superRefine((data, ctx) => {
+    if (!data.email && !data.phone) {
+      ctx.addIssue({ code: "custom", path: ["email"], message: "contactRequired" });
+    }
+  });
+
+// A coordinate from a hidden form field: empty means "not set"
+const coordinate = (limit: number) =>
+  z.preprocess(
+    (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
+    z.coerce.number({ message: "locationInvalid" }).min(-limit, "locationInvalid").max(limit, "locationInvalid").optional(),
+  );
+
+/**
+ * Employer's company details. An empty name means "post under my own name".
+ * The location is optional: an address, a map point (latitude + longitude together), both or neither.
+ */
+export const companySchema = z
+  .object({
+    companyName: optionalText.pipe(z.string().max(100, "companyNameLong").optional()),
+    description: optionalText.pipe(z.string().max(1000, "descriptionLong").optional()),
+    phone: phoneField,
+    address: optionalText.pipe(z.string().max(200, "addressLong").optional()),
+    latitude: coordinate(90),
+    longitude: coordinate(180),
+  })
+  .superRefine((data, ctx) => {
+    if ((data.latitude === undefined) !== (data.longitude === undefined)) {
+      ctx.addIssue({ code: "custom", path: ["latitude"], message: "locationInvalid" });
+    }
+  });
+
+export const passwordChangeSchema = z.object({
+  currentPassword: z.string().min(1, "currentPasswordWrong"),
+  newPassword: password,
+});

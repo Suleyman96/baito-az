@@ -32,7 +32,7 @@ export async function deleteSession() {
   store.delete(COOKIE_NAME);
 }
 
-export type CurrentUser = { id: string; name: string; role: "SEEKER" | "EMPLOYER" | "ADMIN" };
+export type CurrentUser = { id: string; name: string; role: "SEEKER" | "EMPLOYER" | "ADMIN"; avatarId: string | null };
 
 /**
  * The logged-in user, or null. Reads the request cookie, so callers must render
@@ -44,8 +44,16 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
 
   const session = await db.session.findUnique({
     where: { id: hashToken(token) },
-    include: { user: { select: { id: true, name: true, role: true } } },
+    include: { user: { select: { id: true, name: true, role: true, blockedAt: true, avatarId: true } } },
   });
-  if (!session || session.expiresAt < new Date()) return null;
-  return session.user;
+  // Blocking also deletes sessions; the check covers a request already in flight
+  if (!session || session.expiresAt < new Date() || session.user.blockedAt) return null;
+  const { id, name, role, avatarId } = session.user;
+  return { id, name, role, avatarId };
 });
+
+/** Logs the user out on every other device, keeping the current session (after a password change). */
+export async function deleteOtherSessions(userId: string) {
+  const token = (await cookies()).get(COOKIE_NAME)?.value;
+  await db.session.deleteMany({ where: { userId, id: token ? { not: hashToken(token) } : undefined } });
+}

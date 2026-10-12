@@ -1,85 +1,127 @@
+import { ArrowRight, MapPin } from "lucide-react";
 import Link from "next/link";
+import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
-import { JobCard } from "@/components/JobCard";
+import { CategoryChips } from "@/components/home/CategoryChips";
+import { Mountains } from "@/components/home/Mountains";
+import { JobCard, OneDayCard } from "@/components/JobCard";
 import { JobFilters } from "@/components/JobFilters";
+import { JobGridSkeleton, SearchSkeleton } from "@/components/Skeletons";
+import { buttonClass } from "@/components/ui";
+import { site, type DistrictSlug } from "@/config/site";
 import { hasLocale, type Locale } from "@/i18n/config";
 import { getDictionary, type Dictionary } from "@/i18n/dictionaries";
-import { t } from "@/lib/format";
-import { parseJobFilters, type JobFilters as Filters } from "@/lib/filters";
-import { getFilterOptions, searchJobs } from "@/lib/jobs";
-import { notFound } from "next/navigation";
+import { filtersHref, hasActiveFilters, parseJobFilters } from "@/lib/filters";
+import { districtName, t } from "@/lib/format";
+import { getFilterOptions, getHomeStats, getUpcomingOneDayJobs, searchJobs } from "@/lib/jobs";
+
+const NO_FILTERS = parseJobFilters({});
+const LATEST_COUNT = 6;
 
 export default async function HomePage({ params, searchParams }: PageProps<"/[lang]">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const dict = getDictionary(lang);
+  const districts = (Object.keys(site.districts) as DistrictSlug[]).map((slug) => districtName(dict, slug)).join(" · ");
 
   return (
-    <div className="space-y-6">
-      <section>
-        <h1 className="text-2xl font-bold sm:text-3xl">{dict.home.title}</h1>
-        <p className="mt-1 text-muted">{dict.home.subtitle}</p>
+    <div className="space-y-10">
+      {/* Hero spans the full window: pulled out of the page container, up to the header */}
+      <section className="relative -mt-6 mx-[calc(50%-50vw)] overflow-hidden bg-hero">
+        <div className="relative z-10 mx-auto max-w-6xl space-y-5 px-4 pb-20 pt-8 sm:px-6 sm:pb-28 sm:pt-10">
+          <p className="inline-flex items-center gap-2 rounded-full bg-surface px-3 py-1.5 text-sm font-semibold text-brand-strong">
+            <MapPin className="size-4" aria-hidden />
+            {districts}
+          </p>
+          <h1 className="max-w-3xl text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-[56px]">{dict.home.title}</h1>
+          <p className="max-w-xl text-lg text-muted">{dict.home.subtitle}</p>
+          <Suspense fallback={<SearchSkeleton label={dict.home.loading} />}>
+            <HeroSearch lang={lang} dict={dict} searchParams={searchParams} />
+          </Suspense>
+        </div>
+        {/* Kept low so the hero is only as tall as its content; the bottom padding above leaves room for the peaks */}
+        <Mountains className="absolute inset-x-0 bottom-0 h-16 w-full sm:h-24" />
       </section>
-      {/* Filters and results depend on the query string, so they stream in at request time */}
-      <Suspense fallback={<p className="text-muted">{dict.home.loading}</p>}>
-        <JobSearch lang={lang} dict={dict} searchParams={searchParams} />
+
+      <section className="space-y-4">
+        <h2 className="font-heading text-2xl font-bold">{dict.home.categories}</h2>
+        <CategoryChips lang={lang} dict={dict} filters={NO_FILTERS} />
+      </section>
+
+      <Suspense fallback={<JobGridSkeleton label={dict.home.loading} />}>
+        <HomeJobs lang={lang} dict={dict} />
       </Suspense>
     </div>
   );
 }
 
-async function JobSearch({
-  lang,
-  dict,
-  searchParams,
-}: {
-  lang: Locale;
-  dict: Dictionary;
-  searchParams: PageProps<"/[lang]">["searchParams"];
-}) {
+async function HeroSearch({ lang, dict, searchParams }: { lang: Locale; dict: Dictionary; searchParams: PageProps<"/[lang]">["searchParams"] }) {
+  // Search results used to live on the home page; old shared links like /az?district=sheki move to the jobs page
   const filters = parseJobFilters(await searchParams);
-  const [[categories, districts], { jobs, total, pageCount }] = await Promise.all([
-    getFilterOptions(),
-    searchJobs(filters),
-  ]);
-  const now = new Date();
+  if (hasActiveFilters(filters)) redirect(filtersHref(lang, filters, { page: filters.page }));
 
+  const [[categories, districts], stats] = await Promise.all([getFilterOptions(), getHomeStats()]);
   return (
-    <>
-      <JobFilters lang={lang} dict={dict} filters={filters} categories={categories} districts={districts} />
-      <p className="text-sm text-muted">{t(dict.home.results, { count: total })}</p>
-      {jobs.length === 0 ? (
-        <p className="rounded-xl border border-dashed border-line p-8 text-center text-muted">{dict.home.noResults}</p>
-      ) : (
-        <ul className="grid gap-3 md:grid-cols-2">
-          {jobs.map((job) => (
-            <JobCard key={job.id} job={job} lang={lang} dict={dict} now={now} />
-          ))}
-        </ul>
-      )}
-      {pageCount > 1 && <Pagination lang={lang} dict={dict} filters={filters} pageCount={pageCount} />}
-    </>
+    <div className="max-w-4xl space-y-3">
+      <JobFilters lang={lang} dict={dict} filters={NO_FILTERS} categories={categories} districts={districts} />
+      <p className="text-sm text-muted">{t(dict.home.stats, { jobs: stats.active, oneDay: stats.oneDayThisWeek })}</p>
+    </div>
   );
 }
 
-function Pagination({ lang, dict, filters, pageCount }: { lang: Locale; dict: Dictionary; filters: Filters; pageCount: number }) {
-  const href = (page: number) => {
-    const query = new URLSearchParams();
-    for (const [key, value] of Object.entries({ ...filters, page })) {
-      if (value !== undefined && !(key === "page" && value === 1)) query.set(key, String(value));
-    }
-    const qs = query.toString();
-    return `/${lang}${qs ? `?${qs}` : ""}`;
-  };
-  const link = "rounded-lg border border-line bg-surface px-4 py-2 text-sm hover:border-brand";
+async function HomeJobs({ lang, dict }: { lang: Locale; dict: Dictionary }) {
+  const [oneDay, { jobs }] = await Promise.all([
+    getUpcomingOneDayJobs(),
+    // One-day jobs have their own strip above, so the latest list shows the other kinds
+    searchJobs(NO_FILTERS, { excludeOneDay: true }),
+  ]);
+  const now = new Date();
+  const heading = "font-heading text-2xl font-bold";
+  const seeAll = "inline-flex items-center gap-1 font-semibold text-brand hover:underline";
 
   return (
-    <nav className="flex items-center justify-center gap-3">
-      {filters.page > 1 && <Link href={href(filters.page - 1)} className={link}>{dict.home.prev}</Link>}
-      <span className="text-sm text-muted">
-        {filters.page} / {pageCount}
-      </span>
-      {filters.page < pageCount && <Link href={href(filters.page + 1)} className={link}>{dict.home.next}</Link>}
-    </nav>
+    <>
+      {oneDay.length > 0 && (
+        <section className="space-y-4">
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <h2 className={heading}>{dict.home.oneDayTitle}</h2>
+            <Link href={filtersHref(lang, {}, { type: "ONE_DAY" })} className={seeAll}>
+              {dict.home.seeAll}
+              <ArrowRight className="size-4" aria-hidden />
+            </Link>
+          </div>
+          <ul className="grid gap-4 md:grid-cols-2">
+            {oneDay.map((job) => (
+              <OneDayCard key={job.id} job={job} lang={lang} dict={dict} />
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <section className="space-y-4">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <h2 className={heading}>{dict.home.latest}</h2>
+          <Link href={`/${lang}/jobs`} className={seeAll}>
+            {dict.home.allJobs}
+            <ArrowRight className="size-4" aria-hidden />
+          </Link>
+        </div>
+        {jobs.length === 0 ? (
+          <p className="rounded-2xl border border-dashed border-line-strong p-10 text-center text-muted">{dict.home.noResults}</p>
+        ) : (
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {jobs.slice(0, LATEST_COUNT).map((job) => (
+              <JobCard key={job.id} job={job} lang={lang} dict={dict} now={now} />
+            ))}
+          </ul>
+        )}
+        <div className="flex justify-center pt-2">
+          <Link href={`/${lang}/jobs`} className={buttonClass.secondary}>
+            {dict.home.allJobs}
+            <ArrowRight className="size-4" aria-hidden />
+          </Link>
+        </div>
+      </section>
+    </>
   );
 }

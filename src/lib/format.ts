@@ -46,3 +46,22 @@ export function formatPlace(location: { name: string; district: { slug: string }
   const district = districtName(dict, location.district.slug);
   return location.name.startsWith(district) ? location.name : `${location.name}, ${district}`;
 }
+
+/** "20 oktyabr, çərşənbə axşamı, 09:30", always in Azerbaijan time regardless of the server or browser time zone. */
+export function formatWorkStart(date: Date, locale: Locale) {
+  // Date and time are formatted separately: combined, some locales join them oddly (e.g. "Ç.a./09:30")
+  const day = new Intl.DateTimeFormat(locale, { timeZone: "Asia/Baku", weekday: "long", day: "numeric", month: "long" }).format(date);
+  const time = new Intl.DateTimeFormat(locale, { timeZone: "Asia/Baku", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(date);
+  return `${day}, ${time}`;
+}
+
+/** Midnight in Baku (UTC+4, no daylight saving) of the day `now` falls on, plus `days`. */
+export function bakuMidnight(now: Date, days = 0) {
+  const date = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Baku" }).format(now);
+  return new Date(new Date(`${date}T00:00:00+04:00`).getTime() + days * 24 * 60 * 60 * 1000);
+}
+
+/** "245 KB", "1.2 MB" */
+export function formatFileSize(bytes: number) {
+  return bytes < 1024 * 1024 ? `${Math.max(1, Math.round(bytes / 1024))} KB` : `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+}

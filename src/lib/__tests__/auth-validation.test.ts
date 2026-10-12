@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { normalizePhone, parseIdentifier, registerSchema, safeNext } from "../auth/validation";
+import { accountSchema, companySchema, normalizePhone, parseIdentifier, passwordChangeSchema, registerSchema, safeNext } from "../auth/validation";
 
 describe("normalizePhone", () => {
   it.each(["050 123 45 67", "+994 50 123-45-67", "994501234567", "501234567", "(055) 123 45 67"])("accepts %s", (input) => {
@@ -31,9 +31,9 @@ describe("registerSchema", () => {
     expect(errors(base)).toEqual(["email:contactRequired"]);
   });
 
-  it("requires a company name for employers only", () => {
-    expect(errors({ ...base, phone: "0501234567", role: "EMPLOYER" })).toEqual(["companyName:companyRequired"]);
-    expect(errors({ ...base, phone: "0501234567", role: "EMPLOYER", companyName: "Bərəkət" })).toEqual([]);
+  it("lets employers leave the company name empty (private persons)", () => {
+    expect(registerSchema.parse({ ...base, phone: "0501234567", role: "EMPLOYER" }).companyName).toBeUndefined();
+    expect(registerSchema.parse({ ...base, phone: "0501234567", role: "EMPLOYER", companyName: " Bərəkət " }).companyName).toBe("Bərəkət");
   });
 
   it("reports invalid fields with dictionary keys", () => {
@@ -62,5 +62,42 @@ describe("safeNext", () => {
     expect(safeNext("//evil.example", "/az")).toBe("/az");
     expect(safeNext("/\\evil.example", "/az")).toBe("/az");
     expect(safeNext(undefined, "/az")).toBe("/az");
+  });
+});
+
+describe("profile schemas", () => {
+  it("keeps at least one contact and normalizes the phone", () => {
+    expect(accountSchema.parse({ name: "Əli", email: "", phone: "055 222 33 44" })).toEqual({ name: "Əli", email: undefined, phone: "+994552223344" });
+    const empty = accountSchema.safeParse({ name: "Əli", email: "", phone: "" });
+    expect(empty.success ? [] : empty.error.issues.map((i) => i.message)).toEqual(["contactRequired"]);
+  });
+
+  it("allows an empty company name and limits the description", () => {
+    expect(companySchema.parse({ companyName: "", description: "", phone: "" })).toEqual({ companyName: undefined, description: undefined, phone: undefined });
+    const long = companySchema.safeParse({ companyName: "", description: "x".repeat(1001), phone: "" });
+    expect(long.success ? [] : long.error.issues.map((i) => i.message)).toEqual(["descriptionLong"]);
+  });
+
+  it("accepts an optional address and a complete, in-range map point", () => {
+    const empty = { companyName: "", description: "", phone: "" };
+    expect(companySchema.parse({ ...empty, address: "", latitude: "", longitude: "" })).toMatchObject({ address: undefined, latitude: undefined, longitude: undefined });
+    expect(companySchema.parse({ ...empty, address: " Zaqatala, Car ", latitude: "41.6314", longitude: "46.6433" })).toMatchObject({
+      address: "Zaqatala, Car",
+      latitude: 41.6314,
+      longitude: 46.6433,
+    });
+    const messages = (input: object) => {
+      const r = companySchema.safeParse({ ...empty, ...input });
+      return r.success ? [] : r.error.issues.map((i) => i.message);
+    };
+    expect(messages({ latitude: "41.6" })).toEqual(["locationInvalid"]);
+    expect(messages({ latitude: "123", longitude: "46" })).toEqual(["locationInvalid"]);
+    expect(messages({ latitude: "abc", longitude: "46" })).toEqual(["locationInvalid"]);
+    expect(messages({ address: "x".repeat(201) })).toEqual(["addressLong"]);
+  });
+
+  it("requires a new password of at least 8 characters", () => {
+    const short = passwordChangeSchema.safeParse({ currentPassword: "old", newPassword: "short" });
+    expect(short.success ? [] : short.error.issues.map((i) => i.message)).toEqual(["passwordShort"]);
   });
 });
