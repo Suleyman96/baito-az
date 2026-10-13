@@ -71,7 +71,7 @@ export function JobForm({
         <legend className="mb-2 text-sm font-medium">{t.typeQuestion}</legend>
         <div className="grid gap-3 sm:grid-cols-3">
           {TYPES.map((x) => (
-            <label key={x} className="cursor-pointer rounded-xl border-2 border-line bg-surface p-3 has-checked:border-brand has-checked:bg-brand-soft">
+            <label key={x} className="cursor-pointer rounded-xl border-2 border-line bg-surface p-3 has-checked:border-accent has-checked:bg-brand-soft">
               <input type="radio" name="employmentType" value={x} id={typeId(x)} defaultChecked={type === x} className="sr-only" />
               <span className="block font-semibold">{dict.jobType[x]}</span>
               <span className="block text-sm text-muted">{t.typeHint[x]}</span>
@@ -108,7 +108,7 @@ export function JobForm({
               className={inputClass}
             />
           </div>
-          {err("locationId") && <span className="block text-sm text-red-600 dark:text-red-400">{err("locationId")}</span>}
+          {err("locationId") && <span className="block text-sm text-error">{err("locationId")}</span>}
         </div>
       </div>
 
@@ -136,7 +136,7 @@ export function JobForm({
             <legend className="text-sm font-medium">{t.payType}</legend>
             <div className="flex gap-2">
               {(["JOB", "DAY", "HOUR"] as const).map((p) => (
-                <label key={p} className="flex-1 cursor-pointer rounded-xl border border-line-strong px-2 py-2.5 text-center text-sm has-checked:border-brand has-checked:bg-brand-soft has-checked:font-medium">
+                <label key={p} className="flex-1 cursor-pointer rounded-xl border border-line-strong px-2 py-2.5 text-center text-sm has-checked:border-accent has-checked:bg-brand-soft has-checked:font-medium">
                   <input type="radio" name="payPeriod" value={p} defaultChecked={(v.payPeriod || "JOB") === p} className="sr-only" />
                   {payLabel[p]}
                 </label>
@@ -152,7 +152,7 @@ export function JobForm({
           <legend className="text-sm font-medium">{t.payType}</legend>
           <div className="flex gap-2 sm:w-2/3">
             {(["MONTH", "DAY", "HOUR"] as const).map((p) => (
-              <label key={p} className="flex-1 cursor-pointer rounded-xl border border-line-strong px-2 py-2.5 text-center text-sm has-checked:border-brand has-checked:bg-brand-soft has-checked:font-medium">
+              <label key={p} className="flex-1 cursor-pointer rounded-xl border border-line-strong px-2 py-2.5 text-center text-sm has-checked:border-accent has-checked:bg-brand-soft has-checked:font-medium">
                 <input type="radio" name="salaryPeriod" value={p} defaultChecked={(v.salaryPeriod || "MONTH") === p} className="sr-only" />
                 {payLabel[p]}
               </label>
@@ -190,7 +190,7 @@ export function JobForm({
           {submitLabel ?? t.submit}
         </button>
         {hasErrors ? (
-          <p role="alert" className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">
+          <p role="alert" className="rounded-lg bg-error-soft px-3 py-2 text-sm text-error">
             {t.formHasErrors}
           </p>
         ) : (

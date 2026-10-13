@@ -33,13 +33,13 @@ export function ActiveFilters({ lang, dict, filters, villageName }: { lang: Loca
           key={c.key}
           href={filtersHref(lang, filters, c.remove)}
           aria-label={t(dict.home.removeFilter, { name: c.label })}
-          className="inline-flex items-center gap-1.5 rounded-full border border-brand/40 bg-brand-soft py-1.5 pl-3 pr-2 text-sm font-medium text-brand-strong hover:border-brand"
+          className="inline-flex items-center gap-1.5 rounded-full border border-brand/40 bg-brand-soft py-1.5 pl-3 pr-2 text-sm font-medium text-brand-strong hover:border-accent"
         >
           {c.label}
           <X className="size-3.5" aria-hidden />
         </Link>
       ))}
-      <Link href={`/${lang}/jobs`} className="px-2 py-1.5 text-sm font-medium text-muted underline-offset-4 hover:text-brand hover:underline">
+      <Link href={`/${lang}/jobs`} className="px-2 py-1.5 text-sm font-medium text-muted underline-offset-4 hover:text-accent hover:underline">
         {dict.home.clear}
       </Link>
     </div>

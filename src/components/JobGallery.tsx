@@ -4,7 +4,7 @@ import { imageUrl } from "@/lib/images";
 export function JobGallery({ images, title, label }: { images: { id: string }[]; title: string; label: string }) {
   if (images.length === 0) return null;
   const [first, ...rest] = images;
-  const link = "block overflow-hidden rounded-xl border border-line bg-surface-2 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand/25";
+  const link = "block overflow-hidden rounded-xl border border-line bg-surface-2 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/25";
 
   return (
     <section aria-label={label} className="space-y-2">

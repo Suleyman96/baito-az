@@ -64,7 +64,7 @@ async function AdminUsers({
                   {u.name}
                   <span className="ml-2 rounded-full bg-surface-2 px-2 py-0.5 text-xs font-normal text-muted">{a.roles[u.role]}</span>
                   {u.blockedAt && (
-                    <span className="ml-1 rounded-full bg-red-50 px-2 py-0.5 text-xs font-normal text-red-700 dark:bg-red-950 dark:text-red-300">{a.blockedBadge}</span>
+                    <span className="ml-1 rounded-full bg-error-soft px-2 py-0.5 text-xs font-normal text-error">{a.blockedBadge}</span>
                   )}
                 </p>
                 <p className="truncate text-sm text-muted">{[u.phone, u.email].filter(Boolean).join(" · ")}</p>
@@ -82,7 +82,7 @@ async function AdminUsers({
                   <input type="hidden" name="block" value={u.blockedAt ? "0" : "1"} />
                   <button
                     className={`rounded-lg border px-4 py-2 text-sm ${
-                      u.blockedAt ? "border-line hover:bg-surface-2" : "border-line hover:border-red-500 hover:text-red-600"
+                      u.blockedAt ? "border-line hover:bg-surface-2" : "border-line hover:border-error hover:text-error"
                     }`}
                   >
                     {u.blockedAt ? a.unblock : a.block}

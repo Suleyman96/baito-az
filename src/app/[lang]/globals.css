@@ -1,30 +1,43 @@
 @import "tailwindcss";
 
-/* "Friendly & warm" theme: cream ground, teal brand, apricot accent for one-day jobs */
+/* Navy & blue theme: navy primary, blue for interactive accents, neutral greys, status colors only for statuses */
 :root {
   color-scheme: light;
-  --background: #fffbf5;
+  --background: #f5f7fa;
   --surface: #ffffff;
-  --surface-2: #f7f2ea;
-  --foreground: #1f2a24;
-  --muted: #5a615c;
-  --line: #efe5d6;
-  --line-strong: #dccfbb;
-  --brand: #0f766e;
-  --brand-strong: #0b5e58;
-  --brand-soft: #e3f2ee;
+  /* Input fill, hover rows, quiet badges: one step darker than the page */
+  --surface-2: #edf1f6;
+  --foreground: #172033;
+  --muted: #526176;
+  --line: #d9e0e8;
+  /* Form control borders: darker than --line so fields stay visible (3:1 against white) */
+  --line-strong: #8794a5;
+  /* Primary (navy): buttons, active navigation, brand marks */
+  --brand: #173b65;
+  --brand-strong: #102c4d;
+  --brand-soft: #e8eef6;
   /* Text on a brand-colored fill */
   --on-brand: #ffffff;
-  --accent: #b4561a;
-  --accent-ink: #8a4a1c;
-  --accent-soft: #fde9d3;
-  --accent-tint: #fff3e6;
+  /* Accent (blue): links, focus rings, hover and selection, one-day jobs */
+  --accent: #2563eb;
+  --accent-ink: #1d4ed8;
+  --accent-soft: #dbe7fd;
+  --accent-tint: #eff4ff;
+  /* Status colors, for notices, validation and status labels only */
+  --success: #15803d;
+  --success-soft: #edf7f0;
+  --error: #b42318;
+  --error-soft: #fdecea;
+  --warning: #92400e;
+  --warning-soft: #fdf1e2;
+  --info: #1d4ed8;
+  --info-soft: #e8effd;
   /* Home page hero and its mountains */
-  --hero: #fdf1de;
-  --mountain-far: #b9d8c9;
-  --mountain-near: #6fae93;
-  --footer: #1f3a33;
-  --on-footer: #dce9e3;
+  --hero: #e9eff7;
+  --mountain-far: #c8d5e5;
+  --mountain-near: #9fb2ca;
+  --footer: #102c4d;
+  --on-footer: #d6e0ec;
 }
 
 /* Dark colors apply when the user picked dark (data-theme="dark"),
@@ -32,51 +45,67 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --background: #12100d;
-    --surface: #1c1915;
-    --surface-2: #26221c;
-    --foreground: #f2ece3;
-    --muted: #aaa194;
-    --line: #332d25;
-    --line-strong: #4a4237;
-    --brand: #3cc2b0;
-    --brand-strong: #5ad3c2;
-    --brand-soft: #143a35;
-    --on-brand: #0b1a17;
-    --accent: #f0a35a;
-    --accent-ink: #f6bd86;
-    --accent-soft: #3a2712;
-    --accent-tint: #261b10;
-    --hero: #1a1712;
-    --mountain-far: #22403a;
-    --mountain-near: #1b332d;
-    --footer: #0c1a17;
-    --on-footer: #c9dad3;
+    --background: #0d1626;
+    --surface: #142033;
+    --surface-2: #1b2a40;
+    --foreground: #e6ecf4;
+    --muted: #9aa8bb;
+    --line: #26354b;
+    --line-strong: #5d6f88;
+    --brand: #8ab4f8;
+    --brand-strong: #aecbfa;
+    --brand-soft: #1b2d4a;
+    --on-brand: #0d1626;
+    --accent: #6ea3f7;
+    --accent-ink: #93bbfa;
+    --accent-soft: #1a2f52;
+    --accent-tint: #13223a;
+    --success: #4ade80;
+    --success-soft: #0f2a1c;
+    --error: #f97066;
+    --error-soft: #3a1714;
+    --warning: #fbbf24;
+    --warning-soft: #33250b;
+    --info: #7cb0fa;
+    --info-soft: #152847;
+    --hero: #111d30;
+    --mountain-far: #1d2d46;
+    --mountain-near: #17253b;
+    --footer: #08101e;
+    --on-footer: #c3cfdf;
   }
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --background: #12100d;
-  --surface: #1c1915;
-  --surface-2: #26221c;
-  --foreground: #f2ece3;
-  --muted: #aaa194;
-  --line: #332d25;
-  --line-strong: #4a4237;
-  --brand: #3cc2b0;
-  --brand-strong: #5ad3c2;
-  --brand-soft: #143a35;
-  --on-brand: #0b1a17;
-  --accent: #f0a35a;
-  --accent-ink: #f6bd86;
-  --accent-soft: #3a2712;
-  --accent-tint: #261b10;
-  --hero: #1a1712;
-  --mountain-far: #22403a;
-  --mountain-near: #1b332d;
-  --footer: #0c1a17;
-  --on-footer: #c9dad3;
+  --background: #0d1626;
+  --surface: #142033;
+  --surface-2: #1b2a40;
+  --foreground: #e6ecf4;
+  --muted: #9aa8bb;
+  --line: #26354b;
+  --line-strong: #5d6f88;
+  --brand: #8ab4f8;
+  --brand-strong: #aecbfa;
+  --brand-soft: #1b2d4a;
+  --on-brand: #0d1626;
+  --accent: #6ea3f7;
+  --accent-ink: #93bbfa;
+  --accent-soft: #1a2f52;
+  --accent-tint: #13223a;
+  --success: #4ade80;
+  --success-soft: #0f2a1c;
+  --error: #f97066;
+  --error-soft: #3a1714;
+  --warning: #fbbf24;
+  --warning-soft: #33250b;
+  --info: #7cb0fa;
+  --info-soft: #152847;
+  --hero: #111d30;
+  --mountain-far: #1d2d46;
+  --mountain-near: #17253b;
+  --footer: #08101e;
+  --on-footer: #c3cfdf;
 }
 
 /* Tailwind's dark: variant follows the same rule as the colors above */
@@ -107,6 +136,14 @@
   --color-accent-ink: var(--accent-ink);
   --color-accent-soft: var(--accent-soft);
   --color-accent-tint: var(--accent-tint);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-error: var(--error);
+  --color-error-soft: var(--error-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
   --color-hero: var(--hero);
   --color-footer: var(--footer);
   --color-on-footer: var(--on-footer);
@@ -126,4 +163,108 @@ h2,
 h3 {
   font-family: var(--font-heading);
   letter-spacing: -0.02em;
+}
+
+/*
+ * Select menus in the site's style. `appearance: base-select` keeps the native <select>
+ * (keyboard, forms, change events all unchanged) but lets CSS style the open list.
+ * Browsers without it keep their own native list.
+ */
+@supports (appearance: base-select) {
+  select,
+  ::picker(select) {
+    appearance: base-select;
+  }
+
+  select {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    cursor: pointer;
+  }
+
+  /* A thin chevron like the site's other icons, instead of the default solid triangle */
+  select::picker-icon {
+    content: "";
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    background-color: var(--muted);
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / contain no-repeat;
+    transition: rotate 0.2s ease;
+  }
+
+  select:open::picker-icon {
+    rotate: 180deg;
+  }
+
+  /* While open, the field looks focused, so the list reads as part of it */
+  select:open {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 20%, transparent);
+  }
+
+  /* The list: right under the field, at least as wide, same border, radius and font */
+  ::picker(select) {
+    min-width: anchor-size(width);
+    max-height: min(20rem, 60vh);
+    overflow-y: auto;
+    margin-block: 0.375rem;
+    padding: 0.375rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 0.75rem;
+    background: var(--surface);
+    color: var(--foreground);
+    font: inherit;
+    box-shadow: 0 12px 28px rgba(23, 32, 51, 0.14);
+  }
+
+  option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 0.75rem;
+    border-radius: 0.5rem;
+    color: var(--foreground);
+    font-size: 1rem;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: normal;
+    cursor: pointer;
+  }
+
+  option:hover,
+  option:focus-visible {
+    background: var(--surface-2);
+    outline: none;
+  }
+
+  option:checked {
+    background: var(--accent-tint);
+    color: var(--accent-ink);
+    font-weight: 600;
+  }
+
+  /* The check mark sits at the end of the row */
+  option::checkmark {
+    order: 1;
+    margin-inline-start: auto;
+    color: var(--accent);
+  }
+
+  /* District headings in the village list */
+  optgroup {
+    padding-block-start: 0.5rem;
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  optgroup + optgroup {
+    margin-block-start: 0.25rem;
+    border-block-start: 1px solid var(--line);
+  }
 }

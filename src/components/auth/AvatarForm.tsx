@@ -53,7 +53,7 @@ export function AvatarForm({ lang, dict, name, avatarId }: { lang: Locale; dict:
         <div className="flex flex-wrap items-center gap-2">
           <form action={action} className="flex flex-wrap items-center gap-2">
             <input type="hidden" name="lang" value={lang} />
-            <label className={`${buttonClass.secondary} cursor-pointer focus-within:ring-4 focus-within:ring-brand/20`}>
+            <label className={`${buttonClass.secondary} cursor-pointer focus-within:ring-4 focus-within:ring-accent/20`}>
               <Camera className="size-4" aria-hidden />
               {avatarId || shownPreview ? u.changePhoto : u.choosePhoto}
               <input type="file" name="avatar" accept={ALLOWED_IMAGE_TYPES.join(",")} onChange={choose} className="sr-only" />
@@ -67,7 +67,7 @@ export function AvatarForm({ lang, dict, name, avatarId }: { lang: Locale; dict:
           {avatarId && !shownPreview && (
             <form action={removeAvatar}>
               <input type="hidden" name="lang" value={lang} />
-              <button type="submit" className={`${buttonClass.secondary} hover:border-red-500 hover:text-red-600`}>
+              <button type="submit" className={`${buttonClass.secondary} hover:border-error hover:text-error`}>
                 <Trash2 className="size-4" aria-hidden />
                 {u.removePhoto}
               </button>
@@ -76,7 +76,7 @@ export function AvatarForm({ lang, dict, name, avatarId }: { lang: Locale; dict:
         </div>
       </div>
       {error && (
-        <p role="alert" className="mt-3 text-sm text-red-600 dark:text-red-400">
+        <p role="alert" className="mt-3 text-sm text-error">
           {error}
         </p>
       )}

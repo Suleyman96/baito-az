@@ -27,7 +27,7 @@ function Stat({ label, value, children, href }: { label: string; value: number; 
   );
   const box = "block rounded-xl border border-line bg-surface p-4";
   return href ? (
-    <Link href={href} className={`${box} hover:border-brand`}>
+    <Link href={href} className={`${box} hover:border-accent`}>
       {body}
     </Link>
   ) : (
@@ -45,7 +45,7 @@ async function Overview({ lang, dict }: { lang: Locale; dict: Dictionary }) {
       {s.pending > 0 && (
         <Link
           href={`/${lang}/admin/jobs`}
-          className="flex items-center justify-between gap-3 rounded-xl bg-accent-soft px-4 py-3 font-medium text-accent hover:opacity-90"
+          className="flex items-center justify-between gap-3 rounded-xl bg-warning-soft px-4 py-3 font-medium text-warning hover:opacity-90"
         >
           <span>
             {o.pending}: {s.pending}

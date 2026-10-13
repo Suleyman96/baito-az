@@ -10,7 +10,7 @@ type Category = { id: number; slug: string };
 type District = { id: number; slug: string; locations: { id: number; name: string }[] };
 
 // Softer fields for the warm search card (no border, sand fill)
-const field = "w-full rounded-xl border border-transparent bg-surface-2 px-3.5 py-3 text-base outline-none transition focus:border-brand focus:bg-surface focus:ring-4 focus:ring-brand/15";
+const field = "w-full rounded-xl border border-transparent bg-surface-2 px-3.5 py-3 text-base outline-none transition focus:border-accent focus:bg-surface focus:ring-4 focus:ring-accent/15";
 
 // Plain GET form: works without JavaScript and keeps filters in the URL (shareable links)
 export function JobFilters({
@@ -35,10 +35,10 @@ export function JobFilters({
     <form
       key={JSON.stringify({ ...filters, page: undefined })}
       action={`/${lang}/jobs`}
-      className="space-y-2 rounded-[22px] bg-surface p-2.5 shadow-[0_12px_32px_rgba(120,80,30,0.12)] ring-1 ring-line"
+      className="space-y-2 rounded-[22px] bg-surface p-2.5 shadow-[0_12px_32px_rgba(23,32,51,0.12)] ring-1 ring-line"
     >
       <div className="flex flex-wrap gap-2">
-        <label className="flex min-w-0 flex-[2_1_240px] items-center gap-2.5 rounded-xl bg-surface-2 px-3.5 focus-within:ring-4 focus-within:ring-brand/15">
+        <label className="flex min-w-0 flex-[2_1_240px] items-center gap-2.5 rounded-xl bg-surface-2 px-3.5 focus-within:ring-4 focus-within:ring-accent/15">
           <Search className="size-5 shrink-0 text-muted" aria-hidden />
           <input
             type="search"

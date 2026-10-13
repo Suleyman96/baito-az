@@ -30,7 +30,7 @@ export function JobGridSkeleton({ count = 6, label }: { count?: number; label: s
 
 export function SearchSkeleton({ label }: { label: string }) {
   return (
-    <div role="status" aria-label={label} className="rounded-[22px] bg-surface p-2.5 shadow-[0_12px_32px_rgba(120,80,30,0.12)] ring-1 ring-line">
+    <div role="status" aria-label={label} className="rounded-[22px] bg-surface p-2.5 shadow-[0_12px_32px_rgba(23,32,51,0.12)] ring-1 ring-line">
       <div className="flex flex-wrap gap-2">
         <span className={`${block} h-[52px] flex-[2_1_240px] rounded-xl`} />
         <span className={`${block} h-[52px] flex-[2_1_300px] rounded-xl`} />

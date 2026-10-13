@@ -45,7 +45,7 @@ async function AdminJobs({
             href={tabHref(tab)}
             aria-current={tab === query.tab ? "page" : undefined}
             className={`rounded-full px-3 py-1 text-sm ${
-              tab === query.tab ? "bg-brand text-on-brand" : "border border-line bg-surface text-muted hover:border-brand"
+              tab === query.tab ? "bg-brand text-on-brand" : "border border-line bg-surface text-muted hover:border-accent"
             }`}
           >
             {a.tabs[tab]} <span className="opacity-75">({counts[tab]})</span>
@@ -78,7 +78,7 @@ async function AdminJobs({
               <li key={job.id} className="rounded-xl border border-line bg-surface p-4">
                 <div className="flex flex-wrap items-start justify-between gap-2">
                   {query.tab === "ACTIVE" ? (
-                    <Link href={`/${lang}/jobs/${job.id}`} className="text-lg font-semibold hover:text-brand hover:underline">
+                    <Link href={`/${lang}/jobs/${job.id}`} className="text-lg font-semibold hover:text-accent hover:underline">
                       {job.title}
                     </Link>
                   ) : (
@@ -110,10 +110,10 @@ async function AdminJobs({
                 <p className="mt-3 text-sm text-muted">
                   {a.postedBy}: {job.company.name}
                   {job.company.name !== owner.name && ` (${owner.name})`} · {job.contactPhone ?? owner.phone ?? owner.email}
-                  {owner.blockedAt && <span className="ml-2 rounded-full bg-red-50 px-2 py-0.5 text-xs text-red-700 dark:bg-red-950 dark:text-red-300">{a.blockedBadge}</span>}
+                  {owner.blockedAt && <span className="ml-2 rounded-full bg-error-soft px-2 py-0.5 text-xs text-error">{a.blockedBadge}</span>}
                 </p>
                 {job.status === "REJECTED" && job.rejectReason && (
-                  <p className="mt-2 text-sm text-red-700 dark:text-red-300">{t(dict.myJobs.reason, { reason: job.rejectReason })}</p>
+                  <p className="mt-2 text-sm text-error">{t(dict.myJobs.reason, { reason: job.rejectReason })}</p>
                 )}
 
                 {query.tab === "PENDING" && (
@@ -144,7 +144,7 @@ async function AdminJobs({
                   <form action={closeJob} className="mt-3">
                     <input type="hidden" name="lang" value={lang} />
                     <input type="hidden" name="id" value={job.id} />
-                    <button className="rounded-lg border border-line px-4 py-2 text-sm hover:border-red-500 hover:text-red-600">{a.close}</button>
+                    <button className="rounded-lg border border-line px-4 py-2 text-sm hover:border-error hover:text-error">{a.close}</button>
                   </form>
                 )}
               </li>

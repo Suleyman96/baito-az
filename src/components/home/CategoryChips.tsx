@@ -18,7 +18,7 @@ export function CategoryChips({ lang, dict, filters }: { lang: Locale; dict: Dic
                 href={filtersHref(lang, filters, { category: active ? undefined : slug })}
                 aria-current={active ? "true" : undefined}
                 className={`flex items-center gap-2 whitespace-nowrap rounded-xl border px-3.5 py-2.5 text-sm font-medium transition ${
-                  active ? "border-brand bg-brand-soft text-brand-strong" : "border-line bg-surface hover:border-brand"
+                  active ? "border-brand bg-brand-soft text-brand-strong" : "border-line bg-surface hover:border-accent"
                 }`}
               >
                 <CategoryIcon slug={slug} className="size-[18px] text-brand" />

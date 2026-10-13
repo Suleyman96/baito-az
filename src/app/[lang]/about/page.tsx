@@ -80,7 +80,7 @@ export default async function AboutPage() {
           <ul className="grid gap-3 sm:grid-cols-3">
             {contacts.map((c) => (
               <li key={c.label}>
-                <a href={c.href} className="flex items-center gap-3 rounded-xl bg-surface p-4 hover:text-brand">
+                <a href={c.href} className="flex items-center gap-3 rounded-xl bg-surface p-4 hover:text-accent">
                   <span className="flex size-10 items-center justify-center rounded-xl bg-brand-soft text-brand">{c.icon}</span>
                   <span className="min-w-0">
                     <span className="block text-sm text-muted">{c.label}</span>

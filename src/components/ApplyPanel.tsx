@@ -30,7 +30,7 @@ export function ApplyPanel({
   // After a successful apply the page refreshes into the "already applied" card; this covers the moment between
   if (state?.applied) {
     return (
-      <p role="status" className="flex items-start gap-2 rounded-xl bg-brand-soft p-3 text-sm font-medium text-brand-strong">
+      <p role="status" className="flex items-start gap-2 rounded-xl bg-success-soft p-3 text-sm font-medium text-success">
         <CheckCircle2 className="mt-0.5 size-4 shrink-0" aria-hidden />
         {a.success}
       </p>
@@ -48,7 +48,7 @@ export function ApplyPanel({
           {t(a.withResume, { file: resumeFile })}
         </p>
       ) : (
-        <div className={`space-y-2 rounded-xl p-3 text-sm ${blocked ? "bg-accent-soft text-accent-ink" : "bg-surface-2 text-muted"}`}>
+        <div className={`space-y-2 rounded-xl p-3 text-sm ${blocked ? "bg-warning-soft text-warning" : "bg-surface-2 text-muted"}`}>
           <p>{blocked ? a.resumeRequired : a.withoutResume}</p>
           <Link href={`/${lang}/account#resume`} className="inline-flex items-center gap-1.5 font-semibold underline-offset-4 hover:underline">
             <Upload className="size-4" aria-hidden />
@@ -68,7 +68,7 @@ export function ApplyPanel({
         </>
       )}
       {state?.error && (
-        <p role="alert" className="text-sm text-red-600 dark:text-red-400">
+        <p role="alert" className="text-sm text-error">
           {a.errors[state.error]}
         </p>
       )}

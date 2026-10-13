@@ -35,12 +35,12 @@ async function CompanyList({ lang, dict }: { lang: Locale; dict: Dictionary }) {
         <li key={c.id}>
           <Link
             href={`/${lang}/companies/${c.id}`}
-            className="group flex h-full flex-col gap-3 rounded-2xl border border-line bg-surface p-5 shadow-[0_4px_14px_rgba(120,80,30,0.06)] transition hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(120,80,30,0.12)]"
+            className="group flex h-full flex-col gap-3 rounded-2xl border border-line bg-surface p-5 shadow-[0_4px_14px_rgba(23,32,51,0.06)] transition hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(23,32,51,0.12)]"
           >
             <span className="flex items-center gap-3">
               <Avatar name={c.name} imageId={c.owner.avatarId} />
               <span className="min-w-0">
-                <span className="block truncate font-heading text-lg font-bold group-hover:text-brand">{c.name}</span>
+                <span className="block truncate font-heading text-lg font-bold group-hover:text-accent">{c.name}</span>
                 <span className="text-sm font-semibold text-brand-strong">{t(dict.companies.jobCount, { count: c.jobCount })}</span>
               </span>
             </span>

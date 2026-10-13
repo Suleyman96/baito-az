@@ -66,7 +66,7 @@ export function ResumeForm({ lang, dict, resume }: { lang: Locale; dict: Diction
       <div className="mt-3 flex flex-wrap gap-2">
         <form action={action}>
           <input type="hidden" name="lang" value={lang} />
-          <label className={`${buttonClass.primary} cursor-pointer focus-within:ring-4 focus-within:ring-brand/30 ${pending ? "pointer-events-none opacity-60" : ""}`}>
+          <label className={`${buttonClass.primary} cursor-pointer focus-within:ring-4 focus-within:ring-accent/30 ${pending ? "pointer-events-none opacity-60" : ""}`}>
             <Upload className="size-4" aria-hidden />
             {pending ? r.uploading : resume ? r.replace : r.upload}
             <input type="file" name="resume" accept={RESUME_ACCEPT} onChange={choose} disabled={pending} className="sr-only" />
@@ -75,7 +75,7 @@ export function ResumeForm({ lang, dict, resume }: { lang: Locale; dict: Diction
         {resume && (
           <form action={removeResume}>
             <input type="hidden" name="lang" value={lang} />
-            <button type="submit" className={`${buttonClass.secondary} hover:border-red-500 hover:text-red-600`}>
+            <button type="submit" className={`${buttonClass.secondary} hover:border-error hover:text-error`}>
               <Trash2 className="size-4" aria-hidden />
               {r.remove}
             </button>
@@ -83,7 +83,7 @@ export function ResumeForm({ lang, dict, resume }: { lang: Locale; dict: Diction
         )}
       </div>
       {error && (
-        <p role="alert" className="mt-3 text-sm text-red-600 dark:text-red-400">
+        <p role="alert" className="mt-3 text-sm text-error">
           {error}
         </p>
       )}

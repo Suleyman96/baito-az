@@ -17,7 +17,7 @@ export function LanguageSwitcher({ current, label }: { current: Locale; label: s
 
   // Shows a short code ("AZE"); the native select lies invisibly on top, so its list shows full names
   return (
-    <label className="relative inline-flex items-center gap-1 rounded-md px-2 py-1 text-sm font-medium tracking-wide hover:bg-surface-2 focus-within:ring-2 focus-within:ring-brand">
+    <label className="relative inline-flex items-center gap-1 rounded-md px-2 py-1 text-sm font-medium tracking-wide hover:bg-surface-2 focus-within:ring-2 focus-within:ring-accent">
       <span aria-hidden>{localeCodes[current]}</span>
       <svg viewBox="0 0 24 24" className="size-4 text-muted" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
         <path d="m7 9 5-5 5 5M7 15l5 5 5-5" />

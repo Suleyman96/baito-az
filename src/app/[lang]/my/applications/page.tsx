@@ -59,7 +59,7 @@ async function SeekerApplications({ lang, dict, userId }: { lang: Locale; dict: 
             <li key={app.id} className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-line bg-surface p-4">
               <div className="min-w-0">
                 {app.job.status === "ACTIVE" ? (
-                  <Link href={`/${lang}/jobs/${app.job.id}`} className="font-heading text-lg font-bold hover:text-brand">
+                  <Link href={`/${lang}/jobs/${app.job.id}`} className="font-heading text-lg font-bold hover:text-accent">
                     {app.job.title}
                   </Link>
                 ) : (

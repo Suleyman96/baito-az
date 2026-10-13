@@ -20,7 +20,7 @@ export default async function JobPage({ params }: PageProps<"/[lang]/jobs/[id]">
 
   return (
     <div className="space-y-4">
-      <Link href={`/${lang}`} className="text-sm text-brand hover:underline">
+      <Link href={`/${lang}`} className="text-sm text-accent hover:underline">
         ← {dict.job.back}
       </Link>
       <Suspense fallback={<p className="text-muted">{dict.home.loading}</p>}>
@@ -72,7 +72,7 @@ async function JobDetail({
       <aside className="h-fit space-y-3 rounded-xl border border-line bg-surface p-5">
         <div>
           <p className="text-sm text-muted">{dict.job.employer}</p>
-          <Link href={`/${lang}/companies/${job.company.id}`} className="mt-1 flex items-center gap-3 font-semibold hover:text-brand">
+          <Link href={`/${lang}/companies/${job.company.id}`} className="mt-1 flex items-center gap-3 font-semibold hover:text-accent">
             <Avatar name={job.company.name} imageId={job.company.owner.avatarId} size="md" />
             {job.company.name}
           </Link>
@@ -82,7 +82,7 @@ async function JobDetail({
         {phone && (
           <div>
             <p className="text-sm text-muted">{dict.job.phone}</p>
-            <a href={`tel:${phone.replace(/\s/g, "")}`} className="font-medium text-brand hover:underline">
+            <a href={`tel:${phone.replace(/\s/g, "")}`} className="font-medium text-accent hover:underline">
               {phone}
             </a>
           </div>
@@ -125,7 +125,7 @@ async function ApplySection({
   if (application) {
     const date = new Intl.DateTimeFormat(lang, { timeZone: "Asia/Baku", dateStyle: "medium" }).format(application.createdAt);
     return (
-      <div className="space-y-2 rounded-xl bg-brand-soft p-3 text-sm text-brand-strong">
+      <div className="space-y-2 rounded-xl bg-success-soft p-3 text-sm text-success">
         <p className="font-semibold">{a.already}</p>
         <p>
           {t(a.appliedOn, { date })} · <span className="font-semibold">{dict.applications.seekerStatus[application.status]}</span>

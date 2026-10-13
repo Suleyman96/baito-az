@@ -86,7 +86,7 @@ export function MapPicker({ latitude, longitude, texts }: { latitude: string; lo
               {texts.findOnMap}
             </button>
             {point && (
-              <button type="button" onClick={clear} className={`${buttonClass.secondary} hover:border-red-500 hover:text-red-600`}>
+              <button type="button" onClick={clear} className={`${buttonClass.secondary} hover:border-error hover:text-error`}>
                 <X className="size-4" aria-hidden />
                 {texts.clearLocation}
               </button>
@@ -100,7 +100,7 @@ export function MapPicker({ latitude, longitude, texts }: { latitude: string; lo
           {texts.locationSet}: {round(point.lat)}, {round(point.lng)}
         </p>
       )}
-      {notFound && <p className="text-sm text-red-600 dark:text-red-400">{texts.addressNotFound}</p>}
+      {notFound && <p className="text-sm text-error">{texts.addressNotFound}</p>}
     </div>
   );
 }

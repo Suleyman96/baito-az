@@ -20,7 +20,7 @@ export function CompanyLocation({ place, dict }: { place: Place; dict: Dictionar
         </p>
       )}
       {hasPoint && <MapView latitude={place.latitude!} longitude={place.longitude!} label={t(dict.companies.mapOf, { name: place.name })} />}
-      <a href={mapsLink(place)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline">
+      <a href={mapsLink(place)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent hover:underline">
         {dict.companies.openInMaps}
         <ExternalLink className="size-3.5" aria-hidden />
       </a>

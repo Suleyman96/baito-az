@@ -16,7 +16,7 @@ export default async function CompanyPage({ params }: PageProps<"/[lang]/compani
 
   return (
     <div className="space-y-6">
-      <Link href={`/${lang}/companies`} className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline">
+      <Link href={`/${lang}/companies`} className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent hover:underline">
         <ArrowLeft className="size-4" aria-hidden />
         {dict.companies.back}
       </Link>
@@ -52,7 +52,7 @@ async function Company({ lang, dict, params }: { lang: Locale; dict: Dictionary;
         {company.phone && (
           <a
             href={`tel:${company.phone.replace(/\s/g, "")}`}
-            className="inline-flex min-h-11 items-center gap-2 self-start rounded-xl border border-line-strong px-4 py-2 font-semibold hover:border-brand hover:text-brand"
+            className="inline-flex min-h-11 items-center gap-2 self-start rounded-xl border border-line-strong px-4 py-2 font-semibold hover:border-accent hover:text-accent"
           >
             <Phone className="size-4" aria-hidden />
             {company.phone}

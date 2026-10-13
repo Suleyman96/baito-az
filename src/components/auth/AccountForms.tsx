@@ -48,7 +48,7 @@ function Section({
             {submitLabel}
           </button>
           {state?.saved && (
-            <span role="status" className="text-sm text-brand">
+            <span role="status" className="text-sm text-success">
               ✓ {savedText}
             </span>
           )}
@@ -122,7 +122,7 @@ export function AccountForms({
                   <input name="address" defaultValue={v.address} maxLength={200} autoComplete="street-address" placeholder={t.addressPlaceholder} aria-invalid={!!err("address")} className={inputClass} />
                 </Field>
                 <MapPicker latitude={v.latitude} longitude={v.longitude} texts={t} />
-                {err("latitude") && <p className="text-sm text-red-600 dark:text-red-400">{err("latitude")}</p>}
+                {err("latitude") && <p className="text-sm text-error">{err("latitude")}</p>}
               </>
             );
           }}

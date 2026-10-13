@@ -21,7 +21,7 @@ export default async function ApplicationPage({ params }: PageProps<"/[lang]/my/
 
   return (
     <div className="space-y-6">
-      <Link href={`/${lang}/my/applications`} className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline">
+      <Link href={`/${lang}/my/applications`} className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent hover:underline">
         <ArrowLeft className="size-4" aria-hidden />
         {dict.applications.back}
       </Link>
@@ -101,7 +101,7 @@ async function Application({ lang, dict, params }: { lang: Locale; dict: Diction
       <aside className="h-fit space-y-4 rounded-2xl border border-line bg-surface p-5">
         <div>
           <p className="text-sm text-muted">{a.appliedFor}</p>
-          <Link href={`/${lang}/jobs/${app.job.id}`} className="font-semibold hover:text-brand">
+          <Link href={`/${lang}/jobs/${app.job.id}`} className="font-semibold hover:text-accent">
             {app.job.title}
           </Link>
           <p className="text-sm text-muted">{t(a.appliedOn, { date: date(lang, app.createdAt) })}</p>
@@ -110,13 +110,13 @@ async function Application({ lang, dict, params }: { lang: Locale; dict: Diction
         <div className="space-y-2">
           <p className="text-sm text-muted">{a.contacts}</p>
           {app.user.phone && (
-            <a href={`tel:${app.user.phone}`} className="flex items-center gap-2 font-semibold hover:text-brand">
+            <a href={`tel:${app.user.phone}`} className="flex items-center gap-2 font-semibold hover:text-accent">
               <Phone className="size-4 text-brand" aria-hidden />
               {app.user.phone}
             </a>
           )}
           {app.user.email && (
-            <a href={`mailto:${app.user.email}`} className="flex items-center gap-2 break-all font-semibold hover:text-brand">
+            <a href={`mailto:${app.user.email}`} className="flex items-center gap-2 break-all font-semibold hover:text-accent">
               <Mail className="size-4 shrink-0 text-brand" aria-hidden />
               {app.user.email}
             </a>

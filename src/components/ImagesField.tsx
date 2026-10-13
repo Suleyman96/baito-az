@@ -109,7 +109,7 @@ export function ImagesField({
         ))}
         {room > 0 && (
           <li>
-            <label className={`${tile} flex cursor-pointer flex-col items-center justify-center gap-1 border-dashed border-line-strong text-sm font-medium text-muted hover:border-brand hover:text-brand focus-within:ring-4 focus-within:ring-brand/20`}>
+            <label className={`${tile} flex cursor-pointer flex-col items-center justify-center gap-1 border-dashed border-line-strong text-sm font-medium text-muted hover:border-accent hover:text-accent focus-within:ring-4 focus-within:ring-accent/20`}>
               <ImagePlus className="size-6" aria-hidden />
               {texts.addImages}
               <input type="file" multiple accept={ALLOWED_IMAGE_TYPES.join(",")} onChange={add} className="sr-only" />
@@ -117,7 +117,7 @@ export function ImagesField({
           </li>
         )}
       </ul>
-      {(clientError ?? error) && <p className="text-sm text-red-600 dark:text-red-400">{clientError ?? error}</p>}
+      {(clientError ?? error) && <p className="text-sm text-error">{clientError ?? error}</p>}
     </fieldset>
   );
 }

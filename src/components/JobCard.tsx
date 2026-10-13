@@ -14,7 +14,7 @@ type Job = Awaited<ReturnType<typeof searchJobs>>["jobs"][number];
 const NEW_FOR_MS = 48 * 60 * 60 * 1000;
 
 const card =
-  "group flex h-full flex-col rounded-2xl border p-5 transition hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(120,80,30,0.12)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand/25";
+  "group flex h-full flex-col rounded-2xl border p-5 transition hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(23,32,51,0.12)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/25";
 
 export function JobCard({ job, lang, dict, now }: { job: Job; lang: Locale; dict: Dictionary; now: Date }) {
   if (job.employmentType === "ONE_DAY" && job.workStart) return <OneDayCard job={job} lang={lang} dict={dict} />;
@@ -25,7 +25,7 @@ export function JobCard({ job, lang, dict, now }: { job: Job; lang: Locale; dict
 
   return (
     <li>
-      <Link href={`/${lang}/jobs/${job.id}`} className={`${card} gap-3 overflow-hidden border-line bg-surface shadow-[0_4px_14px_rgba(120,80,30,0.06)]`}>
+      <Link href={`/${lang}/jobs/${job.id}`} className={`${card} gap-3 overflow-hidden border-line bg-surface shadow-[0_4px_14px_rgba(23,32,51,0.06)]`}>
         {cover && (
           // eslint-disable-next-line @next/next/no-img-element -- our own image route with long caching
           <img src={imageUrl(cover)} alt="" loading="lazy" className="-mx-5 -mt-5 mb-1 aspect-[16/9] w-[calc(100%+2.5rem)] max-w-none object-cover" />
@@ -36,7 +36,7 @@ export function JobCard({ job, lang, dict, now }: { job: Job; lang: Locale; dict
           </span>
           {isNew && <span className="rounded-full bg-accent-soft px-2.5 py-1 text-xs font-bold text-accent-ink">{dict.job.new}</span>}
         </span>
-        <span className="font-heading text-lg font-bold leading-snug group-hover:text-brand">{job.title}</span>
+        <span className="font-heading text-lg font-bold leading-snug group-hover:text-accent">{job.title}</span>
         <span className="flex items-center gap-2 text-sm text-muted">
           <Avatar name={job.company.name} imageId={job.company.owner.avatarId} size="xs" />
           <span className="min-w-0">
@@ -57,7 +57,7 @@ export function JobCard({ job, lang, dict, now }: { job: Job; lang: Locale; dict
         </span>
         <span className="flex items-center justify-between gap-2 text-xs text-muted">
           {formatRelativeDate(job.createdAt, lang, now)}
-          <span className="font-semibold text-brand group-hover:underline">{dict.apply.card} →</span>
+          <span className="font-semibold text-accent group-hover:underline">{dict.apply.card} →</span>
         </span>
       </Link>
     </li>
@@ -80,13 +80,13 @@ export function OneDayCard({ job, lang, dict }: { job: Job; lang: Locale; dict: 
       <Link href={`/${lang}/jobs/${job.id}`} className={`${card} flex-row items-center gap-4 border-accent-soft bg-accent-tint`}>
         <time
           dateTime={start.toISOString()}
-          className="flex h-[76px] w-[72px] shrink-0 flex-col items-center justify-center rounded-2xl bg-surface shadow-[0_2px_6px_rgba(160,90,20,0.12)]"
+          className="flex h-[76px] w-[72px] shrink-0 flex-col items-center justify-center rounded-2xl bg-surface shadow-[0_2px_6px_rgba(23,32,51,0.12)]"
         >
           <span className="font-heading text-[28px] font-extrabold leading-none text-accent">{part({ day: "numeric" })}</span>
           <span className="mt-1 text-xs font-bold uppercase tracking-wider text-accent-ink">{part({ month: "short" }).replace(".", "")}</span>
         </time>
         <span className="flex min-w-0 flex-col gap-1">
-          <span className="font-heading text-lg font-bold leading-snug group-hover:text-brand">{job.title}</span>
+          <span className="font-heading text-lg font-bold leading-snug group-hover:text-accent">{job.title}</span>
           <span className="text-sm text-muted">{details.join(" · ")}</span>
           <span className="font-bold text-brand-strong">
             <JobPay job={job} dict={dict} unitClassName="font-normal text-muted" />

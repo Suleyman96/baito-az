@@ -11,10 +11,10 @@ import { closeOwnJob, reopenOwnJob } from "@/lib/job-actions";
 import { getJobsByOwner } from "@/lib/jobs";
 
 const STATUS_STYLE = {
-  PENDING: "bg-accent-soft text-accent",
-  ACTIVE: "bg-brand-soft text-brand",
+  PENDING: "bg-warning-soft text-warning",
+  ACTIVE: "bg-success-soft text-success",
   CLOSED: "bg-surface-2 text-muted",
-  REJECTED: "bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300",
+  REJECTED: "bg-error-soft text-error",
 } as const;
 
 export default async function MyJobsPage({ searchParams }: PageProps<"/[lang]/my/jobs">) {
@@ -49,12 +49,12 @@ async function MyJobs({
   if (!user) redirect(`/${lang}/login?next=${encodeURIComponent(`/${lang}/my/jobs`)}`);
   const [{ created, updated }, jobs] = await Promise.all([searchParams, getJobsByOwner(user.id)]);
   const now = new Date();
-  const button = "rounded-lg border border-line px-3 py-1.5 text-sm hover:border-brand hover:text-brand";
+  const button = "rounded-lg border border-line px-3 py-1.5 text-sm hover:border-accent hover:text-accent";
 
   return (
     <>
       {(created || updated) && (
-        <p role="status" className="rounded-lg bg-brand-soft px-4 py-3 text-brand">
+        <p role="status" className="rounded-lg bg-success-soft px-4 py-3 text-success">
           ✓ {created ? dict.myJobs.created : dict.manageJob.updated}
         </p>
       )}
@@ -75,7 +75,7 @@ async function MyJobs({
                 <div className="flex flex-wrap items-start justify-between gap-2">
                   {/* Only published jobs have a public page */}
                   {job.status === "ACTIVE" && !expired ? (
-                    <Link href={`/${lang}/jobs/${job.id}`} className="hover:text-brand hover:underline">
+                    <Link href={`/${lang}/jobs/${job.id}`} className="hover:text-accent hover:underline">
                       {title}
                     </Link>
                   ) : (
@@ -93,18 +93,18 @@ async function MyJobs({
                   <JobPay job={job} dict={dict} />
                 </p>
                 {job.status === "REJECTED" && job.rejectReason && (
-                  <p className="mt-2 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">
+                  <p className="mt-2 rounded-lg bg-error-soft px-3 py-2 text-sm text-error">
                     {t(dict.myJobs.reason, { reason: job.rejectReason })}
                   </p>
                 )}
 
                 {/* Applications to this job, with how many are still new */}
-                <Link href={`/${lang}/my/applications?job=${job.id}`} className="mt-2 inline-flex items-center gap-2 text-sm font-semibold text-brand hover:underline">
+                <Link href={`/${lang}/my/applications?job=${job.id}`} className="mt-2 inline-flex items-center gap-2 text-sm font-semibold text-accent hover:underline">
                   {job.applications.length === 0
                     ? dict.applications.noApplications
                     : t(dict.applications.count, { count: job.applications.length })}
                   {job.applications.some((x) => x.status === "NEW") && (
-                    <span className="rounded-full bg-accent-soft px-2 py-0.5 text-xs text-accent-ink">
+                    <span className="rounded-full bg-info-soft px-2 py-0.5 text-xs text-info">
                       {t(dict.applications.newCount, { count: job.applications.filter((x) => x.status === "NEW").length })}
                     </span>
                   )}

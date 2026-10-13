@@ -34,7 +34,7 @@ export function RegisterForm({ lang, next, role, t }: { lang: Locale; next?: str
           {(["SEEKER", "EMPLOYER"] as const).map((r) => (
             <label
               key={r}
-              className="cursor-pointer rounded-xl border-2 border-line bg-surface p-4 has-checked:border-brand has-checked:bg-brand-soft"
+              className="cursor-pointer rounded-xl border-2 border-line bg-surface p-4 has-checked:border-accent has-checked:bg-brand-soft"
             >
               <input
                 type="radio"
@@ -83,7 +83,7 @@ export function RegisterForm({ lang, next, role, t }: { lang: Locale; next?: str
       </button>
       <p className="text-center text-sm text-muted">
         {t.haveAccount}{" "}
-        <Link href={`/${lang}/login${next ? `?next=${encodeURIComponent(next)}` : ""}`} className="font-medium text-brand hover:underline">
+        <Link href={`/${lang}/login${next ? `?next=${encodeURIComponent(next)}` : ""}`} className="font-medium text-accent hover:underline">
           {t.submitLogin}
         </Link>
       </p>
@@ -101,7 +101,7 @@ export function LoginForm({ lang, next, t }: { lang: Locale; next?: string; t: T
       {next && <input type="hidden" name="next" value={next} />}
 
       {formError && (
-        <p role="alert" className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">
+        <p role="alert" className="rounded-lg bg-error-soft px-3 py-2 text-sm text-error">
           {formError}
         </p>
       )}
@@ -117,7 +117,7 @@ export function LoginForm({ lang, next, t }: { lang: Locale; next?: string; t: T
       </button>
       <p className="text-center text-sm text-muted">
         {t.noAccount}{" "}
-        <Link href={`/${lang}/register${next ? `?next=${encodeURIComponent(next)}` : ""}`} className="font-medium text-brand hover:underline">
+        <Link href={`/${lang}/register${next ? `?next=${encodeURIComponent(next)}` : ""}`} className="font-medium text-accent hover:underline">
           {t.submitRegister}
         </Link>
       </p>
