@@ -28,7 +28,7 @@ export async function UserMenu({ lang, dict, layout }: { lang: Locale; dict: Dic
     return (
       <nav className={column ? "flex flex-col items-stretch gap-1" : "flex items-center gap-1"}>
         {/* On narrower desktops the header keeps room for the section links; this link is in the page instead */}
-        <Link href={`/${lang}/jobs/new`} className={column ? link : `${link} hidden xl:flex`}>
+        <Link href={`/${lang}/jobs/new`} className={column ? link : `${link} hidden 2xl:flex`}>
           {dict.nav.postJob}
         </Link>
         <Link href={`/${lang}/login`} className={`${link} text-foreground`}>
@@ -67,9 +67,14 @@ export async function UserMenu({ lang, dict, layout }: { lang: Locale; dict: Dic
         </>
       )}
       {user.role === "SEEKER" && (
-        <Link href={`/${lang}/my/applications`} className={link}>
-          {dict.nav.myApplications}
-        </Link>
+        <>
+          <Link href={`/${lang}/my/profile`} className={link}>
+            {dict.nav.myProfile}
+          </Link>
+          <Link href={`/${lang}/my/applications`} className={link}>
+            {dict.nav.myApplications}
+          </Link>
+        </>
       )}
       {user.role === "ADMIN" && (
         <Link href={`/${lang}/admin`} className={link}>
@@ -95,7 +100,7 @@ export async function UserMenu({ lang, dict, layout }: { lang: Locale; dict: Dic
     <Link href={`/${lang}/jobs/new`} aria-label={dict.nav.postJob} title={dict.nav.postJob} className={primary}>
       <Plus className="size-4" aria-hidden />
       {/* Text on wide screens; on narrower desktops the + button keeps the header on one line */}
-      <span className={column ? "" : "hidden xl:inline"}>{dict.nav.postJob}</span>
+      <span className={column ? "" : "hidden 2xl:inline"}>{dict.nav.postJob}</span>
     </Link>
   );
 
@@ -116,7 +121,7 @@ export async function UserMenu({ lang, dict, layout }: { lang: Locale; dict: Dic
         trigger={
           <span className="relative flex items-center gap-2">
             <Avatar name={user.name} imageId={user.avatarId} size="sm" />
-            <span className="hidden max-w-36 truncate text-sm font-medium xl:inline">{user.name}</span>
+            <span className="hidden max-w-36 truncate text-sm font-medium 2xl:inline">{user.name}</span>
             {/* Waiting items stay visible while the menu is closed */}
             {pending + unseen > 0 && (
               <span className="absolute -left-1.5 -top-1.5 flex size-5 items-center justify-center rounded-full bg-accent text-[11px] font-bold text-on-brand">

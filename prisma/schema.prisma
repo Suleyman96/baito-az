@@ -68,6 +68,8 @@ model User {
   reviewsWritten  Review[]   @relation("ReviewAuthor")
   reviewsReceived Review[]   @relation("ReviewSubject")
   notifications Notification[]
+  /// Job seekers' public work profile (directory)
+  workerProfile WorkerProfile?
   company      Company?
   applications Application[]
   sessions     Session[]
@@ -122,6 +124,7 @@ model Location {
   district   District @relation(fields: [districtId], references: [id])
   districtId Int
   jobs       Job[]
+  workers    WorkerProfile[]
 
   // Different districts can have villages with the same name
   @@unique([districtId, name])
@@ -247,10 +250,14 @@ model Image {
   /// Image of this job, in display order
   job       Job?     @relation(fields: [jobId], references: [id], onDelete: Cascade)
   jobId     String?
+  /// Work sample in a job seeker's portfolio
+  portfolioOf   WorkerProfile? @relation(fields: [portfolioOfId], references: [id], onDelete: Cascade)
+  portfolioOfId String?
   position  Int      @default(0)
   createdAt DateTime @default(now())
 
   @@index([jobId, position])
+  @@index([portfolioOfId, position])
 }
 
 /// A star rating and comment between an employer and a worker hired for a completed job.
@@ -271,4 +278,49 @@ model Review {
 
   @@unique([jobId, authorId, subjectId])
   @@index([subjectId, createdAt])
+}
+
+enum Workplace {
+  ONSITE
+  REMOTE
+  ANY
+}
+
+/// A job seeker's work profile, shown in the "İş axtaranlar" directory once they switch `visible` on.
+/// Holds no contact details: name and phone stay on User and are never read by directory queries.
+/// Professions and skills are codes from src/config/professions.ts.
+model WorkerProfile {
+  id                    String           @id @default(cuid())
+  user                  User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                String           @unique
+  /// Listed in the directory only when the seeker turns this on
+  visible               Boolean          @default(false)
+  ageRange              String?
+  bio                   String?          @db.Text
+  primaryProfession     String
+  additionalProfessions String[]
+  skills                String[]
+  experienceYears       Int?
+  workHistory           String?          @db.Text
+  certificates          String?          @db.Text
+  /// Approximate location: district (required) and optionally a village; never a street address
+  district              String
+  location              Location?        @relation(fields: [locationId], references: [id], onDelete: SetNull)
+  locationId            Int?
+  preferredDistricts    String[]
+  maxCommuteKm          Int?
+  willingToRelocate     Boolean          @default(false)
+  workTypes             EmploymentType[]
+  availableFrom         DateTime?
+  availableWeekdays     Boolean          @default(true)
+  availableWeekends     Boolean          @default(false)
+  expectedPay           Int?
+  expectedPayPeriod     PayPeriod        @default(MONTH)
+  workplace             Workplace        @default(ONSITE)
+  portfolio             Image[]
+  createdAt             DateTime         @default(now())
+  updatedAt             DateTime         @updatedAt
+
+  @@index([visible, district])
+  @@index([primaryProfession])
 }
