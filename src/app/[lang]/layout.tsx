@@ -40,6 +40,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
   const sections: NavItem[] = [
     { href: `/${lang}/about`, label: dict.nav.about },
     { href: `/${lang}/jobs`, label: dict.nav.jobs },
+    { href: `/${lang}/workers`, label: dict.nav.workers },
     { href: `/${lang}/companies`, label: dict.nav.companies },
     { href: `/${lang}/categories`, label: dict.nav.categories },
   ];
@@ -60,15 +61,16 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
       {/* overflow-x-clip: the home page hero spans the full window width */}
       <body className="flex min-h-full flex-col overflow-x-clip">
         <header className="sticky top-0 z-30 border-b border-line bg-background/90 backdrop-blur">
-          <div className="relative mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
+          {/* A bit wider than the page on large screens: it holds 5 section links and the account menu side by side */}
+          <div className="relative mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 xl:max-w-7xl">
             <div className="flex items-center gap-4 xl:gap-6">
               <Link href={`/${lang}`} aria-label={site.name} className="rounded-xl">
                 <Logo />
               </Link>
-              <div className="hidden lg:block">{nav("row")}</div>
+              <div className="hidden xl:block">{nav("row")}</div>
             </div>
             <div className="flex items-center gap-3">
-              <div className="hidden lg:flex">
+              <div className="hidden xl:flex">
                 <Suspense>
                   <UserMenu lang={lang} dict={dict} layout="row" />
                 </Suspense>

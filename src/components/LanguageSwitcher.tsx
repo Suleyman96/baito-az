@@ -15,7 +15,8 @@ export function LanguageSwitcher({ current, label }: { current: Locale; label: s
     router.push(`/${locale}${rest ? `/${rest}` : ""}${query ? `?${query}` : ""}`);
   }
 
-  // Shows a short code ("AZE"); the native select lies invisibly on top, so its list shows full names
+  // Shows a short code ("AZE"); the native select lies invisibly on top, so its list shows full names.
+  // overflow-hidden: the invisible select's own text ("Azərbaycanca") must not widen the header
   return (
     <label className="relative inline-flex items-center gap-1 rounded-md px-2 py-1 text-sm font-medium tracking-wide hover:bg-surface-2 focus-within:ring-2 focus-within:ring-accent">
       <span aria-hidden>{localeCodes[current]}</span>
@@ -27,7 +28,7 @@ export function LanguageSwitcher({ current, label }: { current: Locale; label: s
         onChange={(e) => change(e.target.value)}
         aria-label={label}
         title={label}
-        className="absolute inset-0 cursor-pointer opacity-0"
+        className="absolute inset-0 cursor-pointer overflow-hidden opacity-0"
       >
         {locales.map((locale) => (
           <option key={locale} value={locale} lang={locale}>

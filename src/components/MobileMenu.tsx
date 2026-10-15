@@ -16,7 +16,7 @@ export function MobileMenu({ label, children }: { label: string; children: React
   };
 
   return (
-    <details ref={ref} className="group lg:hidden">
+    <details ref={ref} className="group xl:hidden">
       <summary
         aria-label={label}
         className="flex size-11 cursor-pointer list-none items-center justify-center rounded-xl border border-line bg-surface [&::-webkit-details-marker]:hidden"
