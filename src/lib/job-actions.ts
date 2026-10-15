@@ -139,6 +139,20 @@ export async function reopenOwnJob(formData: FormData) {
   refresh();
 }
 
+/**
+ * Employer marks their job as done. Reviews then open between the employer and the workers they accepted.
+ * Only published or closed jobs can be completed; a completed job leaves the public listings.
+ */
+export async function completeOwnJob(formData: FormData) {
+  const lang = langOf(formData);
+  const company = await requireEmployer(lang, `/${lang}/my/jobs`);
+  await db.job.updateMany({
+    where: { id: String(formData.get("id") ?? ""), companyId: company.id, status: { in: ["ACTIVE", "CLOSED"] } },
+    data: { status: "COMPLETED", completedAt: new Date() },
+  });
+  refresh();
+}
+
 async function requireAdmin(formData: FormData) {
   const user = await getCurrentUser();
   if (user?.role !== "ADMIN") redirect(`/${langOf(formData)}`);

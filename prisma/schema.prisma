@@ -35,6 +35,8 @@ enum JobStatus {
   ACTIVE
   CLOSED
   REJECTED
+  /// The work is done (set by the employer); its hired workers and the employer can review each other
+  COMPLETED
 }
 
 enum ApplicationStatus {
@@ -63,6 +65,8 @@ model User {
   resumeId     String?       @unique
   /// Every CV this user uploaded that is still kept (current, or attached to an application)
   resumes      Resume[]      @relation("ResumeOwner")
+  reviewsWritten  Review[]   @relation("ReviewAuthor")
+  reviewsReceived Review[]   @relation("ReviewSubject")
   notifications Notification[]
   company      Company?
   applications Application[]
@@ -142,6 +146,8 @@ model Job {
   status         JobStatus      @default(PENDING)
   /// Admin's reason when rejecting, shown to the employer
   rejectReason   String?
+  completedAt    DateTime?
+  reviews        Review[]
   company        Company        @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId      String
   category       Category       @relation(fields: [categoryId], references: [id])
@@ -245,4 +251,24 @@ model Image {
   createdAt DateTime @default(now())
 
   @@index([jobId, position])
+}
+
+/// A star rating and comment between an employer and a worker hired for a completed job.
+/// Both directions: employer → worker and worker → employer. One review per job, author and subject;
+/// reviews are never edited. Rating range and "not about yourself" are also CHECK constraints in the migration.
+model Review {
+  id        String   @id @default(cuid())
+  job       Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  jobId     String
+  author    User     @relation("ReviewAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  authorId  String
+  subject   User     @relation("ReviewSubject", fields: [subjectId], references: [id], onDelete: Cascade)
+  subjectId String
+  /// 1–5 stars
+  rating    Int
+  comment   String   @db.Text
+  createdAt DateTime @default(now())
+
+  @@unique([jobId, authorId, subjectId])
+  @@index([subjectId, createdAt])
 }

@@ -64,7 +64,8 @@ async function SeekerApplications({ lang, dict, userId }: { lang: Locale; dict: 
                   </Link>
                 ) : (
                   <p className="font-heading text-lg font-bold">
-                    {app.job.title} <span className="text-sm font-normal text-muted">· {a.jobClosed}</span>
+                    {app.job.title}{" "}
+                    <span className="text-sm font-normal text-muted">· {app.job.status === "COMPLETED" ? a.jobCompleted : a.jobClosed}</span>
                   </p>
                 )}
                 <p className="text-sm text-muted">
@@ -77,7 +78,14 @@ async function SeekerApplications({ lang, dict, userId }: { lang: Locale; dict: 
                   )}
                 </p>
               </div>
-              <ApplicationStatusBadge status={app.status} label={a.seekerStatus[app.status]} />
+              <div className="flex items-center gap-3">
+                {app.job.status === "COMPLETED" && app.status === "ACCEPTED" && (
+                  <Link href={`/${lang}/my/reviews`} className="text-sm font-semibold text-accent hover:underline">
+                    {a.writeReview}
+                  </Link>
+                )}
+                <ApplicationStatusBadge status={app.status} label={a.seekerStatus[app.status]} />
+              </div>
             </li>
           ))}
         </ul>

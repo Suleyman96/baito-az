@@ -6,7 +6,9 @@ import { PageHeader } from "@/components/PageHeader";
 import { JobGridSkeleton } from "@/components/Skeletons";
 import type { Locale } from "@/i18n/config";
 import { getDictionary, getLocale, type Dictionary } from "@/i18n/dictionaries";
+import { RatingSummary } from "@/components/reviews/RatingSummary";
 import { getCompaniesWithJobs } from "@/lib/companies";
+import { getRatingSummaries } from "@/lib/review-queries";
 import { districtName, t } from "@/lib/format";
 
 export default async function CompaniesPage() {
@@ -25,6 +27,7 @@ export default async function CompaniesPage() {
 
 async function CompanyList({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   const companies = await getCompaniesWithJobs();
+  const ratings = await getRatingSummaries(companies.map((c) => c.owner.id));
   if (companies.length === 0) {
     return <p className="rounded-2xl border border-dashed border-line-strong p-10 text-center text-muted">{dict.companies.empty}</p>;
   }
@@ -42,6 +45,9 @@ async function CompanyList({ lang, dict }: { lang: Locale; dict: Dictionary }) {
               <span className="min-w-0">
                 <span className="block truncate font-heading text-lg font-bold group-hover:text-accent">{c.name}</span>
                 <span className="text-sm font-semibold text-brand-strong">{t(dict.companies.jobCount, { count: c.jobCount })}</span>
+                <span className="block">
+                  <RatingSummary summary={ratings.get(c.owner.id) ?? { average: null, count: 0 }} dict={dict} />
+                </span>
               </span>
             </span>
             {c.description && <span className="line-clamp-2 text-sm text-muted">{c.description}</span>}

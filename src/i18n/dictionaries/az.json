@@ -18,7 +18,8 @@
     "categories": "Kateqoriyalar",
     "main": "Əsas menyu",
     "applications": "Müraciətlər",
-    "myApplications": "Müraciətlərim"
+    "myApplications": "Müraciətlərim",
+    "reviews": "Rəylər"
   },
   "home": {
     "title": "Rayonunda iş tap",
@@ -224,7 +225,8 @@
       "PENDING": "Yoxlanılır",
       "ACTIVE": "Dərc olunub",
       "CLOSED": "Bağlanıb",
-      "REJECTED": "Rədd edilib"
+      "REJECTED": "Rədd edilib",
+      "COMPLETED": "Tamamlanıb"
     },
     "reason": "Səbəb: {reason}"
   },
@@ -237,7 +239,9 @@
     "close": "Bağla (işçi tapıldı)",
     "reopen": "Yenidən aç",
     "reopenNote": "Yenidən açılan elan admin yoxlamasından sonra görünəcək.",
-    "updated": "Dəyişikliklər yadda saxlandı. Elan yenidən yoxlamaya göndərildi."
+    "updated": "Dəyişikliklər yadda saxlandı. Elan yenidən yoxlamaya göndərildi.",
+    "complete": "Tamamlandı kimi işarələ",
+    "completeNote": "İş görülüb: siz və qəbul etdiyiniz işçilər bir-birinizə rəy yaza biləcəksiniz."
   },
   "admin": {
     "title": "Yoxlanılacaq elanlar",
@@ -447,7 +451,43 @@
     "notFound": "Müraciət tapılmadı.",
     "emailOff": "Email bildirişləri hələ qoşulmayıb. Yeni müraciətlər burada «Yeni» nişanı ilə göstərilir.",
     "noApplications": "Müraciət yoxdur",
-    "jobClosed": "Vakansiya artıq aktiv deyil"
+    "jobClosed": "Vakansiya artıq aktiv deyil",
+    "writeReview": "Rəy yaz",
+    "jobCompleted": "İş tamamlanıb",
+    "viewProfile": "Profilə bax"
+  },
+  "reviews": {
+    "title": "Rəylər",
+    "subtitle": "İş tamamlanandan sonra işəgötürən və işçi bir-birinə rəy yazır.",
+    "pendingTitle": "Yazılacaq rəylər",
+    "pendingEmpty": "Yazılacaq rəy yoxdur. Rəylər işəgötürən elanı «Tamamlandı» kimi işarələyəndən sonra açılır.",
+    "writtenTitle": "Yazdığım rəylər",
+    "writtenEmpty": "Hələ rəy yazmamısınız.",
+    "receivedTitle": "Haqqımda yazılan rəylər",
+    "forJob": "Vakansiya: {title}",
+    "rateLabel": "Qiymət",
+    "star": "{count} ulduz",
+    "commentLabel": "Şərh",
+    "commentPlaceholder": "İş necə keçdi? Başqalarına faydalı olacaq qısa rəy yazın.",
+    "submit": "Rəyi göndər",
+    "sending": "Göndərilir…",
+    "saved": "Rəyiniz göndərildi.",
+    "noReviews": "Hələ rəy yoxdur.",
+    "count": "{count} rəy",
+    "worker": "İşçi",
+    "employer": "İşəgötürən",
+    "workerTitle": "İşçi profili",
+    "notFound": "Profil tapılmadı.",
+    "privacyNote": "Əlaqə məlumatları və CV yalnız müraciət edilən işəgötürənə görünür.",
+    "errors": {
+      "ratingInvalid": "Ulduz sayını seçin (1–5).",
+      "commentShort": "Şərh yazın (ən azı 5 simvol).",
+      "commentLong": "Şərh çox uzundur (ən çox 1000 simvol).",
+      "notCompleted": "Rəy yalnız tamamlanmış iş üçün yazıla bilər.",
+      "notParticipant": "Bu iş üzrə bu istifadəçiyə rəy yaza bilməzsiniz.",
+      "selfReview": "Özünüzə rəy yaza bilməzsiniz.",
+      "alreadyReviewed": "Bu iş üzrə bu istifadəçiyə artıq rəy yazmısınız."
+    }
   },
   "footer": {
     "text": "Rayonumuzun iş axtaranları və işəgötürənləri üçün.",

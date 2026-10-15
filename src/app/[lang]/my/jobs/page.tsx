@@ -7,7 +7,7 @@ import { getDictionary, getLocale, type Dictionary } from "@/i18n/dictionaries";
 import { getCurrentUser } from "@/lib/auth/session";
 import { formatPlace, formatRelativeDate, t } from "@/lib/format";
 import { imageUrl } from "@/lib/images";
-import { closeOwnJob, reopenOwnJob } from "@/lib/job-actions";
+import { closeOwnJob, completeOwnJob, reopenOwnJob } from "@/lib/job-actions";
 import { getJobsByOwner } from "@/lib/jobs";
 
 const STATUS_STYLE = {
@@ -15,6 +15,7 @@ const STATUS_STYLE = {
   ACTIVE: "bg-success-soft text-success",
   CLOSED: "bg-surface-2 text-muted",
   REJECTED: "bg-error-soft text-error",
+  COMPLETED: "bg-info-soft text-info",
 } as const;
 
 export default async function MyJobsPage({ searchParams }: PageProps<"/[lang]/my/jobs">) {
@@ -63,7 +64,9 @@ async function MyJobs({
       ) : (
         <ul className="space-y-3">
           {jobs.map((job) => {
-            const expired = job.employmentType === "ONE_DAY" && job.workStart !== null && job.workStart <= now;
+            const completed = job.status === "COMPLETED";
+            // A completed job shows as completed, even when its one-day date has passed
+            const expired = !completed && job.employmentType === "ONE_DAY" && job.workStart !== null && job.workStart <= now;
             const title = <h2 className="font-semibold">{job.title}</h2>;
             return (
               <li key={job.id} className="flex gap-4 rounded-xl border border-line bg-surface p-4">
@@ -111,7 +114,7 @@ async function MyJobs({
                 </Link>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {/* An expired one-day job cannot be moved to a new date in place; it is copied instead */}
-                  {!expired && (
+                  {!expired && !completed && (
                     <Link href={`/${lang}/jobs/${job.id}/edit`} className={button}>
                       {dict.manageJob.edit}
                     </Link>
@@ -134,6 +137,21 @@ async function MyJobs({
                         {dict.manageJob.reopen}
                       </button>
                     </form>
+                  )}
+                  {/* The work is done: opens reviews between the employer and the accepted workers */}
+                  {(job.status === "ACTIVE" || job.status === "CLOSED") && (
+                    <form action={completeOwnJob}>
+                      <input type="hidden" name="lang" value={lang} />
+                      <input type="hidden" name="id" value={job.id} />
+                      <button className={button} title={dict.manageJob.completeNote}>
+                        {dict.manageJob.complete}
+                      </button>
+                    </form>
+                  )}
+                  {completed && (
+                    <Link href={`/${lang}/my/reviews`} className={`${button} border-accent text-accent`}>
+                      {dict.applications.writeReview}
+                    </Link>
                   )}
                 </div>
                 </div>

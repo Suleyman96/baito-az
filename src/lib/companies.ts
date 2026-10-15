@@ -18,7 +18,7 @@ export async function getCompaniesWithJobs() {
       id: true,
       name: true,
       description: true,
-      owner: { select: { avatarId: true } },
+      owner: { select: { id: true, avatarId: true } },
       jobs: { where: visible(now), select: { location: { select: { district: { select: { slug: true } } } } } },
     },
   });
@@ -46,7 +46,7 @@ export async function getCompany(id: string) {
       address: true,
       latitude: true,
       longitude: true,
-      owner: { select: { avatarId: true } },
+      owner: { select: { id: true, avatarId: true } },
       jobs: { where: visible(now), orderBy: { createdAt: "desc" }, include: cardInclude },
     },
   });

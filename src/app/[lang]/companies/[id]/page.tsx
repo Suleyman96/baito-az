@@ -7,7 +7,10 @@ import { JobCard } from "@/components/JobCard";
 import { JobGridSkeleton } from "@/components/Skeletons";
 import type { Locale } from "@/i18n/config";
 import { getDictionary, getLocale, type Dictionary } from "@/i18n/dictionaries";
+import { RatingSummary } from "@/components/reviews/RatingSummary";
+import { ReviewList } from "@/components/reviews/ReviewList";
 import { getCompany } from "@/lib/companies";
+import { getRatingSummary, getReviewsAbout } from "@/lib/review-queries";
 import { t } from "@/lib/format";
 
 export default async function CompanyPage({ params }: PageProps<"/[lang]/companies/[id]">) {
@@ -33,6 +36,7 @@ async function Company({ lang, dict, params }: { lang: Locale; dict: Dictionary;
   if (!company) {
     return <p className="rounded-2xl border border-dashed border-line-strong p-10 text-center text-muted">{dict.companies.notFound}</p>;
   }
+  const [summary, reviews] = await Promise.all([getRatingSummary(company.owner.id), getReviewsAbout(company.owner.id)]);
   const now = new Date();
 
   return (
@@ -41,6 +45,8 @@ async function Company({ lang, dict, params }: { lang: Locale; dict: Dictionary;
         <Avatar name={company.name} imageId={company.owner.avatarId} size="lg" />
         <div className="min-w-0 flex-1 space-y-2">
           <h1 className="text-3xl font-extrabold tracking-tight">{company.name}</h1>
+          {/* Reviews are about the employer (the company's owner) */}
+          <RatingSummary summary={summary} dict={dict} />
           <p className="font-semibold text-brand-strong">{t(dict.companies.jobCount, { count: company.jobs.length })}</p>
           <h2 className="pt-2 text-sm font-semibold uppercase tracking-wider text-muted">{dict.companies.about}</h2>
           <p className="whitespace-pre-line leading-relaxed">{company.description ?? <span className="text-muted">{dict.companies.noDescription}</span>}</p>
@@ -71,6 +77,11 @@ async function Company({ lang, dict, params }: { lang: Locale; dict: Dictionary;
             ))}
           </ul>
         )}
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="font-heading text-2xl font-bold">{dict.reviews.title}</h2>
+        <ReviewList lang={lang} dict={dict} empty={dict.reviews.noReviews} reviews={reviews.map((x) => ({ ...x, person: x.author }))} />
       </section>
     </>
   );

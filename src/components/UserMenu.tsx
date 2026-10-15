@@ -77,6 +77,11 @@ export async function UserMenu({ lang, dict, layout }: { lang: Locale; dict: Dic
           {badge(pending)}
         </Link>
       )}
+      {user.role !== "ADMIN" && (
+        <Link href={`/${lang}/my/reviews`} className={link}>
+          {dict.nav.reviews}
+        </Link>
+      )}
       <hr className="my-1 border-line" />
       <LogoutButton
         className={`${link} gap-2`}

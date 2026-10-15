@@ -18,7 +18,8 @@
     "categories": "カテゴリー",
     "main": "メインメニュー",
     "applications": "応募一覧",
-    "myApplications": "応募履歴"
+    "myApplications": "応募履歴",
+    "reviews": "レビュー"
   },
   "home": {
     "title": "地元で仕事を探そう",
@@ -224,7 +225,8 @@
       "PENDING": "審査中",
       "ACTIVE": "掲載中",
       "CLOSED": "終了",
-      "REJECTED": "却下"
+      "REJECTED": "却下",
+      "COMPLETED": "完了"
     },
     "reason": "理由：{reason}"
   },
@@ -237,7 +239,9 @@
     "close": "締め切る（採用済み）",
     "reopen": "再掲載",
     "reopenNote": "再掲載した求人は管理者の審査後に表示されます。",
-    "updated": "変更を保存しました。求人は再審査に送られました。"
+    "updated": "変更を保存しました。求人は再審査に送られました。",
+    "complete": "完了にする",
+    "completeNote": "仕事が終わりました。あなたと採用した働き手がお互いにレビューできます。"
   },
   "admin": {
     "title": "審査待ちの求人",
@@ -447,7 +451,43 @@
     "notFound": "応募が見つかりません。",
     "emailOff": "メール通知はまだ設定されていません。新しい応募はここに「新着」と表示されます。",
     "noApplications": "応募なし",
-    "jobClosed": "求人の掲載は終了しています"
+    "jobClosed": "求人の掲載は終了しています",
+    "writeReview": "レビューを書く",
+    "jobCompleted": "仕事完了",
+    "viewProfile": "プロフィールを見る"
+  },
+  "reviews": {
+    "title": "レビュー",
+    "subtitle": "仕事の完了後、雇用主と働き手がお互いにレビューします。",
+    "pendingTitle": "書くべきレビュー",
+    "pendingEmpty": "書くべきレビューはありません。雇用主が求人を「完了」にするとレビューできるようになります。",
+    "writtenTitle": "書いたレビュー",
+    "writtenEmpty": "まだレビューを書いていません。",
+    "receivedTitle": "自分へのレビュー",
+    "forJob": "求人：{title}",
+    "rateLabel": "評価",
+    "star": "星{count}",
+    "commentLabel": "コメント",
+    "commentPlaceholder": "仕事はどうでしたか？ほかの人の参考になる短いレビューを書いてください。",
+    "submit": "レビューを送信",
+    "sending": "送信中…",
+    "saved": "レビューを送信しました。",
+    "noReviews": "まだレビューはありません。",
+    "count": "レビュー {count}件",
+    "worker": "働き手",
+    "employer": "雇用主",
+    "workerTitle": "働き手のプロフィール",
+    "notFound": "プロフィールが見つかりません。",
+    "privacyNote": "連絡先と履歴書は、応募先の雇用主にのみ表示されます。",
+    "errors": {
+      "ratingInvalid": "評価（星1〜5）を選んでください。",
+      "commentShort": "コメントを書いてください（5文字以上）。",
+      "commentLong": "コメントが長すぎます（1000文字まで）。",
+      "notCompleted": "レビューは完了した仕事についてのみ書けます。",
+      "notParticipant": "この仕事でこのユーザーをレビューすることはできません。",
+      "selfReview": "自分自身をレビューすることはできません。",
+      "alreadyReviewed": "この仕事でこのユーザーはすでにレビュー済みです。"
+    }
   },
   "footer": {
     "text": "地域の求職者と雇用主のために。",

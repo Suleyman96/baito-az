@@ -18,7 +18,8 @@
     "categories": "Categories",
     "main": "Main menu",
     "applications": "Applications",
-    "myApplications": "My applications"
+    "myApplications": "My applications",
+    "reviews": "Reviews"
   },
   "home": {
     "title": "Find a job near you",
@@ -224,7 +225,8 @@
       "PENDING": "In review",
       "ACTIVE": "Published",
       "CLOSED": "Closed",
-      "REJECTED": "Rejected"
+      "REJECTED": "Rejected",
+      "COMPLETED": "Completed"
     },
     "reason": "Reason: {reason}"
   },
@@ -237,7 +239,9 @@
     "close": "Close (worker found)",
     "reopen": "Reopen",
     "reopenNote": "A reopened job appears after admin review.",
-    "updated": "Changes saved. The job was sent for review again."
+    "updated": "Changes saved. The job was sent for review again.",
+    "complete": "Mark as completed",
+    "completeNote": "The work is done: you and the workers you accepted can review each other."
   },
   "admin": {
     "title": "Jobs to review",
@@ -447,7 +451,43 @@
     "notFound": "Application not found.",
     "emailOff": "Email notifications are not set up yet. New applications are marked “New” here.",
     "noApplications": "No applications",
-    "jobClosed": "The job is no longer active"
+    "jobClosed": "The job is no longer active",
+    "writeReview": "Write a review",
+    "jobCompleted": "Job completed",
+    "viewProfile": "View profile"
+  },
+  "reviews": {
+    "title": "Reviews",
+    "subtitle": "After a job is completed, the employer and the worker review each other.",
+    "pendingTitle": "Reviews to write",
+    "pendingEmpty": "No reviews to write. Reviews open once the employer marks a job as completed.",
+    "writtenTitle": "Reviews I wrote",
+    "writtenEmpty": "You have not written any reviews yet.",
+    "receivedTitle": "Reviews about me",
+    "forJob": "Job: {title}",
+    "rateLabel": "Rating",
+    "star": "{count} stars",
+    "commentLabel": "Comment",
+    "commentPlaceholder": "How did the work go? Write a short review that helps others.",
+    "submit": "Send review",
+    "sending": "Sending…",
+    "saved": "Your review was sent.",
+    "noReviews": "No reviews yet.",
+    "count": "{count} reviews",
+    "worker": "Worker",
+    "employer": "Employer",
+    "workerTitle": "Worker profile",
+    "notFound": "Profile not found.",
+    "privacyNote": "Contact details and CV are only visible to employers this person applied to.",
+    "errors": {
+      "ratingInvalid": "Choose a rating (1–5 stars).",
+      "commentShort": "Write a comment (at least 5 characters).",
+      "commentLong": "The comment is too long (1000 characters at most).",
+      "notCompleted": "Reviews can only be written for completed jobs.",
+      "notParticipant": "You cannot review this user for this job.",
+      "selfReview": "You cannot review yourself.",
+      "alreadyReviewed": "You have already reviewed this user for this job."
+    }
   },
   "footer": {
     "text": "For job seekers and employers in our district.",

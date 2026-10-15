@@ -9,7 +9,9 @@ import { buttonClass, inputClass } from "@/components/ui";
 import type { Locale } from "@/i18n/config";
 import { getDictionary, getLocale, type Dictionary } from "@/i18n/dictionaries";
 import { updateApplicationStatus } from "@/lib/application-actions";
+import { RatingSummary } from "@/components/reviews/RatingSummary";
 import { getEmployerApplication, markApplicationSeen } from "@/lib/application-queries";
+import { getRatingSummary } from "@/lib/review-queries";
 import { APPLICATION_STATUSES } from "@/lib/applications";
 import { getCurrentUser } from "@/lib/auth/session";
 import { formatFileSize, t } from "@/lib/format";
@@ -41,7 +43,7 @@ async function Application({ lang, dict, params }: { lang: Locale; dict: Diction
   // Only the employer of the job may see an application; for everyone else it does not exist
   const app = user.role === "EMPLOYER" ? await getEmployerApplication(user.id, id) : null;
   if (!app) notFound();
-  await markApplicationSeen(user.id, app.id);
+  const [summary] = await Promise.all([getRatingSummary(app.user.id), markApplicationSeen(user.id, app.id)]);
 
   const a = dict.applications;
   const isPdf = app.resume?.mimeType === "application/pdf";
@@ -56,6 +58,12 @@ async function Application({ lang, dict, params }: { lang: Locale; dict: Diction
             <p className="text-sm text-muted">{a.applicant}</p>
             <h1 className="text-2xl font-extrabold tracking-tight">{app.user.name}</h1>
             <p className="text-sm text-muted">{t(a.memberSince, { date: new Intl.DateTimeFormat(lang, { dateStyle: "medium" }).format(app.user.createdAt) })}</p>
+            <div className="mt-1 flex flex-wrap items-center gap-3">
+              <RatingSummary summary={summary} dict={dict} />
+              <Link href={`/${lang}/workers/${app.user.id}`} className="text-sm font-semibold text-accent hover:underline">
+                {a.viewProfile}
+              </Link>
+            </div>
           </div>
           <ApplicationStatusBadge status={app.status} label={a.status[app.status]} />
         </section>
