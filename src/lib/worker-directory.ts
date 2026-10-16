@@ -80,7 +80,7 @@ export async function searchWorkers(filters: WorkerFilters) {
   if (filters.district) and.push({ OR: [{ district: filters.district }, { preferredDistricts: { has: filters.district } }] });
   if (filters.type) and.push({ workTypes: { has: filters.type } });
   if (filters.exp) and.push({ experienceYears: { gte: filters.exp } });
-  if (filters.payMax) and.push({ expectedPayPeriod: filters.pay, OR: [{ expectedPay: null }, { expectedPay: { lte: filters.payMax } }] });
+  if (filters.payMax) and.push({ OR: [{ expectedPay: null }, { expectedPayPeriod: filters.pay, expectedPay: { lte: filters.payMax } }] });
   if (filters.avail === "weekdays") and.push({ availableWeekdays: true });
   if (filters.avail === "weekends") and.push({ availableWeekends: true });
   if (filters.avail === "now") and.push({ OR: [{ availableFrom: null }, { availableFrom: { lt: bakuMidnight(new Date(), 1) } }] });

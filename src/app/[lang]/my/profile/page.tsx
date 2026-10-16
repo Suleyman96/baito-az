@@ -14,6 +14,7 @@ import { db } from "@/lib/db";
 import { districtName } from "@/lib/format";
 import { getFilterOptions } from "@/lib/jobs";
 import { getOwnWorkerProfile } from "@/lib/worker-directory";
+import { NEGOTIABLE } from "@/lib/worker-profile";
 
 export default async function MyProfilePage() {
   const lang = await getLocale();
@@ -66,7 +67,7 @@ async function Profile({ lang, dict }: { lang: Locale; dict: Dictionary }) {
       availableWeekdays: profile.availableWeekdays ? "on" : "",
       availableWeekends: profile.availableWeekends ? "on" : "",
       expectedPay: profile.expectedPay?.toString() ?? "",
-      expectedPayPeriod: profile.expectedPayPeriod,
+      expectedPayPeriod: profile.expectedPay ? profile.expectedPayPeriod : NEGOTIABLE,
       workplace: profile.workplace,
       visible: profile.visible ? "on" : "",
     }),

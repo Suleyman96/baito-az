@@ -7,7 +7,7 @@ import type { Dictionary } from "@/i18n/dictionaries";
 import { MAX_JOB_IMAGES } from "@/lib/images";
 import { t } from "@/lib/format";
 import { saveWorkerProfile, type WorkerProfileState } from "@/lib/worker-profile-actions";
-import { MAX_EXTRA_PROFESSIONS, MAX_SKILLS } from "@/lib/worker-profile";
+import { MAX_EXTRA_PROFESSIONS, MAX_SKILLS, NEGOTIABLE } from "@/lib/worker-profile";
 import { ImagesField } from "./ImagesField";
 import { LocationSelect } from "./LocationSelect";
 import { OptionPicker } from "./OptionPicker";
@@ -17,6 +17,8 @@ type PickerGroup = { label: string; items: { value: string; label: string }[] };
 type District = { id: number; slug: string; label: string; locations: { id: number; name: string }[] };
 
 const WORK_TYPES = ["FULL_TIME", "PART_TIME", "ONE_DAY"] as const;
+/** Choice buttons in the work-preferences section, as tall as the inputs beside them */
+const tallChoice = "min-h-11.5";
 const choice = "flex cursor-pointer items-center gap-2 rounded-xl border border-line-strong px-3 py-2.5 text-sm has-checked:border-accent has-checked:bg-accent-tint has-checked:font-semibold";
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
@@ -25,6 +27,60 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
       <h2 className="font-heading text-lg font-bold">{title}</h2>
       {children}
     </section>
+  );
+}
+
+/**
+ * Expected pay: amount + how it is counted, or "negotiable", which removes the amount field
+ * (nothing is submitted for it, so the server stores no amount) and explains what that means.
+ */
+function ExpectedPayField({ dict, amount, period, error }: { dict: Dictionary; amount: string; period: string; error?: string }) {
+  const p = dict.workerProfile;
+  const [current, setCurrent] = useState(period);
+  const negotiable = current === NEGOTIABLE;
+  return (
+    <div className="space-y-1.5">
+      <label htmlFor={negotiable ? "expectedPayPeriod" : "expectedPay"} className="block text-sm font-semibold">
+        {p.expectedPay}
+      </label>
+      <div className="grid grid-cols-2 gap-2">
+        {!negotiable && (
+          <input
+            id="expectedPay"
+            name="expectedPay"
+            type="number"
+            min={1}
+            inputMode="numeric"
+            defaultValue={amount}
+            aria-invalid={!!error}
+            className={`${inputClass} min-h-11.5`}
+          />
+        )}
+        <select
+          id="expectedPayPeriod"
+          name="expectedPayPeriod"
+          value={current}
+          onChange={(e) => setCurrent(e.target.value)}
+          aria-label={dict.postJob.payType}
+          aria-describedby={negotiable ? "expectedPayNote" : undefined}
+          className={`${inputClass} min-h-11.5 min-w-0 whitespace-nowrap ${negotiable ? "col-span-2" : ""}`}
+        >
+          <option value="MONTH">{dict.postJob.payMonth}</option>
+          <option value="DAY">{dict.postJob.payDay}</option>
+          <option value="HOUR">{dict.postJob.payHour}</option>
+          <option value={NEGOTIABLE}>{dict.workers.negotiable}</option>
+        </select>
+      </div>
+      {error ? (
+        <span className="block text-sm text-error">{error}</span>
+      ) : (
+        negotiable && (
+          <span id="expectedPayNote" className="block text-sm text-info">
+            {p.payNegotiableNote}
+          </span>
+        )
+      )}
+    </div>
   );
 }
 
@@ -176,7 +232,7 @@ export function WorkerProfileForm({
           <legend className="text-sm font-semibold">{p.workTypes}</legend>
           <div className="flex flex-wrap gap-2">
             {WORK_TYPES.map((type) => (
-              <label key={type} className={choice}>
+              <label key={type} className={`${choice} ${tallChoice}`}>
                 <input type="checkbox" name="workTypes" value={type} defaultChecked={many("workTypes").includes(type)} className="size-4 accent-accent" />
                 {dict.jobType[type]}
               </label>
@@ -190,12 +246,12 @@ export function WorkerProfileForm({
           </Field>
           <fieldset className="space-y-1.5">
             <legend className="text-sm font-semibold">{p.availability}</legend>
-            <div className="flex gap-2">
-              <label className={`${choice} flex-1`}>
+            <div className="flex flex-wrap gap-2">
+              <label className={`${choice} ${tallChoice} flex-auto whitespace-nowrap`}>
                 <input type="checkbox" name="availableWeekdays" defaultChecked={checked("availableWeekdays", true)} className="size-4 accent-accent" />
                 {p.weekdays}
               </label>
-              <label className={`${choice} flex-1`}>
+              <label className={`${choice} ${tallChoice} flex-auto whitespace-nowrap`}>
                 <input type="checkbox" name="availableWeekends" defaultChecked={checked("availableWeekends")} className="size-4 accent-accent" />
                 {p.weekends}
               </label>
@@ -203,21 +259,12 @@ export function WorkerProfileForm({
           </fieldset>
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
-          <Field label={p.expectedPay} error={err("expectedPay")}>
-            <div className="flex gap-2">
-              <input name="expectedPay" type="number" min={1} inputMode="numeric" defaultValue={one("expectedPay")} aria-invalid={!!err("expectedPay")} className={inputClass} />
-              <select name="expectedPayPeriod" defaultValue={one("expectedPayPeriod") || "MONTH"} aria-label={dict.postJob.payType} className={`${inputClass} w-40 shrink-0`}>
-                <option value="MONTH">{dict.postJob.payMonth}</option>
-                <option value="DAY">{dict.postJob.payDay}</option>
-                <option value="HOUR">{dict.postJob.payHour}</option>
-              </select>
-            </div>
-          </Field>
+          <ExpectedPayField dict={dict} amount={one("expectedPay")} period={one("expectedPayPeriod") || "MONTH"} error={err("expectedPay")} />
           <fieldset className="space-y-1.5">
             <legend className="text-sm font-semibold">{p.workplace}</legend>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               {(["ONSITE", "REMOTE", "ANY"] as const).map((w) => (
-                <label key={w} className={`${choice} flex-1 justify-center`}>
+                <label key={w} className={`${choice} ${tallChoice} flex-auto justify-center whitespace-nowrap`}>
                   <input type="radio" name="workplace" value={w} defaultChecked={(one("workplace") || "ONSITE") === w} className="sr-only" />
                   {p.workplaceOptions[w]}
                 </label>

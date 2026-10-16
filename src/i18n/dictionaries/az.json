@@ -530,6 +530,7 @@
     "weekdays": "Həftə içi",
     "weekends": "Həftə sonu",
     "expectedPay": "Gözlənilən maaş, AZN (istəyə bağlı)",
+    "payNegotiableNote": "Maaş işəgötürənlə razılaşma əsasında müəyyənləşdiriləcək.",
     "workplace": "İş yeri",
     "workplaceOptions": {
       "ONSITE": "Yerində",

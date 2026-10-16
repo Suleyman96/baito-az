@@ -99,6 +99,9 @@ const SINGLE = [
   "locationId", "maxCommuteKm", "willingToRelocate", "availableFrom", "availableWeekdays", "availableWeekends",
   "expectedPay", "expectedPayPeriod", "workplace", "visible",
 ] as const;
+/** Form value of the expected-pay select meaning the pay is agreed with the employer */
+export const NEGOTIABLE = "NEGOTIABLE";
+
 const MULTI = ["additionalProfessions", "skills", "preferredDistricts", "workTypes"] as const;
 
 /**
@@ -117,6 +120,8 @@ export function parseWorkerProfile(input: ProfileInput):
     return Array.isArray(v) ? v : v ? [v] : [];
   };
   const raw = Object.fromEntries([...SINGLE.map((k) => [k, one(k)]), ...MULTI.map((k) => [k, many(k)])]);
+  // "Negotiable" is stored as no expected amount (shown as negotiable everywhere); the period keeps its default
+  if (raw.expectedPayPeriod === NEGOTIABLE) Object.assign(raw, { expectedPay: "", expectedPayPeriod: "MONTH" });
   const parsed = schema.safeParse(raw);
   const errors: Partial<Record<string, WorkerProfileErrorKey>> = {};
   if (!parsed.success) {
