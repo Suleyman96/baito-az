@@ -136,7 +136,8 @@
       "companyNameLong": "Ad çox uzundur (ən çox 100 simvol).",
       "descriptionLong": "Təsvir çox uzundur (ən çox 1000 simvol).",
       "addressLong": "Ünvan çox uzundur (ən çox 200 simvol).",
-      "locationInvalid": "Xəritədəki yer düzgün deyil. Yenidən seçin."
+      "locationInvalid": "Xəritədəki yer düzgün deyil. Yenidən seçin.",
+      "socialInvalid": "Link və ya istifadəçi adı düzgün deyil."
     }
   },
   "account": {
@@ -605,5 +606,32 @@
   "footer": {
     "text": "Rayonumuzun iş axtaranları və işəgötürənləri üçün.",
     "districts": "Rayonlar"
+  },
+  "social": {
+    "title": "Sosial şəbəkələr",
+    "hint": "İstəyə bağlı. Doldurduğunuz linklər profilinizdə hamıya görünəcək, boş saxladıqlarınız göstərilməyəcək. İstifadəçi adını və ya linki yaza bilərsiniz.",
+    "whatsappHint": "Bu nömrə profilinizdə hamıya görünəcək. Hesabınızın nömrəsi avtomatik göstərilmir.",
+    "open": "{network}: {name} (yeni pəncərədə açılır)",
+    "names": {
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "tiktok": "TikTok",
+      "whatsapp": "WhatsApp",
+      "telegram": "Telegram"
+    },
+    "placeholders": {
+      "instagram": "@istifadəçi_adı və ya instagram.com/…",
+      "facebook": "facebook.com/…",
+      "tiktok": "@istifadəçi_adı və ya tiktok.com/@…",
+      "whatsapp": "+994 50 123 45 67 və ya wa.me/…",
+      "telegram": "@istifadəçi_adı və ya t.me/…"
+    },
+    "errors": {
+      "instagram": "Instagram istifadəçi adı və ya linki düzgün deyil.",
+      "facebook": "Facebook linki düzgün deyil. Məsələn: facebook.com/sizin.adınız",
+      "tiktok": "TikTok istifadəçi adı və ya linki düzgün deyil.",
+      "whatsapp": "Nömrəni ölkə kodu ilə yazın (məsələn, +994 50 123 45 67) və ya wa.me linki daxil edin.",
+      "telegram": "Telegram istifadəçi adı (ən az 5 simvol) və ya t.me linki düzgün deyil."
+    }
   }
 }

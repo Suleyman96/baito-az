@@ -8,6 +8,7 @@ import { JobGridSkeleton } from "@/components/Skeletons";
 import type { Locale } from "@/i18n/config";
 import { getDictionary, getLocale, type Dictionary } from "@/i18n/dictionaries";
 import { RatingSummary } from "@/components/reviews/RatingSummary";
+import { SocialLinksList } from "@/components/SocialLinksList";
 import { ReviewList } from "@/components/reviews/ReviewList";
 import { getCompany } from "@/lib/companies";
 import { getRatingSummary, getReviewsAbout } from "@/lib/review-queries";
@@ -48,6 +49,7 @@ async function Company({ lang, dict, params }: { lang: Locale; dict: Dictionary;
           {/* Reviews are about the employer (the company's owner) */}
           <RatingSummary summary={summary} dict={dict} />
           <p className="font-semibold text-brand-strong">{t(dict.companies.jobCount, { count: company.jobs.length })}</p>
+          <SocialLinksList links={company.owner} dict={dict} />
           <h2 className="pt-2 text-sm font-semibold uppercase tracking-wider text-muted">{dict.companies.about}</h2>
           <p className="whitespace-pre-line leading-relaxed">{company.description ?? <span className="text-muted">{dict.companies.noDescription}</span>}</p>
           {(company.address || company.latitude !== null) && (

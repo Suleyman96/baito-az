@@ -4,6 +4,7 @@ import { matchingSlugs, professionsInGroup } from "@/config/professions";
 import type { Prisma } from "@/generated/prisma/client";
 import { bakuMidnight } from "@/lib/format";
 import { db } from "@/lib/db";
+import { socialSelect } from "@/lib/social-links";
 import type { WorkerFilters } from "@/lib/worker-filters";
 
 export const DIRECTORY_PAGE_SIZE = 12;
@@ -115,7 +116,9 @@ export async function getPublicWorkerProfile(userId: string, viewerId: string | 
     select: publicProfile,
   });
   if (!profile) return null;
-  return { ...profile, ...(await trustFor([userId]))(userId) };
+  // Social links are public only on a profile page that is itself shown (never in the directory list)
+  const [trust, social] = await Promise.all([trustFor([userId]), db.user.findUniqueOrThrow({ where: { id: userId }, select: socialSelect })]);
+  return { ...profile, ...trust(userId), social };
 }
 
 /** The owner's own profile for the edit form (no public/private split needed: it is their data). */

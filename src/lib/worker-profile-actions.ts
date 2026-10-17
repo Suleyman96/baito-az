@@ -7,11 +7,12 @@ import { defaultLocale, hasLocale } from "@/i18n/config";
 import { getCurrentUser } from "@/lib/auth/session";
 import { db } from "@/lib/db";
 import { MAX_JOB_IMAGES, type ImageErrorKey } from "@/lib/images";
+import { parseSocialLinks } from "@/lib/social-links";
 import { readUploadedImages } from "@/lib/storage";
 import { parseWorkerProfile, type WorkerProfileErrorKey } from "@/lib/worker-profile";
 
 export type WorkerProfileState = {
-  errors: Partial<Record<string, WorkerProfileErrorKey | ImageErrorKey | "phoneTaken" | "locationInvalid">>;
+  errors: Partial<Record<string, WorkerProfileErrorKey | ImageErrorKey | "phoneTaken" | "locationInvalid" | "socialInvalid">>;
   values: Record<string, string | string[]>;
   saved?: boolean;
 } | undefined;
@@ -34,7 +35,10 @@ export async function saveWorkerProfile(_prev: WorkerProfileState, formData: For
   }
 
   const parsed = parseWorkerProfile(values);
-  if (!parsed.success) return { errors: parsed.errors, values };
+  const social = parseSocialLinks(Object.fromEntries(Object.entries(values).map(([k, v]) => [k, String(v)])));
+  if (!parsed.success || !social.success) {
+    return { errors: { ...(parsed.success ? {} : parsed.errors), ...(social.success ? {} : social.errors) }, values };
+  }
   const { name, phone, locationId, ...profile } = parsed.data;
 
   // The village must belong to the chosen district
@@ -59,7 +63,7 @@ export async function saveWorkerProfile(_prev: WorkerProfileState, formData: For
   const newImages = upload.images.map((image, i) => ({ ...image, position: next + i }));
 
   try {
-    await db.user.update({ where: { id: user.id }, data: { name, phone } });
+    await db.user.update({ where: { id: user.id }, data: { name, phone, ...social.data } });
   } catch (e) {
     // Another account already uses this number
     if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002") return { errors: { phone: "phoneTaken" }, values };

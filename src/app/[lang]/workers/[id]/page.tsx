@@ -13,6 +13,7 @@ import { getDictionary, getLocale, type Dictionary } from "@/i18n/dictionaries";
 import { getCurrentUser } from "@/lib/auth/session";
 import { districtName, t } from "@/lib/format";
 import { getRatingSummary, getReviewsAbout, getWorkerProfile } from "@/lib/review-queries";
+import { SocialLinksList } from "@/components/SocialLinksList";
 import { getPublicWorkerProfile } from "@/lib/worker-directory";
 
 /**
@@ -71,6 +72,11 @@ async function Worker({ lang, dict, params }: { lang: Locale; dict: Dictionary; 
             {t(dict.applications.memberSince, { date: new Intl.DateTimeFormat(lang, { dateStyle: "medium" }).format(worker.createdAt) })}
             {profile && profile.completedJobs > 0 && ` · ${t(w.completedJobs, { count: profile.completedJobs })}`}
           </p>
+          {profile && (
+            <div className="pt-1">
+              <SocialLinksList links={profile.social} dict={dict} />
+            </div>
+          )}
         </div>
       </section>
 

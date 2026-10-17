@@ -3,6 +3,7 @@ import { connection } from "next/server";
 import { site } from "@/config/site";
 import { db } from "@/lib/db";
 import { cardInclude, visible } from "@/lib/jobs";
+import { socialSelect } from "@/lib/social-links";
 
 const DISTRICT_ORDER = Object.keys(site.districts);
 
@@ -46,7 +47,7 @@ export async function getCompany(id: string) {
       address: true,
       latitude: true,
       longitude: true,
-      owner: { select: { id: true, avatarId: true } },
+      owner: { select: { id: true, avatarId: true, ...socialSelect } },
       jobs: { where: visible(now), orderBy: { createdAt: "desc" }, include: cardInclude },
     },
   });

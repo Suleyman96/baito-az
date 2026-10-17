@@ -136,7 +136,8 @@
       "companyNameLong": "名前が長すぎます（100文字まで）。",
       "descriptionLong": "説明が長すぎます（1000文字まで）。",
       "addressLong": "住所が長すぎます（200文字まで）。",
-      "locationInvalid": "地図上の位置が正しくありません。もう一度選んでください。"
+      "locationInvalid": "地図上の位置が正しくありません。もう一度選んでください。",
+      "socialInvalid": "リンクまたはユーザー名が正しくありません。"
     }
   },
   "account": {
@@ -605,5 +606,32 @@
   "footer": {
     "text": "地域の求職者と雇用主のために。",
     "districts": "地区"
+  },
+  "social": {
+    "title": "SNS",
+    "hint": "任意です。入力したリンクはプロフィールで公開され、空欄のものは表示されません。ユーザー名またはリンクを入力できます。",
+    "whatsappHint": "この番号はプロフィールで公開されます。アカウントの電話番号は自動では表示されません。",
+    "open": "{network}: {name}（新しいタブで開きます）",
+    "names": {
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "tiktok": "TikTok",
+      "whatsapp": "WhatsApp",
+      "telegram": "Telegram"
+    },
+    "placeholders": {
+      "instagram": "@ユーザー名 または instagram.com/…",
+      "facebook": "facebook.com/…",
+      "tiktok": "@ユーザー名 または tiktok.com/@…",
+      "whatsapp": "+994 50 123 45 67 または wa.me/…",
+      "telegram": "@ユーザー名 または t.me/…"
+    },
+    "errors": {
+      "instagram": "Instagram のユーザー名またはリンクが正しくありません。",
+      "facebook": "Facebook のリンクが正しくありません。例: facebook.com/your.name",
+      "tiktok": "TikTok のユーザー名またはリンクが正しくありません。",
+      "whatsapp": "国番号付きの番号（例: +994 50 123 45 67）または wa.me のリンクを入力してください。",
+      "telegram": "Telegram のユーザー名（5文字以上）または t.me のリンクが正しくありません。"
+    }
   }
 }

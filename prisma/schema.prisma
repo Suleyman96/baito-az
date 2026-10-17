@@ -55,6 +55,13 @@ model User {
   passwordHash String
   name         String
   role         Role          @default(SEEKER)
+  /// Optional public social links, shown on the worker or company profile. Only the username is
+  /// stored (WhatsApp: the number's digits); links are rebuilt in src/lib/social-links.ts
+  instagram    String?
+  facebook     String?
+  tiktok       String?
+  whatsapp     String?
+  telegram     String?
   /// Set by an admin: the user cannot log in and their jobs are hidden
   blockedAt    DateTime?
   /// Profile photo; for employers it is also shown as the company logo

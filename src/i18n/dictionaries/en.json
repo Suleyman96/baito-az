@@ -136,7 +136,8 @@
       "companyNameLong": "The name is too long (at most 100 characters).",
       "descriptionLong": "The description is too long (at most 1000 characters).",
       "addressLong": "The address is too long (at most 200 characters).",
-      "locationInvalid": "The map location is not valid. Please pick it again."
+      "locationInvalid": "The map location is not valid. Please pick it again.",
+      "socialInvalid": "This link or username is not valid."
     }
   },
   "account": {
@@ -605,5 +606,32 @@
   "footer": {
     "text": "For job seekers and employers in our district.",
     "districts": "Districts"
+  },
+  "social": {
+    "title": "Social media",
+    "hint": "Optional. Links you fill in are shown to everyone on your profile; empty ones are not shown. You can enter a username or a link.",
+    "whatsappHint": "This number will be visible to everyone on your profile. Your account number is never shown automatically.",
+    "open": "{network}: {name} (opens in a new tab)",
+    "names": {
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "tiktok": "TikTok",
+      "whatsapp": "WhatsApp",
+      "telegram": "Telegram"
+    },
+    "placeholders": {
+      "instagram": "@username or instagram.com/…",
+      "facebook": "facebook.com/…",
+      "tiktok": "@username or tiktok.com/@…",
+      "whatsapp": "+994 50 123 45 67 or wa.me/…",
+      "telegram": "@username or t.me/…"
+    },
+    "errors": {
+      "instagram": "This Instagram username or link is not valid.",
+      "facebook": "This Facebook link is not valid. Example: facebook.com/your.name",
+      "tiktok": "This TikTok username or link is not valid.",
+      "whatsapp": "Enter the number with its country code (e.g. +994 50 123 45 67) or a wa.me link.",
+      "telegram": "This Telegram username (at least 5 characters) or t.me link is not valid."
+    }
   }
 }
