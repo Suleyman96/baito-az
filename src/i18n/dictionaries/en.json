@@ -139,7 +139,10 @@
       "descriptionLong": "The description is too long (at most 1000 characters).",
       "addressLong": "The address is too long (at most 200 characters).",
       "locationInvalid": "The map location is not valid. Please pick it again.",
-      "socialInvalid": "This link or username is not valid."
+      "socialInvalid": "This link or username is not valid.",
+      "companyNameTaken": "A company with this name is already registered. If you work there, you can leave the company name empty and continue as a private employer. If it's a different branch or company, make the name more specific (e.g. “Bərəkət Market — Qax”).",
+      "confirmRequired": "Tick the box to confirm the deletion.",
+      "deleteNotAllowed": "Admin accounts can't be deleted here."
     }
   },
   "account": {
@@ -168,7 +171,34 @@
     "clearLocation": "Remove location",
     "mapUnavailable": "The map is not available right now. The address alone is enough.",
     "addressNotFound": "The address was not found on the map. Pick the place by clicking the map.",
-    "locationSet": "Selected location"
+    "locationSet": "Selected location",
+    "deleteProfile": {
+      "title": "Delete profile",
+      "hint": "Permanently deletes your profile and account. This can't be undone.",
+      "button": "Delete profile",
+      "dialogTitle": "Are you sure you want to delete your profile?",
+      "irreversible": "This can't be undone.",
+      "whatSeeker": [
+        "Your worker profile, CVs, photo and social links will be deleted.",
+        "Your email and phone will be removed from the account; you can register with them again later.",
+        "Applications you sent and reviews you wrote stay with employers, without your name.",
+        "Job offers awaiting your reply will be deleted."
+      ],
+      "whatEmployer": [
+        "All your active and pending jobs will be closed and your company page hidden.",
+        "Company contact details, photo and social links will be deleted; the company name becomes free to register again.",
+        "Your email and phone will be removed from the account.",
+        "Applications you received and reviews you wrote stay in the history, without your name."
+      ],
+      "password": "Your current password",
+      "confirm": "Yes, I want to permanently delete my profile.",
+      "cancel": "Cancel",
+      "submit": "Delete permanently",
+      "deleting": "Deleting…",
+      "goodbyeTitle": "Your profile was deleted",
+      "goodbyeText": "You have been logged out. Thank you for using ZaqaWork.",
+      "goodbyeHome": "Back to home"
+    }
   },
   "postJob": {
     "title": "Post a job",
@@ -298,7 +328,8 @@
     "unblock": "Unblock",
     "blockedBadge": "Blocked",
     "blockHint": "Blocked users cannot log in, and their jobs are hidden from the site.",
-    "limitNote": "Showing at most 100 results. Narrow your search."
+    "limitNote": "Showing at most 100 results. Narrow your search.",
+    "deletedBadge": "Deleted"
   },
   "jobsPage": {
     "title": "All jobs",

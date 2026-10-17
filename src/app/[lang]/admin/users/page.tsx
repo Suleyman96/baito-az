@@ -66,6 +66,7 @@ async function AdminUsers({
                   {u.blockedAt && (
                     <span className="ml-1 rounded-full bg-error-soft px-2 py-0.5 text-xs font-normal text-error">{a.blockedBadge}</span>
                   )}
+                  {u.deletedAt && <span className="ml-1 rounded-full bg-surface-2 px-2 py-0.5 text-xs font-normal text-muted">{a.deletedBadge}</span>}
                 </p>
                 <p className="truncate text-sm text-muted">{[u.phone, u.email].filter(Boolean).join(" · ")}</p>
                 <p className="text-sm text-muted">

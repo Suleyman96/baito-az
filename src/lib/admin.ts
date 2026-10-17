@@ -119,6 +119,7 @@ export function getAdminUsers({ q, role }: z.infer<typeof adminUsersQuery>) {
       phone: true,
       role: true,
       blockedAt: true,
+      deletedAt: true,
       avatarId: true,
       createdAt: true,
       company: { select: { name: true, _count: { select: { jobs: true } } } },

@@ -44,7 +44,7 @@ const publicProfile = {
 } as const satisfies Prisma.WorkerProfileSelect;
 
 /** Who can appear in the directory: visible profiles of job seekers who are not blocked. */
-const listed: Prisma.WorkerProfileWhereInput = { visible: true, user: { role: "SEEKER", blockedAt: null } };
+const listed: Prisma.WorkerProfileWhereInput = { visible: true, user: { role: "SEEKER", blockedAt: null, deletedAt: null } };
 
 /** Ratings and completed jobs for several users at once. */
 async function trustFor(userIds: string[]) {
@@ -112,7 +112,7 @@ export async function searchWorkers(filters: WorkerFilters) {
 /** A work profile for its public page: shown when visible, or to its owner. Null when there is none to show. */
 export async function getPublicWorkerProfile(userId: string, viewerId: string | null) {
   const profile = await db.workerProfile.findFirst({
-    where: { userId, user: { role: "SEEKER", blockedAt: null }, ...(viewerId === userId ? {} : { visible: true }) },
+    where: { userId, user: { role: "SEEKER", blockedAt: null, deletedAt: null }, ...(viewerId === userId ? {} : { visible: true }) },
     select: publicProfile,
   });
   if (!profile) return null;

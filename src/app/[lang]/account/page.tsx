@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { AccountForms } from "@/components/auth/AccountForms";
 import { AvatarForm } from "@/components/auth/AvatarForm";
+import { DeleteAccount } from "@/components/auth/DeleteAccount";
 import { ResumeForm } from "@/components/auth/ResumeForm";
 import type { Locale } from "@/i18n/config";
 import { getDictionary, getLocale, type Dictionary } from "@/i18n/dictionaries";
@@ -82,6 +83,7 @@ async function Account({ lang, dict }: { lang: Locale; dict: Dictionary }) {
             : undefined
         }
       />
+      {user.role !== "ADMIN" && <DeleteAccount lang={lang} dict={dict} role={user.role} />}
     </div>
   );
 }

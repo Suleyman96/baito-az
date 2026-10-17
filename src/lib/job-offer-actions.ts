@@ -32,7 +32,7 @@ export async function sendJobOffer(workerId: string, _prev: OfferFormState, form
   const { message, jobId } = parsed.data;
 
   const worker = await db.user.findFirst({
-    where: { id: workerId, role: "SEEKER", blockedAt: null, workerProfile: { visible: true } },
+    where: { id: workerId, role: "SEEKER", blockedAt: null, deletedAt: null, workerProfile: { visible: true } },
     select: { id: true },
   });
   if (!worker) return { errors: { form: "notAvailable" }, values };

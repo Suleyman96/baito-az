@@ -64,6 +64,9 @@ model User {
   telegram     String?
   /// Set by an admin: the user cannot log in and their jobs are hidden
   blockedAt    DateTime?
+  /// Set when the user deleted their profile. The row stays (with personal data removed) so jobs,
+  /// applications and reviews other people took part in keep their history
+  deletedAt    DateTime?
   /// Profile photo; for employers it is also shown as the company logo
   avatar       Image?        @relation("UserAvatar", fields: [avatarId], references: [id], onDelete: SetNull)
   avatarId     String?       @unique
@@ -101,6 +104,9 @@ model Session {
 model Company {
   id          String   @id @default(cuid())
   name        String
+  /// The name compared case- and space-insensitively (src/lib/company-name.ts), so one company is
+  /// registered once. Null for private persons, who post under their own name
+  nameKey     String?  @unique
   description String?  @db.Text
   phone       String?
   /// Optional business location: a written address and/or a point picked on the map

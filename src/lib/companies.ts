@@ -14,7 +14,7 @@ export async function getCompaniesWithJobs() {
   await connection();
   const now = new Date();
   const companies = await db.company.findMany({
-    where: { owner: { blockedAt: null }, jobs: { some: visible(now) } },
+    where: { owner: { blockedAt: null, deletedAt: null }, jobs: { some: visible(now) } },
     select: {
       id: true,
       name: true,
@@ -38,7 +38,7 @@ export async function getCompany(id: string) {
   await connection();
   const now = new Date();
   return db.company.findFirst({
-    where: { id, owner: { blockedAt: null } },
+    where: { id, owner: { blockedAt: null, deletedAt: null } },
     select: {
       id: true,
       name: true,
