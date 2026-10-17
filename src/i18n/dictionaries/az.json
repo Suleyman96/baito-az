@@ -21,7 +21,9 @@
     "myApplications": "Müraciətlərim",
     "reviews": "Rəylər",
     "workers": "İş axtaranlar",
-    "myProfile": "İşçi profilim"
+    "myProfile": "İşçi profilim",
+    "offersReceived": "İş təklifləri",
+    "offersSent": "Göndərilmiş təkliflər"
   },
   "home": {
     "title": "Rayonunda iş tap",
@@ -632,6 +634,64 @@
       "tiktok": "TikTok istifadəçi adı və ya linki düzgün deyil.",
       "whatsapp": "Nömrəni ölkə kodu ilə yazın (məsələn, +994 50 123 45 67) və ya wa.me linki daxil edin.",
       "telegram": "Telegram istifadəçi adı (ən az 5 simvol) və ya t.me linki düzgün deyil."
+    }
+  },
+  "offers": {
+    "button": "Müraciət et",
+    "dialogTitle": "{name} ilə əlaqə",
+    "close": "Bağla",
+    "siteTitle": "Sayt üzərindən iş təklifi",
+    "siteHint": "Təklif şirkətinizin adı ilə göndəriləcək. İş axtaran onu «İş təklifləri» səhifəsində görüb cavab verəcək.",
+    "job": "Vakansiya (istəyə bağlı)",
+    "noJob": "Konkret vakansiya olmadan",
+    "message": "Mesaj",
+    "messagePlaceholder": "Məsələn: Salam! Zaqatalada elektrik işi üçün sizinlə danışmaq istərdik.",
+    "send": "Təklifi göndər",
+    "sending": "Göndərilir…",
+    "sent": "Təklifiniz göndərildi. Cavabı «Göndərilmiş təkliflər» səhifəsində görəcəksiniz.",
+    "viewSent": "Göndərilmiş təkliflərə bax",
+    "guestText": "Sayt üzərindən iş təklifi göndərmək üçün işəgötürən hesabı ilə daxil olun.",
+    "login": "Daxil ol",
+    "othersText": "Sayt üzərindən iş təklifini yalnız işəgötürənlər göndərə bilər.",
+    "socialTitle": "Sosial şəbəkələr ilə",
+    "socialHint": "İş axtaranın özünün əlavə etdiyi linklər. Yeni pəncərədə açılır.",
+    "titleSeeker": "İş təklifləri",
+    "subtitleSeeker": "İşəgötürənlərin profiliniz vasitəsilə göndərdiyi təkliflər.",
+    "titleEmployer": "Göndərilmiş təkliflər",
+    "subtitleEmployer": "İş axtaranlara göndərdiyiniz təkliflər və onların cavabları.",
+    "emptySeeker": "Hələ iş təklifi yoxdur. Profilinizi doldurub görünən edin ki, işəgötürənlər sizi tapsın.",
+    "fillProfile": "Profilimə keç",
+    "emptyEmployer": "Hələ təklif göndərməmisiniz. «İş axtaranlar» bölməsindən uyğun işçini tapın.",
+    "browseWorkers": "İş axtaranlara bax",
+    "status": {
+      "PENDING": "Cavab gözləyir",
+      "ACCEPTED": "Qəbul edildi",
+      "DECLINED": "İmtina edildi"
+    },
+    "new": "Yeni",
+    "about": "Vakansiya: {title}",
+    "generalOffer": "Ümumi təklif",
+    "replyLabel": "Cavabınız (istəyə bağlı)",
+    "replyPlaceholder": "Məsələn: Maraqlıdır, ətraflı danışaq.",
+    "accept": "Qəbul et",
+    "decline": "İmtina et",
+    "answered": "Cavabınız göndərildi.",
+    "yourReply": "Sizin cavabınız",
+    "theirReply": "Cavab",
+    "errors": {
+      "messageShort": "Mesaj ən az 10 simvol olmalıdır.",
+      "messageLong": "Mesaj ən çox 1000 simvol ola bilər.",
+      "replyLong": "Cavab ən çox 1000 simvol ola bilər.",
+      "decisionRequired": "Təklifi qəbul edin və ya imtina edin.",
+      "loginRequired": "Əvvəlcə hesabınıza daxil olun.",
+      "employersOnly": "Yalnız işəgötürənlər iş təklifi göndərə bilər.",
+      "ownProfile": "Öz profilinizə təklif göndərə bilməzsiniz.",
+      "notAvailable": "Bu iş axtaran hazırda təklif qəbul etmir.",
+      "jobInvalid": "Bu vakansiya aktiv deyil və ya sizə aid deyil.",
+      "alreadySent": "Bu iş axtarana bu mövzuda təklifiniz artıq göndərilib və cavab gözləyir.",
+      "tooMany": "Bu gün çox təklif göndərmisiniz. Sabah yenidən cəhd edin.",
+      "offerClosed": "Bu təklifə artıq cavab verilib.",
+      "failed": "Göndərmək alınmadı. İnternet bağlantısını yoxlayıb yenidən cəhd edin."
     }
   }
 }

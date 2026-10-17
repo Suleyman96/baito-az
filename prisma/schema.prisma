@@ -75,6 +75,9 @@ model User {
   reviewsWritten  Review[]   @relation("ReviewAuthor")
   reviewsReceived Review[]   @relation("ReviewSubject")
   notifications Notification[]
+  /// Job offers an employer sent to job seekers, and those a job seeker received
+  offersSent     JobOffer[]  @relation("OfferEmployer")
+  offersReceived JobOffer[]  @relation("OfferWorker")
   /// Job seekers' public work profile (directory)
   workerProfile WorkerProfile?
   company      Company?
@@ -165,6 +168,8 @@ model Job {
   location       Location       @relation(fields: [locationId], references: [id])
   locationId     Int
   applications   Application[]
+  /// Offers that name this job
+  offers         JobOffer[]
   /// Optional photos of the workplace or the work
   images         Image[]
   createdAt      DateTime       @default(now())
@@ -330,4 +335,35 @@ model WorkerProfile {
 
   @@index([visible, district])
   @@index([primaryProfession])
+}
+
+enum OfferStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+}
+
+/// An employer's message or job offer to a job seeker, sent from the seeker's public profile
+model JobOffer {
+  id          String      @id @default(cuid())
+  employer    User        @relation("OfferEmployer", fields: [employerId], references: [id], onDelete: Cascade)
+  employerId  String
+  worker      User        @relation("OfferWorker", fields: [workerId], references: [id], onDelete: Cascade)
+  workerId    String
+  /// Optional: one of the employer's open jobs the offer is about (kept as null if that job is deleted)
+  job         Job?        @relation(fields: [jobId], references: [id], onDelete: SetNull)
+  jobId       String?
+  message     String      @db.Text
+  status      OfferStatus @default(PENDING)
+  /// The job seeker's answer
+  reply       String?     @db.Text
+  respondedAt DateTime?
+  /// When the job seeker first saw the offer, and when the employer first saw the answer (unread badges)
+  seenAt      DateTime?
+  replySeenAt DateTime?
+  createdAt   DateTime    @default(now())
+
+  @@index([workerId, createdAt])
+  @@index([employerId, createdAt])
+  @@index([jobId])
 }

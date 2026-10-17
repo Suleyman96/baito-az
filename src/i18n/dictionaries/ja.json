@@ -21,7 +21,9 @@
     "myApplications": "応募履歴",
     "reviews": "レビュー",
     "workers": "求職者",
-    "myProfile": "職業プロフィール"
+    "myProfile": "職業プロフィール",
+    "offersReceived": "仕事のオファー",
+    "offersSent": "送信したオファー"
   },
   "home": {
     "title": "地元で仕事を探そう",
@@ -632,6 +634,64 @@
       "tiktok": "TikTok のユーザー名またはリンクが正しくありません。",
       "whatsapp": "国番号付きの番号（例: +994 50 123 45 67）または wa.me のリンクを入力してください。",
       "telegram": "Telegram のユーザー名（5文字以上）または t.me のリンクが正しくありません。"
+    }
+  },
+  "offers": {
+    "button": "連絡する",
+    "dialogTitle": "{name} さんに連絡",
+    "close": "閉じる",
+    "siteTitle": "サイトから仕事のオファーを送る",
+    "siteHint": "オファーは会社名で送信されます。求職者は「仕事のオファー」ページで確認し、返信できます。",
+    "job": "求人（任意）",
+    "noJob": "特定の求人なし",
+    "message": "メッセージ",
+    "messagePlaceholder": "例: こんにちは。ザカタラでの電気工事のお仕事についてお話ししたいです。",
+    "send": "オファーを送る",
+    "sending": "送信中…",
+    "sent": "オファーを送信しました。返信は「送信したオファー」ページで確認できます。",
+    "viewSent": "送信したオファーを見る",
+    "guestText": "サイトからオファーを送るには、雇用主アカウントでログインしてください。",
+    "login": "ログイン",
+    "othersText": "サイトからオファーを送れるのは雇用主のみです。",
+    "socialTitle": "SNS で連絡",
+    "socialHint": "求職者本人が追加したリンクです。新しいタブで開きます。",
+    "titleSeeker": "仕事のオファー",
+    "subtitleSeeker": "雇用主がプロフィールを通して送ったオファーです。",
+    "titleEmployer": "送信したオファー",
+    "subtitleEmployer": "求職者に送ったオファーとその返信です。",
+    "emptySeeker": "まだオファーはありません。プロフィールを入力して公開すると、雇用主に見つけてもらえます。",
+    "fillProfile": "プロフィールへ",
+    "emptyEmployer": "まだオファーを送っていません。「求職者」から合う人を探しましょう。",
+    "browseWorkers": "求職者を見る",
+    "status": {
+      "PENDING": "返信待ち",
+      "ACCEPTED": "承諾",
+      "DECLINED": "辞退"
+    },
+    "new": "新着",
+    "about": "求人: {title}",
+    "generalOffer": "一般的なオファー",
+    "replyLabel": "返信（任意）",
+    "replyPlaceholder": "例: 興味があります。詳しくお話ししましょう。",
+    "accept": "承諾する",
+    "decline": "辞退する",
+    "answered": "返信を送信しました。",
+    "yourReply": "あなたの返信",
+    "theirReply": "返信",
+    "errors": {
+      "messageShort": "メッセージは10文字以上で入力してください。",
+      "messageLong": "メッセージは1000文字以内で入力してください。",
+      "replyLong": "返信は1000文字以内で入力してください。",
+      "decisionRequired": "オファーを承諾または辞退してください。",
+      "loginRequired": "先にログインしてください。",
+      "employersOnly": "オファーを送れるのは雇用主のみです。",
+      "ownProfile": "自分のプロフィールにはオファーを送れません。",
+      "notAvailable": "この求職者は現在オファーを受け付けていません。",
+      "jobInvalid": "この求人は公開中でないか、あなたの求人ではありません。",
+      "alreadySent": "この求職者には同じ件のオファーを送信済みで、返信待ちです。",
+      "tooMany": "本日は多くのオファーを送信しました。明日もう一度お試しください。",
+      "offerClosed": "このオファーにはすでに返信済みです。",
+      "failed": "送信できませんでした。接続を確認して、もう一度お試しください。"
     }
   }
 }

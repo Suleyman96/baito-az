@@ -4,6 +4,7 @@ import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { getPendingCount } from "@/lib/admin";
 import { getUnseenApplicationCount } from "@/lib/application-queries";
+import { getUnseenOfferCount } from "@/lib/job-offer-queries";
 import { logout } from "@/lib/auth/actions";
 import { getCurrentUser } from "@/lib/auth/session";
 import { AccountMenu } from "./AccountMenu";
@@ -44,6 +45,7 @@ export async function UserMenu({ lang, dict, layout }: { lang: Locale; dict: Dic
   // Admins see how many jobs wait for review; employers, how many applications they have not opened yet
   const pending = user.role === "ADMIN" ? await getPendingCount() : 0;
   const unseen = user.role === "EMPLOYER" ? await getUnseenApplicationCount(user.id) : 0;
+  const offers = await getUnseenOfferCount(user.id, user.role);
 
   const accountLinks = (
     <form action={logout} className="flex flex-col items-stretch gap-1">
@@ -64,6 +66,10 @@ export async function UserMenu({ lang, dict, layout }: { lang: Locale; dict: Dic
           <Link href={`/${lang}/my/jobs`} className={link}>
             {dict.nav.myJobs}
           </Link>
+          <Link href={`/${lang}/my/offers`} className={link}>
+            {dict.nav.offersSent}
+            {badge(offers)}
+          </Link>
         </>
       )}
       {user.role === "SEEKER" && (
@@ -73,6 +79,10 @@ export async function UserMenu({ lang, dict, layout }: { lang: Locale; dict: Dic
           </Link>
           <Link href={`/${lang}/my/applications`} className={link}>
             {dict.nav.myApplications}
+          </Link>
+          <Link href={`/${lang}/my/offers`} className={link}>
+            {dict.nav.offersReceived}
+            {badge(offers)}
           </Link>
         </>
       )}
@@ -123,9 +133,9 @@ export async function UserMenu({ lang, dict, layout }: { lang: Locale; dict: Dic
             <Avatar name={user.name} imageId={user.avatarId} size="sm" />
             <span className="hidden max-w-36 truncate text-sm font-medium 2xl:inline">{user.name}</span>
             {/* Waiting items stay visible while the menu is closed */}
-            {pending + unseen > 0 && (
+            {pending + unseen + offers > 0 && (
               <span className="absolute -left-1.5 -top-1.5 flex size-5 items-center justify-center rounded-full bg-accent text-[11px] font-bold text-on-brand">
-                {pending + unseen}
+                {pending + unseen + offers}
               </span>
             )}
           </span>

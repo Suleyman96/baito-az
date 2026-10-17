@@ -14,6 +14,9 @@ import { getCurrentUser } from "@/lib/auth/session";
 import { districtName, t } from "@/lib/format";
 import { getRatingSummary, getReviewsAbout, getWorkerProfile } from "@/lib/review-queries";
 import { SocialLinksList } from "@/components/SocialLinksList";
+import { ContactWorker } from "@/components/offers/ContactWorker";
+import { getOfferableJobs } from "@/lib/job-offer-queries";
+import { presentLinks } from "@/lib/social-links";
 import { getPublicWorkerProfile } from "@/lib/worker-directory";
 
 /**
@@ -50,6 +53,9 @@ async function Worker({ lang, dict, params }: { lang: Locale; dict: Dictionary; 
   const r = dict.reviews;
   const w = dict.workers;
   const isOwner = viewer?.id === worker.id;
+  // Hidden profiles cannot be contacted; nobody contacts themselves
+  const canContact = !!profile && profile.visible && !isOwner;
+  const jobs = canContact && viewer?.role === "EMPLOYER" ? await getOfferableJobs(viewer.id) : [];
 
   return (
     <div className="space-y-6">
@@ -78,6 +84,20 @@ async function Worker({ lang, dict, params }: { lang: Locale; dict: Dictionary; 
             </div>
           )}
         </div>
+        {canContact && (
+          <div className="sm:ml-auto sm:self-start">
+            <ContactWorker
+              lang={lang}
+              dict={dict}
+              workerId={worker.id}
+              workerName={worker.name}
+              viewer={!viewer ? "guest" : viewer.role === "EMPLOYER" ? "employer" : "other"}
+              jobs={jobs}
+              loginHref={`/${lang}/login?next=${encodeURIComponent(`/${lang}/workers/${worker.id}`)}`}
+              social={presentLinks(profile.social).length > 0 ? <SocialLinksList links={profile.social} dict={dict} /> : null}
+            />
+          </div>
+        )}
       </section>
 
       {profile && (
