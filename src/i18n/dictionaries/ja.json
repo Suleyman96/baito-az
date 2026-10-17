@@ -530,6 +530,7 @@
     "weekdays": "平日",
     "weekends": "週末",
     "expectedPay": "希望給与 AZN（任意）",
+    "payNegotiableNote": "給与は雇用主との相談で決めます。",
     "workplace": "勤務場所",
     "workplaceOptions": {
       "ONSITE": "現地",

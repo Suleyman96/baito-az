@@ -530,6 +530,7 @@
     "weekdays": "Будни",
     "weekends": "Выходные",
     "expectedPay": "Ожидаемая оплата, AZN (необязательно)",
+    "payNegotiableNote": "Оплата будет определена по договорённости с работодателем.",
     "workplace": "Место работы",
     "workplaceOptions": {
       "ONSITE": "На месте",

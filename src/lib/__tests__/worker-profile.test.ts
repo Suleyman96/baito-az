@@ -60,6 +60,18 @@ describe("parseWorkerProfile", () => {
   });
 });
 
+describe("negotiable pay", () => {
+  it("stores no amount, whatever was typed, and keeps the default period", () => {
+    const r = parseWorkerProfile({ ...minimal, expectedPay: "500", expectedPayPeriod: "NEGOTIABLE" });
+    expect(r.success && r.data).toMatchObject({ expectedPay: null, expectedPayPeriod: "MONTH" });
+  });
+
+  it("leaves a stated amount and period untouched", () => {
+    const r = parseWorkerProfile({ ...minimal, expectedPay: "25", expectedPayPeriod: "HOUR" });
+    expect(r.success && r.data).toMatchObject({ expectedPay: 25, expectedPayPeriod: "HOUR" });
+  });
+});
+
 describe("profession data", () => {
   it("finds professions and skills by name in any language", () => {
     expect(matchingSlugs("elektrik").professions).toContain("electrician");

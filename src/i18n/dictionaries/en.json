@@ -530,6 +530,7 @@
     "weekdays": "Weekdays",
     "weekends": "Weekends",
     "expectedPay": "Expected pay, AZN (optional)",
+    "payNegotiableNote": "Pay will be agreed with the employer.",
     "workplace": "Workplace",
     "workplaceOptions": {
       "ONSITE": "On site",
