@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { ActiveFilters } from "@/components/home/ActiveFilters";
 import { CategoryChips } from "@/components/home/CategoryChips";
+import { PageHero } from "@/components/home/PageHero";
 import { JobCard } from "@/components/JobCard";
 import { JobFilters } from "@/components/JobFilters";
 import { PageHeader } from "@/components/PageHeader";
@@ -22,26 +23,29 @@ export default async function JobsPage({ searchParams }: PageProps<"/[lang]/jobs
 
   return (
     <div className="space-y-6">
-      <PageHeader title={dict.jobsPage.title} subtitle={dict.jobsPage.subtitle} />
-      {/* Filters and results depend on the query string, so they stream in at request time */}
-      <Suspense
-        fallback={
-          <div className="space-y-6">
-            <SearchSkeleton label={dict.home.loading} />
-            <JobGridSkeleton label={dict.home.loading} />
-          </div>
-        }
-      >
+      <PageHero>
+        <PageHeader title={dict.jobsPage.title} subtitle={dict.jobsPage.subtitle} />
+        {/* Filters and results depend on the query string, so they stream in at request time */}
+        <Suspense fallback={<SearchSkeleton label={dict.home.loading} />}>
+          <JobSearchForm lang={lang} dict={dict} searchParams={searchParams} />
+        </Suspense>
+      </PageHero>
+      <Suspense fallback={<JobGridSkeleton label={dict.home.loading} />}>
         <JobSearch lang={lang} dict={dict} searchParams={searchParams} />
       </Suspense>
     </div>
   );
 }
 
+async function JobSearchForm({ lang, dict, searchParams }: { lang: Locale; dict: Dictionary; searchParams: SearchParams }) {
+  const filters = parseJobFilters(await searchParams);
+  const [categories, districts] = await getFilterOptions();
+  return <JobFilters lang={lang} dict={dict} filters={filters} categories={categories} districts={districts} />;
+}
+
 async function JobSearch({ lang, dict, searchParams }: { lang: Locale; dict: Dictionary; searchParams: SearchParams }) {
   const filters = parseJobFilters(await searchParams);
-  const [[categories, districts], { jobs, total, pageCount }, village] = await Promise.all([
-    getFilterOptions(),
+  const [{ jobs, total, pageCount }, village] = await Promise.all([
     searchJobs(filters),
     filters.location ? db.location.findUnique({ where: { id: filters.location }, select: { name: true } }) : null,
   ]);
@@ -49,7 +53,6 @@ async function JobSearch({ lang, dict, searchParams }: { lang: Locale; dict: Dic
 
   return (
     <>
-      <JobFilters lang={lang} dict={dict} filters={filters} categories={categories} districts={districts} />
       <CategoryChips lang={lang} dict={dict} filters={filters} />
 
       <section className="space-y-4">
