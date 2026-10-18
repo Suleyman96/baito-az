@@ -55,8 +55,18 @@ model User {
   passwordHash String
   name         String
   role         Role          @default(SEEKER)
+  /// Optional public social links, shown on the worker or company profile. Only the username is
+  /// stored (WhatsApp: the number's digits); links are rebuilt in src/lib/social-links.ts
+  instagram    String?
+  facebook     String?
+  tiktok       String?
+  whatsapp     String?
+  telegram     String?
   /// Set by an admin: the user cannot log in and their jobs are hidden
   blockedAt    DateTime?
+  /// Set when the user deleted their profile. The row stays (with personal data removed) so jobs,
+  /// applications and reviews other people took part in keep their history
+  deletedAt    DateTime?
   /// Profile photo; for employers it is also shown as the company logo
   avatar       Image?        @relation("UserAvatar", fields: [avatarId], references: [id], onDelete: SetNull)
   avatarId     String?       @unique
@@ -68,6 +78,9 @@ model User {
   reviewsWritten  Review[]   @relation("ReviewAuthor")
   reviewsReceived Review[]   @relation("ReviewSubject")
   notifications Notification[]
+  /// Job offers an employer sent to job seekers, and those a job seeker received
+  offersSent     JobOffer[]  @relation("OfferEmployer")
+  offersReceived JobOffer[]  @relation("OfferWorker")
   /// Job seekers' public work profile (directory)
   workerProfile WorkerProfile?
   company      Company?
@@ -91,6 +104,9 @@ model Session {
 model Company {
   id          String   @id @default(cuid())
   name        String
+  /// The name compared case- and space-insensitively (src/lib/company-name.ts), so one company is
+  /// registered once. Null for private persons, who post under their own name
+  nameKey     String?  @unique
   description String?  @db.Text
   phone       String?
   /// Optional business location: a written address and/or a point picked on the map
@@ -158,6 +174,8 @@ model Job {
   location       Location       @relation(fields: [locationId], references: [id])
   locationId     Int
   applications   Application[]
+  /// Offers that name this job
+  offers         JobOffer[]
   /// Optional photos of the workplace or the work
   images         Image[]
   createdAt      DateTime       @default(now())
@@ -323,4 +341,35 @@ model WorkerProfile {
 
   @@index([visible, district])
   @@index([primaryProfession])
+}
+
+enum OfferStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+}
+
+/// An employer's message or job offer to a job seeker, sent from the seeker's public profile
+model JobOffer {
+  id          String      @id @default(cuid())
+  employer    User        @relation("OfferEmployer", fields: [employerId], references: [id], onDelete: Cascade)
+  employerId  String
+  worker      User        @relation("OfferWorker", fields: [workerId], references: [id], onDelete: Cascade)
+  workerId    String
+  /// Optional: one of the employer's open jobs the offer is about (kept as null if that job is deleted)
+  job         Job?        @relation(fields: [jobId], references: [id], onDelete: SetNull)
+  jobId       String?
+  message     String      @db.Text
+  status      OfferStatus @default(PENDING)
+  /// The job seeker's answer
+  reply       String?     @db.Text
+  respondedAt DateTime?
+  /// When the job seeker first saw the offer, and when the employer first saw the answer (unread badges)
+  seenAt      DateTime?
+  replySeenAt DateTime?
+  createdAt   DateTime    @default(now())
+
+  @@index([workerId, createdAt])
+  @@index([employerId, createdAt])
+  @@index([jobId])
 }

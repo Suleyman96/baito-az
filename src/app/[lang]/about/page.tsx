@@ -2,7 +2,7 @@ import { ArrowRight, Briefcase, Mail, MessageCircle, Phone, Search } from "lucid
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { Mountains } from "@/components/home/Mountains";
+import { PageHero } from "@/components/home/PageHero";
 import { buttonClass } from "@/components/ui";
 import { site } from "@/config/site";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
@@ -44,13 +44,10 @@ export default async function AboutPage() {
 
   return (
     <div className="space-y-8">
-      <section className="relative -mt-6 mx-[calc(50%-50vw)] overflow-hidden bg-hero">
-        <div className="relative z-10 mx-auto max-w-6xl space-y-4 px-4 pb-20 pt-10 sm:px-6 sm:pb-28">
-          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">{a.title}</h1>
-          <p className="max-w-2xl text-lg leading-relaxed text-muted">{a.lead}</p>
-        </div>
-        <Mountains className="absolute inset-x-0 bottom-0 h-16 w-full sm:h-24" />
-      </section>
+      <PageHero>
+        <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">{a.title}</h1>
+        <p className="max-w-2xl text-lg leading-relaxed text-muted">{a.lead}</p>
+      </PageHero>
 
       <section className="max-w-3xl space-y-3">
         <h2 className="font-heading text-2xl font-bold">{a.whyTitle}</h2>

@@ -2,11 +2,13 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { AccountForms } from "@/components/auth/AccountForms";
 import { AvatarForm } from "@/components/auth/AvatarForm";
+import { DeleteAccount } from "@/components/auth/DeleteAccount";
 import { ResumeForm } from "@/components/auth/ResumeForm";
 import type { Locale } from "@/i18n/config";
 import { getDictionary, getLocale, type Dictionary } from "@/i18n/dictionaries";
 import { getCurrentUser } from "@/lib/auth/session";
 import { db } from "@/lib/db";
+import { SOCIAL_KINDS, socialInputValue, socialSelect } from "@/lib/social-links";
 
 export default async function AccountPage() {
   const lang = await getLocale();
@@ -33,6 +35,7 @@ async function Account({ lang, dict }: { lang: Locale; dict: Dictionary }) {
       phone: true,
       avatarId: true,
       role: true,
+      ...socialSelect,
       resume: { select: { id: true, fileName: true, size: true, createdAt: true } },
       company: { select: { name: true, description: true, phone: true, address: true, latitude: true, longitude: true } },
     },
@@ -75,10 +78,12 @@ async function Account({ lang, dict }: { lang: Locale; dict: Dictionary }) {
                 address: company.address ?? "",
                 latitude: company.latitude === null ? "" : String(company.latitude),
                 longitude: company.longitude === null ? "" : String(company.longitude),
+                ...Object.fromEntries(SOCIAL_KINDS.map((kind) => [kind, socialInputValue(kind, user[kind])])),
               }
             : undefined
         }
       />
+      {user.role !== "ADMIN" && <DeleteAccount lang={lang} dict={dict} role={user.role} />}
     </div>
   );
 }

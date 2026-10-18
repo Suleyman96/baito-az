@@ -21,7 +21,9 @@
     "myApplications": "Müraciətlərim",
     "reviews": "Rəylər",
     "workers": "İş axtaranlar",
-    "myProfile": "İşçi profilim"
+    "myProfile": "İşçi profilim",
+    "offersReceived": "İş təklifləri",
+    "offersSent": "Göndərilmiş təkliflər"
   },
   "home": {
     "title": "Rayonunda iş tap",
@@ -136,7 +138,11 @@
       "companyNameLong": "Ad çox uzundur (ən çox 100 simvol).",
       "descriptionLong": "Təsvir çox uzundur (ən çox 1000 simvol).",
       "addressLong": "Ünvan çox uzundur (ən çox 200 simvol).",
-      "locationInvalid": "Xəritədəki yer düzgün deyil. Yenidən seçin."
+      "locationInvalid": "Xəritədəki yer düzgün deyil. Yenidən seçin.",
+      "socialInvalid": "Link və ya istifadəçi adı düzgün deyil.",
+      "companyNameTaken": "Bu adla şirkət artıq qeydiyyatdadır. Bu şirkətdə işləyirsinizsə, şirkət adını boş saxlayıb fərdi işəgötürən kimi davam edə bilərsiniz. Fərqli filial və ya şirkətdirsə, adı dəqiqləşdirin (məsələn, «Bərəkət Market — Qax»).",
+      "confirmRequired": "Silməni təsdiqləmək üçün qutunu işarələyin.",
+      "deleteNotAllowed": "Admin hesabı buradan silinə bilməz."
     }
   },
   "account": {
@@ -165,7 +171,34 @@
     "clearLocation": "Yeri sil",
     "mapUnavailable": "Xəritə hazırda əlçatan deyil. Ünvanı yazmaq kifayətdir.",
     "addressNotFound": "Ünvan xəritədə tapılmadı. Yeri xəritəyə basaraq seçin.",
-    "locationSet": "Seçilmiş yer"
+    "locationSet": "Seçilmiş yer",
+    "deleteProfile": {
+      "title": "Profili sil",
+      "hint": "Profilinizi və hesabınızı birdəfəlik silir. Bu əməliyyat geri qaytarıla bilməz.",
+      "button": "Profili sil",
+      "dialogTitle": "Profilinizi silmək istədiyinizə əminsiniz?",
+      "irreversible": "Bu əməliyyat geri qaytarıla bilməz.",
+      "whatSeeker": [
+        "İşçi profiliniz, CV-ləriniz, foto və sosial linkləriniz silinəcək.",
+        "Email və telefon nömrəniz hesabdan silinəcək; sonra onlarla yenidən qeydiyyatdan keçə bilərsiniz.",
+        "Göndərdiyiniz müraciətlər və yazdığınız rəylər işəgötürənlərdə adınız olmadan qalacaq.",
+        "Cavab gözləyən iş təklifləri silinəcək."
+      ],
+      "whatEmployer": [
+        "Aktiv və yoxlamada olan bütün elanlarınız bağlanacaq, şirkət səhifəniz göstərilməyəcək.",
+        "Şirkətin əlaqə məlumatları, foto və sosial linklər silinəcək; şirkət adı yenidən qeydiyyat üçün boşalacaq.",
+        "Email və telefon nömrəniz hesabdan silinəcək.",
+        "Aldığınız müraciətlər və yazdığınız rəylər tarixçədə adınız olmadan qalacaq."
+      ],
+      "password": "Cari parolunuz",
+      "confirm": "Bəli, profilimi birdəfəlik silmək istəyirəm.",
+      "cancel": "Ləğv et",
+      "submit": "Profili birdəfəlik sil",
+      "deleting": "Silinir…",
+      "goodbyeTitle": "Profiliniz silindi",
+      "goodbyeText": "Hesabınızdan çıxdınız. ZaqaWork-dan istifadə etdiyiniz üçün təşəkkür edirik.",
+      "goodbyeHome": "Ana səhifəyə qayıt"
+    }
   },
   "postJob": {
     "title": "Elan yerləşdir",
@@ -295,7 +328,8 @@
     "unblock": "Blokdan çıxar",
     "blockedBadge": "Bloklanıb",
     "blockHint": "Bloklanan istifadəçi sayta daxil ola bilmir və onun elanları saytdan gizlənir.",
-    "limitNote": "Ən çox 100 nəticə göstərilir. Daha dəqiq axtarış edin."
+    "limitNote": "Ən çox 100 nəticə göstərilir. Daha dəqiq axtarış edin.",
+    "deletedBadge": "Silinib"
   },
   "jobsPage": {
     "title": "Bütün vakansiyalar",
@@ -605,5 +639,90 @@
   "footer": {
     "text": "Rayonumuzun iş axtaranları və işəgötürənləri üçün.",
     "districts": "Rayonlar"
+  },
+  "social": {
+    "title": "Sosial şəbəkələr",
+    "hint": "İstəyə bağlı. Doldurduğunuz linklər profilinizdə hamıya görünəcək, boş saxladıqlarınız göstərilməyəcək. İstifadəçi adını və ya linki yaza bilərsiniz.",
+    "whatsappHint": "Bu nömrə profilinizdə hamıya görünəcək. Hesabınızın nömrəsi avtomatik göstərilmir.",
+    "open": "{network}: {name} (yeni pəncərədə açılır)",
+    "names": {
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "tiktok": "TikTok",
+      "whatsapp": "WhatsApp",
+      "telegram": "Telegram"
+    },
+    "placeholders": {
+      "instagram": "@istifadəçi_adı və ya instagram.com/…",
+      "facebook": "facebook.com/…",
+      "tiktok": "@istifadəçi_adı və ya tiktok.com/@…",
+      "whatsapp": "+994 50 123 45 67 və ya wa.me/…",
+      "telegram": "@istifadəçi_adı və ya t.me/…"
+    },
+    "errors": {
+      "instagram": "Instagram istifadəçi adı və ya linki düzgün deyil.",
+      "facebook": "Facebook linki düzgün deyil. Məsələn: facebook.com/sizin.adınız",
+      "tiktok": "TikTok istifadəçi adı və ya linki düzgün deyil.",
+      "whatsapp": "Nömrəni ölkə kodu ilə yazın (məsələn, +994 50 123 45 67) və ya wa.me linki daxil edin.",
+      "telegram": "Telegram istifadəçi adı (ən az 5 simvol) və ya t.me linki düzgün deyil."
+    }
+  },
+  "offers": {
+    "button": "Müraciət et",
+    "dialogTitle": "{name} ilə əlaqə",
+    "close": "Bağla",
+    "siteTitle": "Sayt üzərindən iş təklifi",
+    "siteHint": "Təklif şirkətinizin adı ilə göndəriləcək. İş axtaran onu «İş təklifləri» səhifəsində görüb cavab verəcək.",
+    "job": "Vakansiya (istəyə bağlı)",
+    "noJob": "Konkret vakansiya olmadan",
+    "message": "Mesaj",
+    "messagePlaceholder": "Məsələn: Salam! Zaqatalada elektrik işi üçün sizinlə danışmaq istərdik.",
+    "send": "Təklifi göndər",
+    "sending": "Göndərilir…",
+    "sent": "Təklifiniz göndərildi. Cavabı «Göndərilmiş təkliflər» səhifəsində görəcəksiniz.",
+    "viewSent": "Göndərilmiş təkliflərə bax",
+    "guestText": "Sayt üzərindən iş təklifi göndərmək üçün işəgötürən hesabı ilə daxil olun.",
+    "login": "Daxil ol",
+    "othersText": "Sayt üzərindən iş təklifini yalnız işəgötürənlər göndərə bilər.",
+    "socialTitle": "Sosial şəbəkələr ilə",
+    "socialHint": "İş axtaranın özünün əlavə etdiyi linklər. Yeni pəncərədə açılır.",
+    "titleSeeker": "İş təklifləri",
+    "subtitleSeeker": "İşəgötürənlərin profiliniz vasitəsilə göndərdiyi təkliflər.",
+    "titleEmployer": "Göndərilmiş təkliflər",
+    "subtitleEmployer": "İş axtaranlara göndərdiyiniz təkliflər və onların cavabları.",
+    "emptySeeker": "Hələ iş təklifi yoxdur. Profilinizi doldurub görünən edin ki, işəgötürənlər sizi tapsın.",
+    "fillProfile": "Profilimə keç",
+    "emptyEmployer": "Hələ təklif göndərməmisiniz. «İş axtaranlar» bölməsindən uyğun işçini tapın.",
+    "browseWorkers": "İş axtaranlara bax",
+    "status": {
+      "PENDING": "Cavab gözləyir",
+      "ACCEPTED": "Qəbul edildi",
+      "DECLINED": "İmtina edildi"
+    },
+    "new": "Yeni",
+    "about": "Vakansiya: {title}",
+    "generalOffer": "Ümumi təklif",
+    "replyLabel": "Cavabınız (istəyə bağlı)",
+    "replyPlaceholder": "Məsələn: Maraqlıdır, ətraflı danışaq.",
+    "accept": "Qəbul et",
+    "decline": "İmtina et",
+    "answered": "Cavabınız göndərildi.",
+    "yourReply": "Sizin cavabınız",
+    "theirReply": "Cavab",
+    "errors": {
+      "messageShort": "Mesaj ən az 10 simvol olmalıdır.",
+      "messageLong": "Mesaj ən çox 1000 simvol ola bilər.",
+      "replyLong": "Cavab ən çox 1000 simvol ola bilər.",
+      "decisionRequired": "Təklifi qəbul edin və ya imtina edin.",
+      "loginRequired": "Əvvəlcə hesabınıza daxil olun.",
+      "employersOnly": "Yalnız işəgötürənlər iş təklifi göndərə bilər.",
+      "ownProfile": "Öz profilinizə təklif göndərə bilməzsiniz.",
+      "notAvailable": "Bu iş axtaran hazırda təklif qəbul etmir.",
+      "jobInvalid": "Bu vakansiya aktiv deyil və ya sizə aid deyil.",
+      "alreadySent": "Bu iş axtarana bu mövzuda təklifiniz artıq göndərilib və cavab gözləyir.",
+      "tooMany": "Bu gün çox təklif göndərmisiniz. Sabah yenidən cəhd edin.",
+      "offerClosed": "Bu təklifə artıq cavab verilib.",
+      "failed": "Göndərmək alınmadı. İnternet bağlantısını yoxlayıb yenidən cəhd edin."
+    }
   }
 }

@@ -13,6 +13,7 @@ import { getCurrentUser } from "@/lib/auth/session";
 import { db } from "@/lib/db";
 import { districtName } from "@/lib/format";
 import { getFilterOptions } from "@/lib/jobs";
+import { SOCIAL_KINDS, socialInputValue, socialSelect } from "@/lib/social-links";
 import { getOwnWorkerProfile } from "@/lib/worker-directory";
 import { NEGOTIABLE } from "@/lib/worker-profile";
 
@@ -39,7 +40,7 @@ async function Profile({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   if (user.role !== "SEEKER") redirect(`/${lang}/account`);
 
   const [account, profile, [, districts]] = await Promise.all([
-    db.user.findUniqueOrThrow({ where: { id: user.id }, select: { name: true, phone: true, avatarId: true } }),
+    db.user.findUniqueOrThrow({ where: { id: user.id }, select: { name: true, phone: true, avatarId: true, ...socialSelect } }),
     getOwnWorkerProfile(user.id),
     getFilterOptions(),
   ]);
@@ -48,6 +49,7 @@ async function Profile({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   const initial: Record<string, string | string[]> = {
     name: account.name,
     phone: account.phone ?? "",
+    ...Object.fromEntries(SOCIAL_KINDS.map((kind) => [kind, socialInputValue(kind, account[kind])])),
     ...(profile && {
       ageRange: profile.ageRange ?? "",
       bio: profile.bio ?? "",

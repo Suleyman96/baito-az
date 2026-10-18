@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
 import { CategoryChips } from "@/components/home/CategoryChips";
-import { Mountains } from "@/components/home/Mountains";
+import { PageHero } from "@/components/home/PageHero";
 import { JobCard, OneDayCard } from "@/components/JobCard";
 import { JobFilters } from "@/components/JobFilters";
 import { JobGridSkeleton, SearchSkeleton } from "@/components/Skeletons";
@@ -26,22 +26,17 @@ export default async function HomePage({ params, searchParams }: PageProps<"/[la
 
   return (
     <div className="space-y-10">
-      {/* Hero spans the full window: pulled out of the page container, up to the header */}
-      <section className="relative -mt-6 mx-[calc(50%-50vw)] overflow-hidden bg-hero">
-        <div className="relative z-10 mx-auto max-w-6xl space-y-5 px-4 pb-20 pt-8 sm:px-6 sm:pb-28 sm:pt-10">
-          <p className="inline-flex items-center gap-2 rounded-full bg-surface px-3 py-1.5 text-sm font-semibold text-brand-strong">
-            <MapPin className="size-4" aria-hidden />
-            {districts}
-          </p>
-          <h1 className="max-w-3xl text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-[56px]">{dict.home.title}</h1>
-          <p className="max-w-xl text-lg text-muted">{dict.home.subtitle}</p>
-          <Suspense fallback={<SearchSkeleton label={dict.home.loading} />}>
-            <HeroSearch lang={lang} dict={dict} searchParams={searchParams} />
-          </Suspense>
-        </div>
-        {/* Kept low so the hero is only as tall as its content; the bottom padding above leaves room for the peaks */}
-        <Mountains className="absolute inset-x-0 bottom-0 h-16 w-full sm:h-24" />
-      </section>
+      <PageHero>
+        <p className="inline-flex items-center gap-2 rounded-full bg-surface px-3 py-1.5 text-sm font-semibold text-brand-strong">
+          <MapPin className="size-4" aria-hidden />
+          {districts}
+        </p>
+        <h1 className="max-w-3xl text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-[56px]">{dict.home.title}</h1>
+        <p className="max-w-xl text-lg text-muted">{dict.home.subtitle}</p>
+        <Suspense fallback={<SearchSkeleton label={dict.home.loading} />}>
+          <HeroSearch lang={lang} dict={dict} searchParams={searchParams} />
+        </Suspense>
+      </PageHero>
 
       <section className="space-y-4">
         <h2 className="font-heading text-2xl font-bold">{dict.home.categories}</h2>

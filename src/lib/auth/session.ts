@@ -44,10 +44,10 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
 
   const session = await db.session.findUnique({
     where: { id: hashToken(token) },
-    include: { user: { select: { id: true, name: true, role: true, blockedAt: true, avatarId: true } } },
+    include: { user: { select: { id: true, name: true, role: true, blockedAt: true, deletedAt: true, avatarId: true } } },
   });
   // Blocking also deletes sessions; the check covers a request already in flight
-  if (!session || session.expiresAt < new Date() || session.user.blockedAt) return null;
+  if (!session || session.expiresAt < new Date() || session.user.blockedAt || session.user.deletedAt) return null;
   const { id, name, role, avatarId } = session.user;
   return { id, name, role, avatarId };
 });

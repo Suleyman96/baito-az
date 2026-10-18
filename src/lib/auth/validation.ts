@@ -15,7 +15,11 @@ export type AuthErrorKey =
   | "companyNameLong"
   | "descriptionLong"
   | "addressLong"
-  | "locationInvalid";
+  | "locationInvalid"
+  | "socialInvalid"
+  | "companyNameTaken"
+  | "confirmRequired"
+  | "deleteNotAllowed";
 
 // Azerbaijani mobile operator codes (Azercell, Bakcell, Nar, Naxtel)
 const MOBILE_CODES = ["10", "50", "51", "55", "60", "70", "77", "99"];

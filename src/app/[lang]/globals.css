@@ -32,10 +32,15 @@
   --warning-soft: #fdf1e2;
   --info: #1d4ed8;
   --info-soft: #e8effd;
-  /* Home page hero and its mountains */
-  --hero: #e9eff7;
-  --mountain-far: #c8d5e5;
-  --mountain-near: #9fb2ca;
+  /* Page hero band (home, About, Jobs, Job seekers) and the people-at-work drawings along its bottom */
+  /* Hero surface: a soft brand-blue gradient, and the color of its line-art pattern (#173b65 at low opacity) */
+  --hero-top: #f3f6fb;
+  --hero-bottom: #dfe8f3;
+  --hero-glow: rgb(255 255 255 / 0.7);
+  --hero-line: rgb(23 59 101 / 0.11);
+  --hero-figure: #8ea4c0;
+  --hero-figure-soft: #e3ebf5;
+  --hero-figure-accent: #c7d6ea;
   --footer: #102c4d;
   --on-footer: #d6e0ec;
 }
@@ -68,9 +73,13 @@
     --warning-soft: #33250b;
     --info: #7cb0fa;
     --info-soft: #152847;
-    --hero: #111d30;
-    --mountain-far: #1d2d46;
-    --mountain-near: #17253b;
+    --hero-top: #13223a;
+    --hero-bottom: #0f1b2e;
+    --hero-glow: rgb(138 180 248 / 0.08);
+    --hero-line: rgb(138 180 248 / 0.09);
+    --hero-figure: #4a6488;
+    --hero-figure-soft: #172538;
+    --hero-figure-accent: #22375a;
     --footer: #08101e;
     --on-footer: #c3cfdf;
   }
@@ -101,9 +110,13 @@
   --warning-soft: #33250b;
   --info: #7cb0fa;
   --info-soft: #152847;
-  --hero: #111d30;
-  --mountain-far: #1d2d46;
-  --mountain-near: #17253b;
+  --hero-top: #13223a;
+  --hero-bottom: #0f1b2e;
+  --hero-glow: rgb(138 180 248 / 0.08);
+  --hero-line: rgb(138 180 248 / 0.09);
+  --hero-figure: #4a6488;
+  --hero-figure-soft: #172538;
+  --hero-figure-accent: #22375a;
   --footer: #08101e;
   --on-footer: #c3cfdf;
 }
@@ -144,7 +157,7 @@
   --color-warning-soft: var(--warning-soft);
   --color-info: var(--info);
   --color-info-soft: var(--info-soft);
-  --color-hero: var(--hero);
+  --color-hero-figure: var(--hero-figure);
   --color-footer: var(--footer);
   --color-on-footer: var(--on-footer);
   /* Fonts are loaded with next/font in the layout. Japanese falls back to the system's Japanese font */
@@ -266,5 +279,149 @@ h3 {
   optgroup + optgroup {
     margin-block-start: 0.25rem;
     border-block-start: 1px solid var(--line);
+  }
+}
+
+/*
+ * Home hero background: a soft brand-blue gradient with a repeating line-art pattern of everyday
+ * work (kitchen, construction, delivery, retail, farming, cleaning, warehouse, office).
+ * The pattern is one 4 KB SVG tile used as a mask, so its color comes from --hero-line and follows
+ * the theme. It fades out toward the work scenes at the bottom and is decorative only.
+ */
+.hero-surface {
+  background:
+    radial-gradient(60rem 26rem at 80% -10%, var(--hero-glow), transparent 70%),
+    linear-gradient(180deg, var(--hero-top), var(--hero-bottom) 75%, var(--background));
+}
+
+.hero-pattern {
+  background-color: var(--hero-line);
+  /* Three layers, intersected: the tile; a fade toward the bottom; a softer spot behind the
+     heading and text column, so the line art never competes with the copy */
+  -webkit-mask-image:
+    url("/patterns/job-line-art.svg"),
+    linear-gradient(180deg, #000 55%, transparent 95%),
+    radial-gradient(ellipse 48% 55% at 32% 42%, rgb(0 0 0 / 0.35), #000 100%);
+  mask-image:
+    url("/patterns/job-line-art.svg"),
+    linear-gradient(180deg, #000 55%, transparent 95%),
+    radial-gradient(ellipse 48% 55% at 32% 42%, rgb(0 0 0 / 0.35), #000 100%);
+  -webkit-mask-size: 640px 560px, 100% 100%, 100% 100%;
+  mask-size: 640px 560px, 100% 100%, 100% 100%;
+  -webkit-mask-repeat: repeat, no-repeat, no-repeat;
+  mask-repeat: repeat, no-repeat, no-repeat;
+  -webkit-mask-position: center top, 0 0, 0 0;
+  mask-position: center top, 0 0, 0 0;
+  -webkit-mask-composite: source-in, source-in;
+  mask-composite: intersect, intersect;
+}
+
+/* Phones: the same icon size (so lines stay crisp) but a slightly lighter pattern behind the text */
+@media (max-width: 639px) {
+  .hero-pattern {
+    opacity: 0.75;
+  }
+}
+
+/*
+ * The people-at-work drawings along the bottom of the home hero (components/home/WorkScenes.tsx):
+ * soft fills, and small looping motions that stop when the user asks for reduced motion.
+ */
+.work-scenes .ws-fill {
+  fill: var(--hero-figure-soft);
+}
+.work-scenes .ws-accent {
+  fill: var(--hero-figure-accent);
+}
+.work-scenes .ws-light {
+  fill: var(--surface);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Wheels turning */
+  .work-scenes .ws-spin {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: ws-spin 2.4s linear infinite;
+  }
+  /* A tool or arm swinging around its pivot (set inline in scene coordinates) */
+  .work-scenes .ws-swing {
+    transform-box: view-box;
+    animation: ws-swing 1.8s ease-in-out infinite alternate;
+  }
+  /* A gentle up-and-down: a tray carried, an engine running */
+  .work-scenes .ws-bob {
+    animation: ws-bob 1.6s ease-in-out infinite alternate;
+  }
+  /* Quick small taps: typing, pushing */
+  .work-scenes .ws-type {
+    animation: ws-bob 0.45s ease-in-out infinite alternate;
+  }
+  /* Steam, smoke and bubbles drifting up and fading */
+  .work-scenes .ws-rise {
+    transform-box: fill-box;
+    animation: ws-rise 2.7s ease-out infinite;
+  }
+  /* Lines of code and a sparkle appearing and fading */
+  .work-scenes .ws-blink {
+    animation: ws-blink 1.8s ease-in-out infinite;
+  }
+  /* Speed lines behind the van */
+  .work-scenes .ws-dash {
+    animation: ws-dash 0.9s linear infinite;
+  }
+}
+
+@keyframes ws-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ws-swing {
+  from {
+    transform: rotate(-7deg);
+  }
+  to {
+    transform: rotate(7deg);
+  }
+}
+@keyframes ws-bob {
+  to {
+    transform: translateY(-1.5px);
+  }
+}
+@keyframes ws-rise {
+  0% {
+    transform: translateY(4px);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+}
+@keyframes ws-blink {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes ws-dash {
+  from {
+    transform: translateX(6px);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-6px);
+    opacity: 0;
   }
 }

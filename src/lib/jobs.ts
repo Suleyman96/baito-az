@@ -18,7 +18,7 @@ export const cardInclude = {
 export function visible(now: Date): Prisma.JobWhereInput {
   return {
     status: "ACTIVE",
-    company: { owner: { blockedAt: null } },
+    company: { owner: { blockedAt: null, deletedAt: null } },
     OR: [{ employmentType: { not: "ONE_DAY" } }, { workStart: { gt: now } }],
   };
 }

@@ -21,7 +21,9 @@
     "myApplications": "応募履歴",
     "reviews": "レビュー",
     "workers": "求職者",
-    "myProfile": "職業プロフィール"
+    "myProfile": "職業プロフィール",
+    "offersReceived": "仕事のオファー",
+    "offersSent": "送信したオファー"
   },
   "home": {
     "title": "地元で仕事を探そう",
@@ -136,7 +138,11 @@
       "companyNameLong": "名前が長すぎます（100文字まで）。",
       "descriptionLong": "説明が長すぎます（1000文字まで）。",
       "addressLong": "住所が長すぎます（200文字まで）。",
-      "locationInvalid": "地図上の位置が正しくありません。もう一度選んでください。"
+      "locationInvalid": "地図上の位置が正しくありません。もう一度選んでください。",
+      "socialInvalid": "リンクまたはユーザー名が正しくありません。",
+      "companyNameTaken": "この名前の会社はすでに登録されています。その会社で働いている場合は、会社名を空欄にして個人の雇用主として続けられます。別の支店や会社の場合は、名前を具体的にしてください（例:「Bərəkət Market — Qax」）。",
+      "confirmRequired": "削除を確認するにはチェックを入れてください。",
+      "deleteNotAllowed": "管理者アカウントはここでは削除できません。"
     }
   },
   "account": {
@@ -165,7 +171,34 @@
     "clearLocation": "位置を削除",
     "mapUnavailable": "現在地図を利用できません。住所だけでも保存できます。",
     "addressNotFound": "住所が地図で見つかりませんでした。地図をクリックして位置を選んでください。",
-    "locationSet": "選択した位置"
+    "locationSet": "選択した位置",
+    "deleteProfile": {
+      "title": "プロフィールを削除",
+      "hint": "プロフィールとアカウントを完全に削除します。元に戻すことはできません。",
+      "button": "プロフィールを削除",
+      "dialogTitle": "本当にプロフィールを削除しますか？",
+      "irreversible": "この操作は元に戻せません。",
+      "whatSeeker": [
+        "求職者プロフィール、履歴書、写真、SNS リンクが削除されます。",
+        "メールアドレスと電話番号はアカウントから削除され、後で再登録に使えます。",
+        "送った応募と書いたレビューは、名前を伏せて雇用主側に残ります。",
+        "返信待ちの仕事のオファーは削除されます。"
+      ],
+      "whatEmployer": [
+        "公開中・審査中の求人はすべて締め切られ、会社ページは非表示になります。",
+        "会社の連絡先、写真、SNS リンクが削除され、会社名は再登録できるようになります。",
+        "メールアドレスと電話番号はアカウントから削除されます。",
+        "受け取った応募と書いたレビューは、名前を伏せて履歴に残ります。"
+      ],
+      "password": "現在のパスワード",
+      "confirm": "はい、プロフィールを完全に削除します。",
+      "cancel": "キャンセル",
+      "submit": "完全に削除する",
+      "deleting": "削除中…",
+      "goodbyeTitle": "プロフィールを削除しました",
+      "goodbyeText": "ログアウトしました。ZaqaWork をご利用いただきありがとうございました。",
+      "goodbyeHome": "ホームに戻る"
+    }
   },
   "postJob": {
     "title": "求人を掲載",
@@ -295,7 +328,8 @@
     "unblock": "停止を解除",
     "blockedBadge": "停止中",
     "blockHint": "停止されたユーザーはログインできず、その求人はサイトに表示されません。",
-    "limitNote": "最大100件まで表示しています。検索条件を絞ってください。"
+    "limitNote": "最大100件まで表示しています。検索条件を絞ってください。",
+    "deletedBadge": "削除済み"
   },
   "jobsPage": {
     "title": "すべての求人",
@@ -605,5 +639,90 @@
   "footer": {
     "text": "地域の求職者と雇用主のために。",
     "districts": "地区"
+  },
+  "social": {
+    "title": "SNS",
+    "hint": "任意です。入力したリンクはプロフィールで公開され、空欄のものは表示されません。ユーザー名またはリンクを入力できます。",
+    "whatsappHint": "この番号はプロフィールで公開されます。アカウントの電話番号は自動では表示されません。",
+    "open": "{network}: {name}（新しいタブで開きます）",
+    "names": {
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "tiktok": "TikTok",
+      "whatsapp": "WhatsApp",
+      "telegram": "Telegram"
+    },
+    "placeholders": {
+      "instagram": "@ユーザー名 または instagram.com/…",
+      "facebook": "facebook.com/…",
+      "tiktok": "@ユーザー名 または tiktok.com/@…",
+      "whatsapp": "+994 50 123 45 67 または wa.me/…",
+      "telegram": "@ユーザー名 または t.me/…"
+    },
+    "errors": {
+      "instagram": "Instagram のユーザー名またはリンクが正しくありません。",
+      "facebook": "Facebook のリンクが正しくありません。例: facebook.com/your.name",
+      "tiktok": "TikTok のユーザー名またはリンクが正しくありません。",
+      "whatsapp": "国番号付きの番号（例: +994 50 123 45 67）または wa.me のリンクを入力してください。",
+      "telegram": "Telegram のユーザー名（5文字以上）または t.me のリンクが正しくありません。"
+    }
+  },
+  "offers": {
+    "button": "連絡する",
+    "dialogTitle": "{name} さんに連絡",
+    "close": "閉じる",
+    "siteTitle": "サイトから仕事のオファーを送る",
+    "siteHint": "オファーは会社名で送信されます。求職者は「仕事のオファー」ページで確認し、返信できます。",
+    "job": "求人（任意）",
+    "noJob": "特定の求人なし",
+    "message": "メッセージ",
+    "messagePlaceholder": "例: こんにちは。ザカタラでの電気工事のお仕事についてお話ししたいです。",
+    "send": "オファーを送る",
+    "sending": "送信中…",
+    "sent": "オファーを送信しました。返信は「送信したオファー」ページで確認できます。",
+    "viewSent": "送信したオファーを見る",
+    "guestText": "サイトからオファーを送るには、雇用主アカウントでログインしてください。",
+    "login": "ログイン",
+    "othersText": "サイトからオファーを送れるのは雇用主のみです。",
+    "socialTitle": "SNS で連絡",
+    "socialHint": "求職者本人が追加したリンクです。新しいタブで開きます。",
+    "titleSeeker": "仕事のオファー",
+    "subtitleSeeker": "雇用主がプロフィールを通して送ったオファーです。",
+    "titleEmployer": "送信したオファー",
+    "subtitleEmployer": "求職者に送ったオファーとその返信です。",
+    "emptySeeker": "まだオファーはありません。プロフィールを入力して公開すると、雇用主に見つけてもらえます。",
+    "fillProfile": "プロフィールへ",
+    "emptyEmployer": "まだオファーを送っていません。「求職者」から合う人を探しましょう。",
+    "browseWorkers": "求職者を見る",
+    "status": {
+      "PENDING": "返信待ち",
+      "ACCEPTED": "承諾",
+      "DECLINED": "辞退"
+    },
+    "new": "新着",
+    "about": "求人: {title}",
+    "generalOffer": "一般的なオファー",
+    "replyLabel": "返信（任意）",
+    "replyPlaceholder": "例: 興味があります。詳しくお話ししましょう。",
+    "accept": "承諾する",
+    "decline": "辞退する",
+    "answered": "返信を送信しました。",
+    "yourReply": "あなたの返信",
+    "theirReply": "返信",
+    "errors": {
+      "messageShort": "メッセージは10文字以上で入力してください。",
+      "messageLong": "メッセージは1000文字以内で入力してください。",
+      "replyLong": "返信は1000文字以内で入力してください。",
+      "decisionRequired": "オファーを承諾または辞退してください。",
+      "loginRequired": "先にログインしてください。",
+      "employersOnly": "オファーを送れるのは雇用主のみです。",
+      "ownProfile": "自分のプロフィールにはオファーを送れません。",
+      "notAvailable": "この求職者は現在オファーを受け付けていません。",
+      "jobInvalid": "この求人は公開中でないか、あなたの求人ではありません。",
+      "alreadySent": "この求職者には同じ件のオファーを送信済みで、返信待ちです。",
+      "tooMany": "本日は多くのオファーを送信しました。明日もう一度お試しください。",
+      "offerClosed": "このオファーにはすでに返信済みです。",
+      "failed": "送信できませんでした。接続を確認して、もう一度お試しください。"
+    }
   }
 }

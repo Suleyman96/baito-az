@@ -21,7 +21,9 @@
     "myApplications": "My applications",
     "reviews": "Reviews",
     "workers": "Job seekers",
-    "myProfile": "My work profile"
+    "myProfile": "My work profile",
+    "offersReceived": "Job offers",
+    "offersSent": "Sent offers"
   },
   "home": {
     "title": "Find a job near you",
@@ -136,7 +138,11 @@
       "companyNameLong": "The name is too long (at most 100 characters).",
       "descriptionLong": "The description is too long (at most 1000 characters).",
       "addressLong": "The address is too long (at most 200 characters).",
-      "locationInvalid": "The map location is not valid. Please pick it again."
+      "locationInvalid": "The map location is not valid. Please pick it again.",
+      "socialInvalid": "This link or username is not valid.",
+      "companyNameTaken": "A company with this name is already registered. If you work there, you can leave the company name empty and continue as a private employer. If it's a different branch or company, make the name more specific (e.g. “Bərəkət Market — Qax”).",
+      "confirmRequired": "Tick the box to confirm the deletion.",
+      "deleteNotAllowed": "Admin accounts can't be deleted here."
     }
   },
   "account": {
@@ -165,7 +171,34 @@
     "clearLocation": "Remove location",
     "mapUnavailable": "The map is not available right now. The address alone is enough.",
     "addressNotFound": "The address was not found on the map. Pick the place by clicking the map.",
-    "locationSet": "Selected location"
+    "locationSet": "Selected location",
+    "deleteProfile": {
+      "title": "Delete profile",
+      "hint": "Permanently deletes your profile and account. This can't be undone.",
+      "button": "Delete profile",
+      "dialogTitle": "Are you sure you want to delete your profile?",
+      "irreversible": "This can't be undone.",
+      "whatSeeker": [
+        "Your worker profile, CVs, photo and social links will be deleted.",
+        "Your email and phone will be removed from the account; you can register with them again later.",
+        "Applications you sent and reviews you wrote stay with employers, without your name.",
+        "Job offers awaiting your reply will be deleted."
+      ],
+      "whatEmployer": [
+        "All your active and pending jobs will be closed and your company page hidden.",
+        "Company contact details, photo and social links will be deleted; the company name becomes free to register again.",
+        "Your email and phone will be removed from the account.",
+        "Applications you received and reviews you wrote stay in the history, without your name."
+      ],
+      "password": "Your current password",
+      "confirm": "Yes, I want to permanently delete my profile.",
+      "cancel": "Cancel",
+      "submit": "Delete permanently",
+      "deleting": "Deleting…",
+      "goodbyeTitle": "Your profile was deleted",
+      "goodbyeText": "You have been logged out. Thank you for using ZaqaWork.",
+      "goodbyeHome": "Back to home"
+    }
   },
   "postJob": {
     "title": "Post a job",
@@ -295,7 +328,8 @@
     "unblock": "Unblock",
     "blockedBadge": "Blocked",
     "blockHint": "Blocked users cannot log in, and their jobs are hidden from the site.",
-    "limitNote": "Showing at most 100 results. Narrow your search."
+    "limitNote": "Showing at most 100 results. Narrow your search.",
+    "deletedBadge": "Deleted"
   },
   "jobsPage": {
     "title": "All jobs",
@@ -605,5 +639,90 @@
   "footer": {
     "text": "For job seekers and employers in our district.",
     "districts": "Districts"
+  },
+  "social": {
+    "title": "Social media",
+    "hint": "Optional. Links you fill in are shown to everyone on your profile; empty ones are not shown. You can enter a username or a link.",
+    "whatsappHint": "This number will be visible to everyone on your profile. Your account number is never shown automatically.",
+    "open": "{network}: {name} (opens in a new tab)",
+    "names": {
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "tiktok": "TikTok",
+      "whatsapp": "WhatsApp",
+      "telegram": "Telegram"
+    },
+    "placeholders": {
+      "instagram": "@username or instagram.com/…",
+      "facebook": "facebook.com/…",
+      "tiktok": "@username or tiktok.com/@…",
+      "whatsapp": "+994 50 123 45 67 or wa.me/…",
+      "telegram": "@username or t.me/…"
+    },
+    "errors": {
+      "instagram": "This Instagram username or link is not valid.",
+      "facebook": "This Facebook link is not valid. Example: facebook.com/your.name",
+      "tiktok": "This TikTok username or link is not valid.",
+      "whatsapp": "Enter the number with its country code (e.g. +994 50 123 45 67) or a wa.me link.",
+      "telegram": "This Telegram username (at least 5 characters) or t.me link is not valid."
+    }
+  },
+  "offers": {
+    "button": "Contact",
+    "dialogTitle": "Contact {name}",
+    "close": "Close",
+    "siteTitle": "Job offer through the site",
+    "siteHint": "The offer is sent under your company name. The job seeker sees it on their “Job offers” page and can reply.",
+    "job": "Job (optional)",
+    "noJob": "No specific job",
+    "message": "Message",
+    "messagePlaceholder": "For example: Hi! We'd like to talk to you about electrical work in Zaqatala.",
+    "send": "Send offer",
+    "sending": "Sending…",
+    "sent": "Your offer was sent. You'll see the reply on the “Sent offers” page.",
+    "viewSent": "View sent offers",
+    "guestText": "Log in with an employer account to send a job offer through the site.",
+    "login": "Log in",
+    "othersText": "Only employers can send job offers through the site.",
+    "socialTitle": "Via social media",
+    "socialHint": "Links the job seeker added themselves. They open in a new tab.",
+    "titleSeeker": "Job offers",
+    "subtitleSeeker": "Offers employers sent you through your profile.",
+    "titleEmployer": "Sent offers",
+    "subtitleEmployer": "Offers you sent to job seekers and their replies.",
+    "emptySeeker": "No job offers yet. Complete your profile and make it visible so employers can find you.",
+    "fillProfile": "Go to my profile",
+    "emptyEmployer": "You haven't sent any offers yet. Find a suitable worker in “Job seekers”.",
+    "browseWorkers": "Browse job seekers",
+    "status": {
+      "PENDING": "Awaiting reply",
+      "ACCEPTED": "Accepted",
+      "DECLINED": "Declined"
+    },
+    "new": "New",
+    "about": "Job: {title}",
+    "generalOffer": "General offer",
+    "replyLabel": "Your reply (optional)",
+    "replyPlaceholder": "For example: Sounds interesting, let's talk.",
+    "accept": "Accept",
+    "decline": "Decline",
+    "answered": "Your reply was sent.",
+    "yourReply": "Your reply",
+    "theirReply": "Reply",
+    "errors": {
+      "messageShort": "The message must be at least 10 characters.",
+      "messageLong": "The message can be at most 1000 characters.",
+      "replyLong": "The reply can be at most 1000 characters.",
+      "decisionRequired": "Accept or decline the offer.",
+      "loginRequired": "Please log in first.",
+      "employersOnly": "Only employers can send job offers.",
+      "ownProfile": "You can't send an offer to your own profile.",
+      "notAvailable": "This job seeker is not accepting offers right now.",
+      "jobInvalid": "This job is not open or is not yours.",
+      "alreadySent": "You already sent this job seeker an offer about this, and it is awaiting a reply.",
+      "tooMany": "You've sent many offers today. Please try again tomorrow.",
+      "offerClosed": "This offer has already been answered.",
+      "failed": "Could not send. Check your connection and try again."
+    }
   }
 }

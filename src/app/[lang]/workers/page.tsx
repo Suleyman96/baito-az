@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
+import { PageHero } from "@/components/home/PageHero";
 import { PageHeader } from "@/components/PageHeader";
 import { JobGridSkeleton, SearchSkeleton } from "@/components/Skeletons";
 import { buttonClass } from "@/components/ui";
@@ -20,19 +21,21 @@ export default async function WorkersPage({ searchParams }: PageProps<"/[lang]/w
 
   return (
     <div className="space-y-6">
-      <PageHeader title={dict.workers.title} subtitle={dict.workers.subtitle} />
-      <Suspense
-        fallback={
-          <div className="space-y-6">
-            <SearchSkeleton label={dict.home.loading} />
-            <JobGridSkeleton label={dict.home.loading} />
-          </div>
-        }
-      >
+      <PageHero>
+        <PageHeader title={dict.workers.title} subtitle={dict.workers.subtitle} />
+        <Suspense fallback={<SearchSkeleton label={dict.home.loading} />}>
+          <DirectorySearchForm lang={lang} dict={dict} searchParams={searchParams} />
+        </Suspense>
+      </PageHero>
+      <Suspense fallback={<JobGridSkeleton label={dict.home.loading} />}>
         <Directory lang={lang} dict={dict} searchParams={searchParams} />
       </Suspense>
     </div>
   );
+}
+
+async function DirectorySearchForm({ lang, dict, searchParams }: { lang: Locale; dict: Dictionary; searchParams: SearchParams }) {
+  return <WorkerFilters lang={lang} dict={dict} filters={parseWorkerFilters(await searchParams)} />;
 }
 
 async function Directory({ lang, dict, searchParams }: { lang: Locale; dict: Dictionary; searchParams: SearchParams }) {
@@ -44,7 +47,6 @@ async function Directory({ lang, dict, searchParams }: { lang: Locale; dict: Dic
 
   return (
     <>
-      <WorkerFilters lang={lang} dict={dict} filters={filters} />
       <section className="space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 className="font-heading text-xl font-bold">{t(w.found, { count: total })}</h2>

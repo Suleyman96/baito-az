@@ -11,6 +11,7 @@ import { MAX_EXTRA_PROFESSIONS, MAX_SKILLS, NEGOTIABLE } from "@/lib/worker-prof
 import { ImagesField } from "./ImagesField";
 import { LocationSelect } from "./LocationSelect";
 import { OptionPicker } from "./OptionPicker";
+import { SocialLinksFields } from "./SocialLinksFields";
 import { buttonClass, Field, inputClass } from "./ui";
 
 type PickerGroup = { label: string; items: { value: string; label: string }[] };
@@ -284,6 +285,10 @@ export function WorkerProfileForm({
           error={err("images")}
           texts={{ ...dict.upload, imagesTitle: p.portfolio, imagesHint: p.portfolioHint }}
         />
+      </Section>
+
+      <Section title={dict.social.title}>
+        <SocialLinksFields dict={dict} values={{ instagram: one("instagram"), facebook: one("facebook"), tiktok: one("tiktok"), whatsapp: one("whatsapp"), telegram: one("telegram") }} errors={state?.errors} />
       </Section>
 
       <Section title={p.visibility}>

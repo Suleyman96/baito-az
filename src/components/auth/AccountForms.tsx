@@ -2,10 +2,12 @@
 
 import { useActionState, type ReactNode } from "react";
 import { MapPicker } from "@/components/maps/MapPicker";
+import { SocialLinksFields } from "@/components/SocialLinksFields";
 import { buttonClass, Field, inputClass } from "@/components/ui";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { changePassword, updateAccount, updateCompany, type AccountFormState } from "@/lib/auth/account-actions";
+import type { SocialKind } from "@/lib/social-links";
 
 
 
@@ -68,7 +70,7 @@ export function AccountForms({
   dict: Dictionary;
   user: { name: string; email: string; phone: string };
   /** Only employers have a company */
-  company?: { name: string; description: string; phone: string; address: string; latitude: string; longitude: string };
+  company?: { name: string; description: string; phone: string; address: string; latitude: string; longitude: string } & Partial<Record<SocialKind, string>>;
 }) {
   const t = dict.account;
   const a = dict.auth;
@@ -106,6 +108,11 @@ export function AccountForms({
               address: company.address,
               latitude: company.latitude,
               longitude: company.longitude,
+              instagram: company.instagram,
+              facebook: company.facebook,
+              tiktok: company.tiktok,
+              whatsapp: company.whatsapp,
+              telegram: company.telegram,
             };
             return (
               <>
@@ -123,6 +130,8 @@ export function AccountForms({
                 </Field>
                 <MapPicker latitude={v.latitude} longitude={v.longitude} texts={t} />
                 {err("latitude") && <p className="text-sm text-error">{err("latitude")}</p>}
+                <h3 className="pt-2 font-semibold">{dict.social.title}</h3>
+                <SocialLinksFields dict={dict} values={v} errors={state?.errors} />
               </>
             );
           }}

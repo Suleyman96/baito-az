@@ -3,6 +3,7 @@ import { connection } from "next/server";
 import { site } from "@/config/site";
 import { db } from "@/lib/db";
 import { cardInclude, visible } from "@/lib/jobs";
+import { socialSelect } from "@/lib/social-links";
 
 const DISTRICT_ORDER = Object.keys(site.districts);
 
@@ -13,7 +14,7 @@ export async function getCompaniesWithJobs() {
   await connection();
   const now = new Date();
   const companies = await db.company.findMany({
-    where: { owner: { blockedAt: null }, jobs: { some: visible(now) } },
+    where: { owner: { blockedAt: null, deletedAt: null }, jobs: { some: visible(now) } },
     select: {
       id: true,
       name: true,
@@ -37,7 +38,7 @@ export async function getCompany(id: string) {
   await connection();
   const now = new Date();
   return db.company.findFirst({
-    where: { id, owner: { blockedAt: null } },
+    where: { id, owner: { blockedAt: null, deletedAt: null } },
     select: {
       id: true,
       name: true,
@@ -46,7 +47,7 @@ export async function getCompany(id: string) {
       address: true,
       latitude: true,
       longitude: true,
-      owner: { select: { id: true, avatarId: true } },
+      owner: { select: { id: true, avatarId: true, ...socialSelect } },
       jobs: { where: visible(now), orderBy: { createdAt: "desc" }, include: cardInclude },
     },
   });

@@ -78,7 +78,7 @@ export async function getPendingReviews(userId: string) {
 /** A job seeker's public profile: no contacts, no CV. Null for other roles and blocked users. */
 export function getWorkerProfile(id: string) {
   return db.user.findFirst({
-    where: { id, role: "SEEKER", blockedAt: null },
+    where: { id, role: "SEEKER", blockedAt: null, deletedAt: null },
     select: { id: true, name: true, avatarId: true, createdAt: true },
   });
 }

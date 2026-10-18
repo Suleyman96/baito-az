@@ -4,6 +4,7 @@ import { matchingSlugs, professionsInGroup } from "@/config/professions";
 import type { Prisma } from "@/generated/prisma/client";
 import { bakuMidnight } from "@/lib/format";
 import { db } from "@/lib/db";
+import { socialSelect } from "@/lib/social-links";
 import type { WorkerFilters } from "@/lib/worker-filters";
 
 export const DIRECTORY_PAGE_SIZE = 12;
@@ -43,7 +44,7 @@ const publicProfile = {
 } as const satisfies Prisma.WorkerProfileSelect;
 
 /** Who can appear in the directory: visible profiles of job seekers who are not blocked. */
-const listed: Prisma.WorkerProfileWhereInput = { visible: true, user: { role: "SEEKER", blockedAt: null } };
+const listed: Prisma.WorkerProfileWhereInput = { visible: true, user: { role: "SEEKER", blockedAt: null, deletedAt: null } };
 
 /** Ratings and completed jobs for several users at once. */
 async function trustFor(userIds: string[]) {
@@ -111,11 +112,13 @@ export async function searchWorkers(filters: WorkerFilters) {
 /** A work profile for its public page: shown when visible, or to its owner. Null when there is none to show. */
 export async function getPublicWorkerProfile(userId: string, viewerId: string | null) {
   const profile = await db.workerProfile.findFirst({
-    where: { userId, user: { role: "SEEKER", blockedAt: null }, ...(viewerId === userId ? {} : { visible: true }) },
+    where: { userId, user: { role: "SEEKER", blockedAt: null, deletedAt: null }, ...(viewerId === userId ? {} : { visible: true }) },
     select: publicProfile,
   });
   if (!profile) return null;
-  return { ...profile, ...(await trustFor([userId]))(userId) };
+  // Social links are public only on a profile page that is itself shown (never in the directory list)
+  const [trust, social] = await Promise.all([trustFor([userId]), db.user.findUniqueOrThrow({ where: { id: userId }, select: socialSelect })]);
+  return { ...profile, ...trust(userId), social };
 }
 
 /** The owner's own profile for the edit form (no public/private split needed: it is their data). */

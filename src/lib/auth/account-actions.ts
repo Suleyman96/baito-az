@@ -5,10 +5,13 @@ import { refresh } from "next/cache";
 import { redirect } from "next/navigation";
 import { Prisma } from "@/generated/prisma/client";
 import { defaultLocale, hasLocale } from "@/i18n/config";
+import { companyNameKey } from "@/lib/company-name";
 import { db } from "@/lib/db";
 import type { ImageErrorKey } from "@/lib/images";
+import { parseSocialLinks, SOCIAL_KINDS } from "@/lib/social-links";
 import { readUploadedImages } from "@/lib/storage";
-import { deleteOtherSessions, getCurrentUser } from "./session";
+import { softDeleteUser } from "./delete-account";
+import { deleteOtherSessions, deleteSession, getCurrentUser } from "./session";
 import { accountSchema, companySchema, fieldErrors, passwordChangeSchema, type AuthErrorKey } from "./validation";
 
 export type AccountFormState = {
@@ -51,15 +54,25 @@ export async function updateAccount(_prev: AccountFormState, formData: FormData)
 
 export async function updateCompany(_prev: AccountFormState, formData: FormData): Promise<AccountFormState> {
   const user = await requireUser(formData);
-  const values = text(formData, ["companyName", "description", "phone", "address", "latitude", "longitude"]);
+  const values = text(formData, ["companyName", "description", "phone", "address", "latitude", "longitude", ...SOCIAL_KINDS]);
   const parsed = companySchema.safeParse(values);
-  if (!parsed.success) return { errors: fieldErrors(parsed.error), values };
+  const social = parseSocialLinks(values);
+  if (!parsed.success || !social.success) {
+    return { errors: { ...(parsed.success ? {} : fieldErrors(parsed.error)), ...(social.success ? {} : social.errors) }, values };
+  }
+
+  // Another company already registered under this name (case and spaces ignored)
+  const nameKey = parsed.data.companyName ? companyNameKey(parsed.data.companyName) : null;
+  if (nameKey && (await db.company.findFirst({ where: { nameKey, ownerId: { not: user.id } }, select: { id: true } }))) {
+    return { errors: { companyName: "companyNameTaken" }, values };
+  }
 
   await db.company.updateMany({
     where: { ownerId: user.id },
     data: {
       // Private persons post under their own name
       name: parsed.data.companyName ?? user.name,
+      nameKey,
       description: parsed.data.description ?? null,
       phone: parsed.data.phone ?? null,
       address: parsed.data.address ?? null,
@@ -67,6 +80,8 @@ export async function updateCompany(_prev: AccountFormState, formData: FormData)
       longitude: parsed.data.longitude ?? null,
     },
   });
+  // Social links belong to the account, so the company page shows its owner's links
+  await db.user.update({ where: { id: user.id }, data: social.data });
   refresh();
   return { errors: {}, values, saved: true };
 }
@@ -113,4 +128,26 @@ export async function removeAvatar(formData: FormData) {
     await db.image.deleteMany({ where: { id: avatarId } });
   }
   refresh();
+}
+
+/**
+ * Deletes the logged-in user's own profile after they confirm and give their current password,
+ * checked here against the stored hash. Then logs them out (see softDeleteUser for what is kept).
+ */
+export async function deleteAccount(_prev: AccountFormState, formData: FormData): Promise<AccountFormState> {
+  const lang = String(formData.get("lang") ?? "");
+  const user = await requireUser(formData);
+  // Admin accounts run the site; they are not removed from a profile page
+  if (user.role === "ADMIN") return { errors: { form: "deleteNotAllowed" }, values: {} };
+  if (formData.get("confirm") !== "on") return { errors: { confirm: "confirmRequired" }, values: {} };
+
+  const password = String(formData.get("password") ?? "");
+  const { passwordHash } = await db.user.findUniqueOrThrow({ where: { id: user.id }, select: { passwordHash: true } });
+  if (!password || !(await bcrypt.compare(password, passwordHash))) {
+    return { errors: { password: "currentPasswordWrong" }, values: {} };
+  }
+
+  await softDeleteUser(user.id);
+  await deleteSession();
+  redirect(`/${hasLocale(lang) ? lang : defaultLocale}/goodbye`);
 }
