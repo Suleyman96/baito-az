@@ -24,7 +24,7 @@ export function buildApplicationEmail(input: { to: string; applicantName: string
       `Müraciətə baxmaq üçün (hesabınıza daxil olmaq lazımdır):`,
       input.link,
       "",
-      "ZaqaWork",
+      "Baito.az",
     ].join("\n"),
   };
 }

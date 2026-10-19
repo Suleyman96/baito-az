@@ -1,4 +1,4 @@
-# ZaqaWork
+# Baito.az
 
 A local job board for a rural district in Azerbaijan — connecting people looking for part-time and full-time work with local employers (shops, restaurants, farms, schools).
 
@@ -6,7 +6,7 @@ A local job board for a rural district in Azerbaijan — connecting people looki
 
 ## Why
 
-In small districts, job openings are usually shared in Facebook groups and WhatsApp chats. They get lost quickly, can't be searched, and don't reach people outside those groups. ZaqaWork collects them in one place that is searchable, filterable and works well on a phone.
+In small districts, job openings are usually shared in Facebook groups and WhatsApp chats. They get lost quickly, can't be searched, and don't reach people outside those groups. Baito.az collects them in one place that is searchable, filterable and works well on a phone.
 
 ## Features
 
