@@ -10,7 +10,7 @@ export function SiteFooter({ lang, dict }: { lang: Locale; dict: Dictionary }) {
     <footer className="bg-footer text-on-footer">
       <div className="mx-auto flex max-w-6xl flex-wrap justify-between gap-8 px-4 py-10 sm:px-6">
         <div className="max-w-sm space-y-3 text-white">
-          <Logo />
+          <Logo onDark />
           <p className="text-sm text-on-footer">{dict.footer.text}</p>
         </div>
         <nav aria-label={dict.footer.districts} className="space-y-3">
