@@ -708,8 +708,20 @@
     "negotiable": "Razılaşma yolu ilə"
   },
   "footer": {
-    "text": "Rayonumuzun iş axtaranları və işəgötürənləri üçün.",
-    "districts": "Rayonlar"
+    "text": "İş axtaranlara fürsət, işəgötürənlərə doğru namizəd.",
+    "tagline": "Baito.az Azərbaycanın şəhər və rayonlarında iş axtaranlarla işəgötürənləri bir araya gətirir.",
+    "seekersTitle": "İş axtaranlar",
+    "jobs": "Vakansiyalar",
+    "workers": "İş axtaranlar",
+    "createProfile": "Profil yarat",
+    "employersTitle": "İşəgötürənlər",
+    "postJob": "Vakansiya yerləşdir",
+    "findCandidates": "Namizəd axtar",
+    "about": "Haqqımızda",
+    "contact": "Əlaqə",
+    "districts": "Rayonlar üzrə",
+    "allDistricts": "Bütün şəhər və rayonlar",
+    "copyright": "© {year} Baito.az. Bütün hüquqlar qorunur."
   },
   "social": {
     "title": "Sosial şəbəkələr",

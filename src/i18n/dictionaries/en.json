@@ -708,8 +708,20 @@
     "negotiable": "Negotiable"
   },
   "footer": {
-    "text": "For job seekers and employers in our district.",
-    "districts": "Districts"
+    "text": "Opportunities for job seekers, the right candidates for employers.",
+    "tagline": "Baito.az brings job seekers and employers together in cities and districts across Azerbaijan.",
+    "seekersTitle": "Job seekers",
+    "jobs": "Jobs",
+    "workers": "Job seekers",
+    "createProfile": "Create a profile",
+    "employersTitle": "Employers",
+    "postJob": "Post a job",
+    "findCandidates": "Find candidates",
+    "about": "About us",
+    "contact": "Contact",
+    "districts": "By district",
+    "allDistricts": "All cities and districts",
+    "copyright": "© {year} Baito.az. All rights reserved."
   },
   "social": {
     "title": "Social media",

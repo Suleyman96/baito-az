@@ -708,8 +708,20 @@
     "negotiable": "応相談"
   },
   "footer": {
-    "text": "地域の求職者と雇用主のために。",
-    "districts": "地区"
+    "text": "求職者にはチャンスを、雇用主にはぴったりの人材を。",
+    "tagline": "Baito.azは、アゼルバイジャン各地の市や地区で求職者と雇用主をつなぎます。",
+    "seekersTitle": "求職者の方",
+    "jobs": "求人",
+    "workers": "求職者",
+    "createProfile": "プロフィールを作成",
+    "employersTitle": "雇用主の方",
+    "postJob": "求人を掲載",
+    "findCandidates": "人材を探す",
+    "about": "私たちについて",
+    "contact": "お問い合わせ",
+    "districts": "地区から探す",
+    "allDistricts": "すべての市と地区",
+    "copyright": "© {year} Baito.az. All rights reserved."
   },
   "social": {
     "title": "SNS",
