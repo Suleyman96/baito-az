@@ -55,7 +55,7 @@ export function getEmployerApplication(employerId: string, applicationId: string
       updatedAt: true,
       resume: { select: { id: true, fileName: true, mimeType: true, size: true } },
       user: { select: { id: true, name: true, avatarId: true, email: true, phone: true, createdAt: true } },
-      job: { select: { id: true, title: true, employmentType: true } },
+      job: { select: { id: true, title: true, employmentType: true, status: true } },
     },
   });
 }

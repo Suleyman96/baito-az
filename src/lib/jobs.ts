@@ -70,7 +70,9 @@ export async function searchJobs(filters: JobFilters, { excludeOneDay = false } 
   return { jobs, total, pageCount: Math.max(1, Math.ceil(total / PAGE_SIZE)) };
 }
 
-export function getActiveJob(id: string) {
+export async function getActiveJob(id: string) {
+  // Whether a one-day job is still listed depends on the current time, so this runs per request
+  await connection();
   return db.job.findFirst({
     where: { id, ...visible(new Date()) },
     include: {

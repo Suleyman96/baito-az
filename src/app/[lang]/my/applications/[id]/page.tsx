@@ -130,23 +130,27 @@ async function Application({ lang, dict, params }: { lang: Locale; dict: Diction
             </a>
           )}
         </div>
-        <form action={updateApplicationStatus} className="space-y-2 border-t border-line pt-4">
-          <input type="hidden" name="lang" value={lang} />
-          <input type="hidden" name="id" value={app.id} />
-          <label className="block space-y-1.5">
-            <span className="text-sm font-semibold">{a.changeStatus}</span>
-            <select name="status" defaultValue={app.status} className={inputClass}>
-              {APPLICATION_STATUSES.map((s) => (
-                <option key={s} value={s}>
-                  {a.status[s]}
-                </option>
-              ))}
-            </select>
-          </label>
-          <button type="submit" className={`${buttonClass.primary} w-full`}>
-            {a.save}
-          </button>
-        </form>
+        {app.status === "ACCEPTED" && app.job.status === "COMPLETED" ? (
+          <p className="border-t border-line pt-4 text-sm text-muted">{a.statusLocked}</p>
+        ) : (
+          <form action={updateApplicationStatus} className="space-y-2 border-t border-line pt-4">
+            <input type="hidden" name="lang" value={lang} />
+            <input type="hidden" name="id" value={app.id} />
+            <label className="block space-y-1.5">
+              <span className="text-sm font-semibold">{a.changeStatus}</span>
+              <select name="status" defaultValue={app.status} className={inputClass}>
+                {APPLICATION_STATUSES.map((s) => (
+                  <option key={s} value={s}>
+                    {a.status[s]}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <button type="submit" className={`${buttonClass.primary} w-full`}>
+              {a.save}
+            </button>
+          </form>
+        )}
       </aside>
     </div>
   );

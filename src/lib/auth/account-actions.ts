@@ -67,19 +67,25 @@ export async function updateCompany(_prev: AccountFormState, formData: FormData)
     return { errors: { companyName: "companyNameTaken" }, values };
   }
 
-  await db.company.updateMany({
-    where: { ownerId: user.id },
-    data: {
-      // Private persons post under their own name
-      name: parsed.data.companyName ?? user.name,
-      nameKey,
-      description: parsed.data.description ?? null,
-      phone: parsed.data.phone ?? null,
-      address: parsed.data.address ?? null,
-      latitude: parsed.data.latitude ?? null,
-      longitude: parsed.data.longitude ?? null,
-    },
-  });
+  try {
+    await db.company.updateMany({
+      where: { ownerId: user.id },
+      data: {
+        // Private persons post under their own name
+        name: parsed.data.companyName ?? user.name,
+        nameKey,
+        description: parsed.data.description ?? null,
+        phone: parsed.data.phone ?? null,
+        address: parsed.data.address ?? null,
+        latitude: parsed.data.latitude ?? null,
+        longitude: parsed.data.longitude ?? null,
+      },
+    });
+  } catch (e) {
+    // Unique constraint: another company took this name between the check above and this save
+    if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002") return { errors: { companyName: "companyNameTaken" }, values };
+    throw e;
+  }
   // Social links belong to the account, so the company page shows its owner's links
   await db.user.update({ where: { id: user.id }, data: social.data });
   refresh();

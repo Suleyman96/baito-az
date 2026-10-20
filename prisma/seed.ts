@@ -33,6 +33,11 @@ const jobs: {
 ];
 
 async function main() {
+  // The seed deletes every user, job and application and adds demo accounts with a known password,
+  // so it refuses to run in production unless explicitly allowed
+  if (process.env.NODE_ENV === "production" && process.env.ALLOW_DEMO_SEED !== "1") {
+    throw new Error("Refusing to seed: NODE_ENV is production. Set ALLOW_DEMO_SEED=1 only for a throwaway database.");
+  }
   // Start from a clean slate so the seed can be re-run safely
   await db.application.deleteMany();
   // Notifications and CVs go with their users and applications; listed here to keep the order obvious

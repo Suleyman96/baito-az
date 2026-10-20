@@ -30,6 +30,8 @@ async function EditJob({ lang, dict, params }: { lang: Locale; dict: Dictionary;
   // Someone else's job looks the same as a missing one
   const job = await getOwnedJob(user.id, id);
   if (!job) notFound();
+  // A completed job is final (updateJob refuses it too)
+  if (job.status === "COMPLETED") redirect(`/${lang}/my/jobs`);
 
   return (
     <JobFormLoader

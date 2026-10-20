@@ -84,13 +84,16 @@ export async function createJob(_prev: JobFormState, formData: FormData): Promis
   redirect(`/${lang}/my/jobs?created=1`);
 }
 
-/** Saves an edited job. Any edit sends it back to admin review, so an approved job cannot be changed into something else. */
+/**
+ * Saves an edited job. Any edit sends it back to admin review, so an approved job cannot be changed into something else.
+ * A completed job is final: editing it would take it out of COMPLETED and close its reviews.
+ */
 export async function updateJob(jobId: string, _prev: JobFormState, formData: FormData): Promise<JobFormState> {
   const lang = langOf(formData);
   const company = await requireEmployer(lang, `/${lang}/jobs/${jobId}/edit`);
   // companyId in the filter: employers can only change their own jobs
   const job = await db.job.findFirst({
-    where: { id: jobId, companyId: company.id },
+    where: { id: jobId, companyId: company.id, status: { not: "COMPLETED" } },
     select: { images: { select: { id: true, position: true }, orderBy: { position: "asc" } } },
   });
   if (!job) redirect(`/${lang}/my/jobs`);
@@ -106,7 +109,8 @@ export async function updateJob(jobId: string, _prev: JobFormState, formData: Fo
 
   const next = (job.images.at(-1)?.position ?? -1) + 1;
   await db.job.update({
-    where: { id: jobId },
+    // Checked again here: the job may have been completed while the form was being filled in
+    where: { id: jobId, status: { not: "COMPLETED" } },
     data: {
       ...form.data,
       status: "PENDING",
