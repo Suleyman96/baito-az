@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { AGE_RANGES, isProfession, isSkill } from "@/config/professions";
-import { site } from "@/config/site";
+import { isDistrict } from "@/config/site";
 import { normalizePhone } from "@/lib/auth/validation";
 
 // Rules for the job seeker's work profile; no database here, so it is unit-tested
@@ -20,7 +20,6 @@ export type WorkerProfileErrorKey =
 
 export const MAX_EXTRA_PROFESSIONS = 5;
 export const MAX_SKILLS = 15;
-const DISTRICTS = Object.keys(site.districts);
 
 /** Form input: single fields as strings, multi-select fields as string arrays. */
 export type ProfileInput = Record<string, string | string[] | undefined>;
@@ -69,9 +68,9 @@ const schema = z.object({
   experienceYears: optionalInt(0, 60),
   workHistory: text(2000),
   certificates: text(1000),
-  district: z.string().refine((v) => DISTRICTS.includes(v), "districtRequired"),
+  district: z.string().refine(isDistrict, "districtRequired"),
   locationId: optionalInt(1, 1_000_000),
-  preferredDistricts: list((v) => DISTRICTS.includes(v)),
+  preferredDistricts: list(isDistrict),
   maxCommuteKm: optionalInt(0, 300),
   willingToRelocate: checkbox,
   workTypes: z.array(z.enum(["FULL_TIME", "PART_TIME", "ONE_DAY"])).min(1, "workTypeRequired"),

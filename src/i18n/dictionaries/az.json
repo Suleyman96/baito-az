@@ -333,7 +333,7 @@
   },
   "jobsPage": {
     "title": "Bütün vakansiyalar",
-    "subtitle": "Dörd rayon üzrə bütün aktiv elanlar. Axtarışı filtrlərlə daraldın."
+    "subtitle": "Azərbaycanın bütün şəhər və rayonları üzrə aktiv elanlar. Axtarışı filtrlərlə daraldın."
   },
   "companies": {
     "title": "Şirkətlər",
@@ -364,7 +364,7 @@
     "whoTitle": "Biz kimik?",
     "who": [
       "Baito.az Azərbaycanın iş bazarı üçün yaradılmış onlayn platformadır. Məqsədimiz vakansiyaları və iş imkanlarını hər kəs üçün daha əlçatan etməkdir.",
-      "Hazırda platformada {districts} rayonlarının elanları yerləşdirilir. Mağaza, restoran, tikinti, kənd təsərrüfatı və digər sahələrdəki işlər bir yerə toplanır ki, onları sosial şəbəkə qruplarında axtarmağa ehtiyac qalmasın."
+      "Platformada Azərbaycanın bütün şəhər və rayonları üzrə — Bakıdan Naxçıvana qədər, kəndlər də daxil — vakansiya yerləşdirmək və axtarmaq olar. Mağaza, restoran, tikinti, kənd təsərrüfatı və digər sahələrdəki işlər bir yerə toplanır ki, onları sosial şəbəkə qruplarında axtarmağa ehtiyac qalmasın."
     ],
     "missionTitle": "Missiyamız",
     "mission": "İş axtaranla işəgötürən arasındakı yolu qısaltmaq. Elan vermək, uyğun işi və ya işçini tapmaq və əlaqə qurmaq hər kəs üçün sadə və aydın olmalıdır.",
@@ -623,6 +623,10 @@
     "district": "Rayon",
     "village": "Kənd və ya qəsəbə (istəyə bağlı)",
     "preferredDistricts": "İşləmək istədiyim rayonlar (istəyə bağlı)",
+    "districtGroups": {
+      "city": "Şəhərlər",
+      "rayon": "Rayonlar"
+    },
     "maxCommuteKm": "Maksimum yol məsafəsi, km (istəyə bağlı)",
     "willingToRelocate": "Başqa şəhərdə işləməyə hazıram",
     "workTypes": "İş növü",

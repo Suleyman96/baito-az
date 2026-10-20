@@ -333,7 +333,7 @@
   },
   "jobsPage": {
     "title": "All jobs",
-    "subtitle": "Every active job across the four districts. Narrow the search with filters."
+    "subtitle": "Active jobs across every city and district of Azerbaijan. Narrow the search with filters."
   },
   "companies": {
     "title": "Companies",
@@ -364,7 +364,7 @@
     "whoTitle": "Who we are",
     "who": [
       "Baito.az is an online platform built for Azerbaijan's job market. Our goal is to make vacancies and job opportunities easier to reach for everyone.",
-      "Today the platform lists jobs in the {districts} districts. Work in shops, restaurants, construction, farming and other fields is gathered in one place, so nobody has to search for it in social media groups."
+      "Jobs can be posted and found for every city and district of Azerbaijan, from Baku to Nakhchivan, down to the village. Work in shops, restaurants, construction, farming and other fields is gathered in one place, so nobody has to search for it in social media groups."
     ],
     "missionTitle": "Our mission",
     "mission": "To shorten the path between job seekers and employers. Posting a job, finding the right job or worker and getting in touch should be simple and clear for everyone.",
@@ -623,6 +623,10 @@
     "district": "District",
     "village": "Village or settlement (optional)",
     "preferredDistricts": "Districts I want to work in (optional)",
+    "districtGroups": {
+      "city": "Cities",
+      "rayon": "Districts"
+    },
     "maxCommuteKm": "Maximum commute, km (optional)",
     "willingToRelocate": "Willing to work in another city",
     "workTypes": "Work type",

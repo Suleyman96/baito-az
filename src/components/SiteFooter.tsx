@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { site, type DistrictSlug } from "@/config/site";
+import { site } from "@/config/site";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { districtName } from "@/lib/format";
@@ -16,7 +16,7 @@ export function SiteFooter({ lang, dict }: { lang: Locale; dict: Dictionary }) {
         <nav aria-label={dict.footer.districts} className="space-y-3">
           <p className="text-sm font-semibold text-white">{dict.footer.districts}</p>
           <ul className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
-            {(Object.keys(site.districts) as DistrictSlug[]).map((slug) => (
+            {site.homeDistricts.map((slug) => (
               <li key={slug}>
                 <Link href={`/${lang}/jobs?district=${slug}`} className="text-on-footer hover:text-white hover:underline">
                   {districtName(dict, slug)}

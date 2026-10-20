@@ -1,5 +1,6 @@
 import type { Locale } from "@/i18n/config";
 import { site } from "@/config/site";
+import { regions } from "@/config/regions";
 import type { Dictionary } from "@/i18n/dictionaries";
 
 // Fills "{name}" placeholders in a translated string
@@ -38,7 +39,7 @@ export function formatRelativeDate(date: Date, locale: Locale, now = new Date())
 }
 
 export function districtName(dict: Pick<Dictionary, "districts">, slug: string) {
-  return dict.districts[slug as keyof Dictionary["districts"]] ?? slug;
+  return dict.districts[slug as keyof Dictionary["districts"]] ?? regions.find((r) => r.slug === slug)?.name ?? slug;
 }
 
 // "Car, Zaqatala"; the district's own town is shown on its own

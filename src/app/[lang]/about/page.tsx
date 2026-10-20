@@ -24,9 +24,8 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { PageHero } from "@/components/home/PageHero";
 import { buttonClass } from "@/components/ui";
-import { site, type DistrictSlug } from "@/config/site";
+import { site } from "@/config/site";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
-import { districtName, t } from "@/lib/format";
 
 export async function generateMetadata(): Promise<Metadata> {
   return { title: getDictionary(await getLocale()).about.title };
@@ -47,10 +46,6 @@ export default async function AboutPage() {
   const lang = await getLocale();
   const dict = getDictionary(lang);
   const a = dict.about;
-  // "Zaqatala, Balakən, Qax və Şəki", in each language's own list style
-  const districts = new Intl.ListFormat(lang, { type: "conjunction" }).format(
-    (Object.keys(site.districts) as DistrictSlug[]).map((slug) => districtName(dict, slug)),
-  );
   const { email, phone, whatsapp } = site.contact as { email: string; phone: string; whatsapp: string };
   const contacts = [
     email && { icon: <Mail className={icon} aria-hidden />, label: a.email, value: email, href: `mailto:${email}` },
@@ -71,7 +66,7 @@ export default async function AboutPage() {
           <SectionTitle>{a.whoTitle}</SectionTitle>
           {a.who.map((p, i) => (
             <p key={i} className="max-w-2xl text-lg leading-relaxed text-muted">
-              {t(p, { districts })}
+              {p}
             </p>
           ))}
         </section>

@@ -1,6 +1,6 @@
 import { Search, SlidersHorizontal } from "lucide-react";
 import { professionGroups } from "@/config/professions";
-import { site, type DistrictSlug } from "@/config/site";
+import { DISTRICT_SLUGS } from "@/config/site";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { districtName, t } from "@/lib/format";
@@ -47,7 +47,7 @@ export function WorkerFilters({ lang, dict, filters }: { lang: Locale; dict: Dic
           </select>
           <select name="district" defaultValue={filters.district ?? ""} aria-label={dict.home.allDistricts} className={field}>
             <option value="">{dict.home.allDistricts}</option>
-            {(Object.keys(site.districts) as DistrictSlug[]).map((d) => (
+            {DISTRICT_SLUGS.map((d) => (
               <option key={d} value={d}>
                 {districtName(dict, d)}
               </option>

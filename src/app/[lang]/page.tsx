@@ -8,7 +8,7 @@ import { JobCard, OneDayCard } from "@/components/JobCard";
 import { JobFilters } from "@/components/JobFilters";
 import { JobGridSkeleton, SearchSkeleton } from "@/components/Skeletons";
 import { buttonClass } from "@/components/ui";
-import { site, type DistrictSlug } from "@/config/site";
+import { site } from "@/config/site";
 import { hasLocale, type Locale } from "@/i18n/config";
 import { getDictionary, type Dictionary } from "@/i18n/dictionaries";
 import { filtersHref, hasActiveFilters, parseJobFilters } from "@/lib/filters";
@@ -22,7 +22,7 @@ export default async function HomePage({ params, searchParams }: PageProps<"/[la
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const dict = getDictionary(lang);
-  const districts = (Object.keys(site.districts) as DistrictSlug[]).map((slug) => districtName(dict, slug)).join(" · ");
+  const districts = site.homeDistricts.map((slug) => districtName(dict, slug)).join(" · ");
 
   return (
     <div className="space-y-10">
