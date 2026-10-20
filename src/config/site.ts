@@ -1,6 +1,6 @@
 // District-specific settings. Change these to adapt the site to another district.
 export const site = {
-  name: "ZaqaWork",
+  name: "Baito.az",
   currency: "AZN",
   categories: [
     "sales",

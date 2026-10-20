@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "ZaqaWork — rayonda iş elanları",
+    "title": "Baito.az — rayonda iş elanları",
     "description": "Rayonumuzda part-time və full-time iş elanları. İş axtaranlar və işəgötürənlər üçün."
   },
   "nav": {
@@ -196,7 +196,7 @@
       "submit": "Profili birdəfəlik sil",
       "deleting": "Silinir…",
       "goodbyeTitle": "Profiliniz silindi",
-      "goodbyeText": "Hesabınızdan çıxdınız. ZaqaWork-dan istifadə etdiyiniz üçün təşəkkür edirik.",
+      "goodbyeText": "Hesabınızdan çıxdınız. Baito.az-dan istifadə etdiyiniz üçün təşəkkür edirik.",
       "goodbyeHome": "Ana səhifəyə qayıt"
     }
   },
@@ -359,10 +359,10 @@
     "none": "Hələ vakansiya yoxdur"
   },
   "about": {
-    "title": "ZaqaWork haqqında",
-    "lead": "ZaqaWork Zaqatala, Balakən, Qax və Şəki rayonları üçün iş elanları saytıdır. Yerli mağaza, restoran, bağ, məktəb və digər işəgötürənlərin daimi, part-time və günlük işləri burada bir yerdədir.",
-    "whyTitle": "Niyə ZaqaWork?",
-    "why": "Rayonda iş elanları adətən Facebook qruplarında və WhatsApp çatlarında paylaşılır. Onlar tez itir və axtarmaq olmur. ZaqaWork elanları bir yerə toplayır: axtarmaq, filtrləmək və telefondan rahat baxmaq olur.",
+    "title": "Baito.az haqqında",
+    "lead": "Baito.az Zaqatala, Balakən, Qax və Şəki rayonları üçün iş elanları saytıdır. Yerli mağaza, restoran, bağ, məktəb və digər işəgötürənlərin daimi, part-time və günlük işləri burada bir yerdədir.",
+    "whyTitle": "Niyə Baito.az?",
+    "why": "Rayonda iş elanları adətən Facebook qruplarında və WhatsApp çatlarında paylaşılır. Onlar tez itir və axtarmaq olmur. Baito.az elanları bir yerə toplayır: axtarmaq, filtrləmək və telefondan rahat baxmaq olur.",
     "seekersTitle": "İş axtaranlar üçün",
     "seekers": [
       "Rayon, kənd, kateqoriya və maaşa görə vakansiya axtarın.",

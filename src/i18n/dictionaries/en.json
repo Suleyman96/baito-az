@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "ZaqaWork — local jobs in the district",
+    "title": "Baito.az — local jobs in the district",
     "description": "Part-time and full-time jobs in our district. For job seekers and employers."
   },
   "nav": {
@@ -196,7 +196,7 @@
       "submit": "Delete permanently",
       "deleting": "Deleting…",
       "goodbyeTitle": "Your profile was deleted",
-      "goodbyeText": "You have been logged out. Thank you for using ZaqaWork.",
+      "goodbyeText": "You have been logged out. Thank you for using Baito.az.",
       "goodbyeHome": "Back to home"
     }
   },
@@ -359,10 +359,10 @@
     "none": "No jobs yet"
   },
   "about": {
-    "title": "About ZaqaWork",
-    "lead": "ZaqaWork is a job board for the Zaqatala, Balakan, Qakh and Shaki districts. Permanent, part-time and one-day work from local shops, restaurants, farms, schools and other employers, all in one place.",
-    "whyTitle": "Why ZaqaWork?",
-    "why": "In the district, jobs are usually shared in Facebook groups and WhatsApp chats. They get lost quickly and cannot be searched. ZaqaWork brings them together: searchable, filterable and easy to read on a phone.",
+    "title": "About Baito.az",
+    "lead": "Baito.az is a job board for the Zaqatala, Balakan, Qakh and Shaki districts. Permanent, part-time and one-day work from local shops, restaurants, farms, schools and other employers, all in one place.",
+    "whyTitle": "Why Baito.az?",
+    "why": "In the district, jobs are usually shared in Facebook groups and WhatsApp chats. They get lost quickly and cannot be searched. Baito.az brings them together: searchable, filterable and easy to read on a phone.",
     "seekersTitle": "For job seekers",
     "seekers": [
       "Search jobs by district, village, category and pay.",

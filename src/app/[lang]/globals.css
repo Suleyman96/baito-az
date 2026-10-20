@@ -43,6 +43,11 @@
   --hero-figure-accent: #c7d6ea;
   --footer: #102c4d;
   --on-footer: #d6e0ec;
+  /* Logo (components/Logo.tsx): navy mark with a white "b" and a blue dot; ".az" in the accent blue */
+  --logo-bg: var(--brand);
+  --logo-fg: var(--on-brand);
+  --logo-dot: #6ea3f7;
+  --logo-domain: var(--accent);
 }
 
 /* Dark colors apply when the user picked dark (data-theme="dark"),
@@ -82,6 +87,10 @@
     --hero-figure-accent: #22375a;
     --footer: #08101e;
     --on-footer: #c3cfdf;
+    --logo-bg: var(--brand);
+    --logo-fg: var(--on-brand);
+    --logo-dot: #2563eb;
+    --logo-domain: var(--accent);
   }
 }
 
@@ -119,6 +128,10 @@
   --hero-figure-accent: #22375a;
   --footer: #08101e;
   --on-footer: #c3cfdf;
+  --logo-bg: var(--brand);
+  --logo-fg: var(--on-brand);
+  --logo-dot: #2563eb;
+  --logo-domain: var(--accent);
 }
 
 /* Tailwind's dark: variant follows the same rule as the colors above */
@@ -424,4 +437,12 @@ h3 {
     transform: translateX(-6px);
     opacity: 0;
   }
+}
+
+/* The logo on the navy footer (both themes): a white mark so it does not melt into the background */
+.logo-on-dark {
+  --logo-bg: #ffffff;
+  --logo-fg: #173b65;
+  --logo-dot: #2563eb;
+  --logo-domain: #8ab4f8;
 }
