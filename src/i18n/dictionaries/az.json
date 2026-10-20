@@ -26,8 +26,8 @@
     "offersSent": "Göndərilmiş təkliflər"
   },
   "home": {
-    "title": "Rayonunda iş tap",
-    "subtitle": "Yerli mağaza, restoran, bağ və məktəblərdən daimi, part-time və günlük işlər.",
+    "title": "Yaxınında iş və ya işçi tap",
+    "subtitle": "İş axtarırsan, yoxsa işçi? Daimi, part-time və gündəlik iş imkanlarını kəşf et, yaxud ehtiyacına uyğun işçini asanlıqla tap.",
     "searchPlaceholder": "Vəzifə və ya açar söz",
     "search": "Axtar",
     "allCategories": "Bütün kateqoriyalar",
@@ -333,7 +333,7 @@
   },
   "jobsPage": {
     "title": "Bütün vakansiyalar",
-    "subtitle": "Dörd rayon üzrə bütün aktiv elanlar. Axtarışı filtrlərlə daraldın."
+    "subtitle": "Azərbaycanın bütün şəhər və rayonları üzrə aktiv elanlar. Axtarışı filtrlərlə daraldın."
   },
   "companies": {
     "title": "Şirkətlər",
@@ -360,21 +360,88 @@
   },
   "about": {
     "title": "Baito.az haqqında",
-    "lead": "Baito.az Zaqatala, Balakən, Qax və Şəki rayonları üçün iş elanları saytıdır. Yerli mağaza, restoran, bağ, məktəb və digər işəgötürənlərin daimi, part-time və günlük işləri burada bir yerdədir.",
-    "whyTitle": "Niyə Baito.az?",
-    "why": "Rayonda iş elanları adətən Facebook qruplarında və WhatsApp çatlarında paylaşılır. Onlar tez itir və axtarmaq olmur. Baito.az elanları bir yerə toplayır: axtarmaq, filtrləmək və telefondan rahat baxmaq olur.",
-    "seekersTitle": "İş axtaranlar üçün",
-    "seekers": [
-      "Rayon, kənd, kateqoriya və maaşa görə vakansiya axtarın.",
-      "Elanda işəgötürənin telefonunu görün və birbaşa zəng edin.",
-      "Bir neçə saatlıq iş üçün «Günlük işlər» bölməsinə baxın."
+    "lead": "Baito.az iş axtaranlarla işəgötürənləri bir araya gətirən vakansiya platformasıdır. Daimi, part-time və gündəlik işləri, eləcə də işə hazır insanları burada bir yerdə tapa bilərsiniz.",
+    "whoTitle": "Biz kimik?",
+    "who": [
+      "Baito.az Azərbaycanın iş bazarı üçün yaradılmış onlayn platformadır. Məqsədimiz vakansiyaları və iş imkanlarını hər kəs üçün daha əlçatan etməkdir.",
+      "Platformada Azərbaycanın bütün şəhər və rayonları üzrə — Bakıdan Naxçıvana qədər, kəndlər də daxil — vakansiya yerləşdirmək və axtarmaq olar. Mağaza, restoran, tikinti, kənd təsərrüfatı və digər sahələrdəki işlər bir yerə toplanır ki, onları sosial şəbəkə qruplarında axtarmağa ehtiyac qalmasın."
     ],
-    "employersTitle": "İşəgötürənlər üçün",
-    "employers": [
-      "Qeydiyyatdan keçin. Şirkət adı istəyə bağlıdır, fərdi şəxslər də elan verə bilər.",
-      "Daimi, part-time və ya günlük iş elanı yerləşdirin.",
-      "Elan admin yoxlamasından sonra saytda görünür. İşçi tapanda elanı bağlayın."
+    "missionTitle": "Missiyamız",
+    "mission": "İş axtaranla işəgötürən arasındakı yolu qısaltmaq. Elan vermək, uyğun işi və ya işçini tapmaq və əlaqə qurmaq hər kəs üçün sadə və aydın olmalıdır.",
+    "offerTitle": "Nə təklif edirik?",
+    "offerLead": "Platformada hazırda istifadə edə biləcəyiniz imkanlar:",
+    "offers": [
+      {
+        "title": "Vakansiya yerləşdirmə",
+        "text": "İşəgötürənlər daimi, part-time və gündəlik iş elanı yerləşdirir. Hər elan saytda görünməzdən əvvəl yoxlanılır."
+      },
+      {
+        "title": "Vakansiya axtarışı",
+        "text": "Açar söz, rayon, kənd, kateqoriya, iş növü və maaşa görə axtarış və filtrlər."
+      },
+      {
+        "title": "Onlayn müraciət",
+        "text": "Elana sayt üzərindən müraciət edin. Daimi işlər üçün CV əlavə olunur, müraciətlərin vəziyyətini profilinizdən izləyə bilərsiniz."
+      },
+      {
+        "title": "İş axtaranlar bölməsi",
+        "text": "İş axtaranlar peşə, bacarıq və təcrübələrini göstərən profil yaradır. İşəgötürənlər uyğun namizədi peşə, rayon və iş növünə görə tapır."
+      },
+      {
+        "title": "İş təklifləri",
+        "text": "İşəgötürən bəyəndiyi namizədə sayt üzərindən iş təklifi göndərir. Namizəd təklifi qəbul edir və ya imtina edir."
+      },
+      {
+        "title": "Rəylər və reytinq",
+        "text": "İş tamamlandıqdan sonra işəgötürən və işçi bir-birinə rəy yazır. Bu rəylər növbəti seçimdə etibar yaradır."
+      }
     ],
+    "audienceTitle": "Kimlər üçün nəzərdə tutulub?",
+    "audiences": [
+      {
+        "title": "İş axtaranlar",
+        "text": "Daimi iş, part-time iş və ya bir neçə saatlıq əlavə gəlir axtaranlar üçün."
+      },
+      {
+        "title": "Şirkətlər",
+        "text": "İşçi axtaran mağaza, restoran, tikinti və digər müəssisələr üçün. Şirkətin bütün elanları onun səhifəsində bir yerdə görünür."
+      },
+      {
+        "title": "Fərdi işəgötürənlər",
+        "text": "Ev, bağ və ya bir günlük iş üçün köməkçi axtaran şəxslər üçün. Şirkət adı tələb olunmur, elanı öz adınızla verə bilərsiniz."
+      }
+    ],
+    "valuesTitle": "Dəyərlərimiz",
+    "values": [
+      {
+        "title": "Əlçatanlıq",
+        "text": "Sayt telefonda rahat işləyir və Azərbaycan, ingilis, rus və yapon dillərində mövcuddur."
+      },
+      {
+        "title": "Şəffaflıq",
+        "text": "Elanlarda iş növü, yer və maaş (və ya «razılaşma yolu ilə» qeydi) aydın göstərilir."
+      },
+      {
+        "title": "Rahat istifadə",
+        "text": "Vakansiyalara qeydiyyatsız baxmaq olar. Qeydiyyat üçün email və ya telefon nömrəsi kifayətdir."
+      },
+      {
+        "title": "Qarşılıqlı etibar",
+        "text": "İki tərəfli rəylər, yalnız sahibinin seçimi ilə görünən profillər və açıq göstərilməyən şəxsi telefon nömrələri."
+      }
+    ],
+    "ctaSeekers": {
+      "title": "İş axtarırsınız?",
+      "text": "Qeydiyyatdan keçib profil yaradın ki, işəgötürənlər sizi tapa bilsin, və ya elə indi vakansiyalara baxın.",
+      "register": "Qeydiyyatdan keç",
+      "browse": "Vakansiyalara bax"
+    },
+    "ctaEmployers": {
+      "title": "İşçi axtarırsınız?",
+      "text": "Elan yerləşdirin və ya «İş axtaranlar» bölməsindən uyğun namizədi özünüz tapın.",
+      "post": "Elan yerləşdir",
+      "workers": "İş axtaranlara bax"
+    },
     "contactTitle": "Əlaqə",
     "contactLead": "Sualınız və ya təklifiniz varsa, bizimlə əlaqə saxlayın.",
     "contactSoon": "Əlaqə məlumatları tezliklə əlavə olunacaq.",
@@ -556,6 +623,10 @@
     "district": "Rayon",
     "village": "Kənd və ya qəsəbə (istəyə bağlı)",
     "preferredDistricts": "İşləmək istədiyim rayonlar (istəyə bağlı)",
+    "districtGroups": {
+      "city": "Şəhərlər",
+      "rayon": "Rayonlar"
+    },
     "maxCommuteKm": "Maksimum yol məsafəsi, km (istəyə bağlı)",
     "willingToRelocate": "Başqa şəhərdə işləməyə hazıram",
     "workTypes": "İş növü",
@@ -637,8 +708,20 @@
     "negotiable": "Razılaşma yolu ilə"
   },
   "footer": {
-    "text": "Rayonumuzun iş axtaranları və işəgötürənləri üçün.",
-    "districts": "Rayonlar"
+    "text": "İş axtaranlara fürsət, işəgötürənlərə doğru namizəd.",
+    "tagline": "Baito.az Azərbaycanın şəhər və rayonlarında iş axtaranlarla işəgötürənləri bir araya gətirir.",
+    "seekersTitle": "İş axtaranlar",
+    "jobs": "Vakansiyalar",
+    "workers": "İş axtaranlar",
+    "createProfile": "Profil yarat",
+    "employersTitle": "İşəgötürənlər",
+    "postJob": "Vakansiya yerləşdir",
+    "findCandidates": "Namizəd axtar",
+    "about": "Haqqımızda",
+    "contact": "Əlaqə",
+    "districts": "Rayonlar üzrə",
+    "allDistricts": "Bütün şəhər və rayonlar",
+    "copyright": "© {year} Baito.az. Bütün hüquqlar qorunur."
   },
   "social": {
     "title": "Sosial şəbəkələr",

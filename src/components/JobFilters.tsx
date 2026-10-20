@@ -7,7 +7,8 @@ import { LocationSelect } from "./LocationSelect";
 import { buttonClass } from "./ui";
 
 type Category = { id: number; slug: string };
-type District = { id: number; slug: string; locations: { id: number; name: string }[] };
+type District = { id: number; slug: string };
+type Place = { id: number; name: string };
 
 // Softer fields for the warm search card (no border, sand fill)
 const field = "w-full rounded-xl border border-transparent bg-surface-2 px-3.5 py-3 text-base outline-none transition focus:border-accent focus:bg-surface focus:ring-4 focus:ring-accent/15";
@@ -19,12 +20,15 @@ export function JobFilters({
   filters,
   categories,
   districts,
+  places,
 }: {
   lang: Locale;
   dict: Dictionary;
   filters: Filters;
   categories: Category[];
   districts: District[];
+  /** Places of the chosen district (filters.district), if any */
+  places?: Place[];
 }) {
   // The extra filters start open when one of them is in use, so the user sees what is applied
   const moreOpen = !!(filters.type || filters.category || filters.pay || filters.payMin || filters.payMax);
@@ -51,9 +55,10 @@ export function JobFilters({
         </label>
         <div className="grid min-w-0 flex-[2_1_300px] grid-cols-2 gap-2">
           <LocationSelect
-            districts={districts.map((d) => ({ ...d, label: districtName(dict, d.slug) }))}
+            districts={districts.map((d) => ({ slug: d.slug, label: districtName(dict, d.slug) }))}
             district={filters.district}
             location={filters.location}
+            places={places}
             labels={{ allDistricts: dict.home.allDistricts, allVillages: dict.home.allVillages }}
             className={field}
           />

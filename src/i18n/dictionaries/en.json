@@ -26,8 +26,8 @@
     "offersSent": "Sent offers"
   },
   "home": {
-    "title": "Find a job near you",
-    "subtitle": "Permanent, part-time and one-day work from local shops, restaurants, farms and schools.",
+    "title": "Find work or workers near you",
+    "subtitle": "Looking for a job or for staff? Explore permanent, part-time and one-day work, or easily find the right person for what you need.",
     "searchPlaceholder": "Job title or keyword",
     "search": "Search",
     "allCategories": "All categories",
@@ -333,7 +333,7 @@
   },
   "jobsPage": {
     "title": "All jobs",
-    "subtitle": "Every active job across the four districts. Narrow the search with filters."
+    "subtitle": "Active jobs across every city and district of Azerbaijan. Narrow the search with filters."
   },
   "companies": {
     "title": "Companies",
@@ -360,21 +360,88 @@
   },
   "about": {
     "title": "About Baito.az",
-    "lead": "Baito.az is a job board for the Zaqatala, Balakan, Qakh and Shaki districts. Permanent, part-time and one-day work from local shops, restaurants, farms, schools and other employers, all in one place.",
-    "whyTitle": "Why Baito.az?",
-    "why": "In the district, jobs are usually shared in Facebook groups and WhatsApp chats. They get lost quickly and cannot be searched. Baito.az brings them together: searchable, filterable and easy to read on a phone.",
-    "seekersTitle": "For job seekers",
-    "seekers": [
-      "Search jobs by district, village, category and pay.",
-      "See the employer's phone on the job and call them directly.",
-      "Check “One-day jobs” for work that takes just a few hours."
+    "lead": "Baito.az is a job platform that brings job seekers and employers together. Find permanent, part-time and one-day jobs, and people ready to work, in one place.",
+    "whoTitle": "Who we are",
+    "who": [
+      "Baito.az is an online platform built for Azerbaijan's job market. Our goal is to make vacancies and job opportunities easier to reach for everyone.",
+      "Jobs can be posted and found for every city and district of Azerbaijan, from Baku to Nakhchivan, down to the village. Work in shops, restaurants, construction, farming and other fields is gathered in one place, so nobody has to search for it in social media groups."
     ],
-    "employersTitle": "For employers",
-    "employers": [
-      "Sign up. A business name is optional, so private persons can post too.",
-      "Post a permanent, part-time or one-day job.",
-      "Jobs appear after admin review. Close the job once you have found a worker."
+    "missionTitle": "Our mission",
+    "mission": "To shorten the path between job seekers and employers. Posting a job, finding the right job or worker and getting in touch should be simple and clear for everyone.",
+    "offerTitle": "What we offer",
+    "offerLead": "What you can use on the platform today:",
+    "offers": [
+      {
+        "title": "Posting jobs",
+        "text": "Employers post permanent, part-time and one-day jobs. Every post is reviewed before it appears on the site."
+      },
+      {
+        "title": "Job search",
+        "text": "Search and filters by keyword, district, village, category, job type and pay."
+      },
+      {
+        "title": "Online applications",
+        "text": "Apply through the site. Permanent jobs take a CV, and you can follow the status of your applications in your profile."
+      },
+      {
+        "title": "Job seekers directory",
+        "text": "Job seekers create a profile showing their profession, skills and experience. Employers find suitable candidates by profession, district and job type."
+      },
+      {
+        "title": "Job offers",
+        "text": "Employers send a job offer to a candidate they like through the site. The candidate accepts or declines."
+      },
+      {
+        "title": "Reviews and ratings",
+        "text": "When a job is done, the employer and the worker review each other. These reviews build trust for the next choice."
+      }
     ],
+    "audienceTitle": "Who it is for",
+    "audiences": [
+      {
+        "title": "Job seekers",
+        "text": "People looking for a permanent job, part-time work or a few hours of extra income."
+      },
+      {
+        "title": "Companies",
+        "text": "Shops, restaurants, construction firms and other businesses looking for staff. All of a company's jobs appear together on its page."
+      },
+      {
+        "title": "Private employers",
+        "text": "People who need help at home, in the garden or for a one-day job. No company name needed: post under your own name."
+      }
+    ],
+    "valuesTitle": "Our values",
+    "values": [
+      {
+        "title": "Accessibility",
+        "text": "The site works well on phones and is available in Azerbaijani, English, Russian and Japanese."
+      },
+      {
+        "title": "Transparency",
+        "text": "Job posts clearly show the job type, place and pay (or a “negotiable” note)."
+      },
+      {
+        "title": "Ease of use",
+        "text": "Browse jobs without signing up. To register, an email or a phone number is enough."
+      },
+      {
+        "title": "Mutual trust",
+        "text": "Two-way reviews, profiles that are public only if their owner chooses, and private phone numbers that are never shown."
+      }
+    ],
+    "ctaSeekers": {
+      "title": "Looking for work?",
+      "text": "Sign up and create a profile so employers can find you, or browse the jobs right now.",
+      "register": "Sign up",
+      "browse": "Browse jobs"
+    },
+    "ctaEmployers": {
+      "title": "Looking for workers?",
+      "text": "Post a job, or find a suitable candidate yourself in “Job seekers”.",
+      "post": "Post a job",
+      "workers": "Browse job seekers"
+    },
     "contactTitle": "Contact",
     "contactLead": "Have a question or an idea? Get in touch.",
     "contactSoon": "Contact details will be added soon.",
@@ -556,6 +623,10 @@
     "district": "District",
     "village": "Village or settlement (optional)",
     "preferredDistricts": "Districts I want to work in (optional)",
+    "districtGroups": {
+      "city": "Cities",
+      "rayon": "Districts"
+    },
     "maxCommuteKm": "Maximum commute, km (optional)",
     "willingToRelocate": "Willing to work in another city",
     "workTypes": "Work type",
@@ -637,8 +708,20 @@
     "negotiable": "Negotiable"
   },
   "footer": {
-    "text": "For job seekers and employers in our district.",
-    "districts": "Districts"
+    "text": "Opportunities for job seekers, the right candidates for employers.",
+    "tagline": "Baito.az brings job seekers and employers together in cities and districts across Azerbaijan.",
+    "seekersTitle": "Job seekers",
+    "jobs": "Jobs",
+    "workers": "Job seekers",
+    "createProfile": "Create a profile",
+    "employersTitle": "Employers",
+    "postJob": "Post a job",
+    "findCandidates": "Find candidates",
+    "about": "About us",
+    "contact": "Contact",
+    "districts": "By district",
+    "allDistricts": "All cities and districts",
+    "copyright": "© {year} Baito.az. All rights reserved."
   },
   "social": {
     "title": "Social media",

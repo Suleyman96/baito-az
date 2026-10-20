@@ -2,6 +2,7 @@ import "server-only";
 import { connection } from "next/server";
 import { db } from "@/lib/db";
 import type { Prisma } from "@/generated/prisma/client";
+import { DISTRICT_SLUGS } from "@/config/site";
 import type { JobFilters } from "@/lib/filters";
 
 export const PAGE_SIZE = 10;
@@ -84,11 +85,25 @@ export function getActiveJob(id: string) {
 export function getFilterOptions() {
   return Promise.all([
     db.category.findMany({ orderBy: { id: "asc" } }),
-    db.district.findMany({
-      orderBy: { id: "asc" },
-      include: { locations: { orderBy: { id: "asc" }, select: { id: true, name: true } } },
-    }),
+    // Every city and district, in Azerbaijani alphabetical order. Their places are loaded per district
+    // (getDistrictPlaces / the locations API), not all ~4,600 at once
+    db.district
+      .findMany({ select: { id: true, slug: true } })
+      .then((ds) => ds.filter((d) => DISTRICT_SLUGS.includes(d.slug)).sort((a, b) => DISTRICT_SLUGS.indexOf(a.slug) - DISTRICT_SLUGS.indexOf(b.slug))),
   ]);
+}
+
+/**
+ * The places of one city or district for a picker: its city or town first, then settlements and
+ * villages. Places the official classification does not list are left out, except `includeId`
+ * (one already chosen on a job or profile, so editing it keeps working).
+ */
+export function getDistrictPlaces(slug: string, includeId?: number) {
+  return db.location.findMany({
+    where: { district: { slug }, OR: [{ code: { not: null } }, ...(includeId ? [{ id: includeId }] : [])] },
+    orderBy: [{ position: "asc" }, { name: "asc" }],
+    select: { id: true, name: true },
+  });
 }
 
 /** All jobs of one employer, any status, for their "My jobs" page. */

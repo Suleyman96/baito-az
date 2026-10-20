@@ -1,11 +1,9 @@
 import "server-only";
 import { connection } from "next/server";
-import { site } from "@/config/site";
+import { DISTRICT_SLUGS } from "@/config/site";
 import { db } from "@/lib/db";
 import { cardInclude, visible } from "@/lib/jobs";
 import { socialSelect } from "@/lib/social-links";
-
-const DISTRICT_ORDER = Object.keys(site.districts);
 
 
 /** Companies with at least one listed job, most active first. Blocked users' companies are left out. */
@@ -28,7 +26,7 @@ export async function getCompaniesWithJobs() {
       ...c,
       jobCount: jobs.length,
       // Districts the company currently hires in, in the order the site lists them
-      districts: [...new Set(jobs.map((j) => j.location.district.slug))].sort((a, b) => DISTRICT_ORDER.indexOf(a) - DISTRICT_ORDER.indexOf(b)),
+      districts: [...new Set(jobs.map((j) => j.location.district.slug))].sort((a, b) => DISTRICT_SLUGS.indexOf(a) - DISTRICT_SLUGS.indexOf(b)),
     }))
     .sort((a, b) => b.jobCount - a.jobCount || a.name.localeCompare(b.name));
 }

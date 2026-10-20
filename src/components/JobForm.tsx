@@ -10,7 +10,8 @@ import { t as fill } from "@/lib/format";
 import { ImagesField } from "./ImagesField";
 import { LocationSelect } from "./LocationSelect";
 
-type District = { id: number; slug: string; label: string; locations: { id: number; name: string }[] };
+type District = { slug: string; label: string };
+type Place = { id: number; name: string };
 type Category = { id: number; label: string };
 
 const TYPES = ["FULL_TIME", "PART_TIME", "ONE_DAY"] as const;
@@ -23,6 +24,7 @@ export function JobForm({
   dict,
   categories,
   districts,
+  places,
   defaultPhone,
   today,
   action: submit,
@@ -34,6 +36,8 @@ export function JobForm({
   dict: Dictionary;
   categories: Category[];
   districts: District[];
+  /** Places of the initial district (`initial.district`), so the village list shows at once */
+  places?: Place[];
   defaultPhone?: string;
   /** Today's date in Baku, YYYY-MM-DD, for the date picker's minimum */
   today: string;
@@ -103,6 +107,7 @@ export function JobForm({
               districts={districts}
               district={v.district || undefined}
               location={v.locationId ? Number(v.locationId) : undefined}
+              places={v.district && v.district === initial?.district ? places : undefined}
               labels={{ allDistricts: t.chooseDistrict, allVillages: t.chooseVillage }}
               villageName="locationId"
               className={inputClass}

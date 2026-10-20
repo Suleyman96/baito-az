@@ -1,3 +1,5 @@
+import { regions } from "./regions";
+
 // District-specific settings. Change these to adapt the site to another district.
 export const site = {
   name: "Baito.az",
@@ -20,29 +22,14 @@ export const site = {
     phone: "",
     whatsapp: "",
   },
-  // District slugs are translated in the UI (see dictionaries); village names are proper nouns
-  districts: {
-    zaqatala: [
-      "Zaqatala şəhəri", "Əliabad", "Aşağı Tala", "Yuxarı Tala", "Aşağı Çardaxlar", "Yuxarı Çardaxlar",
-      "Bazar", "Car", "Danaçı", "Faldarlı", "Göyəm", "Kəpənəkçi", "Mamrux", "Maqov", "Mosul", "Muxax",
-      "Qandax", "Qımır", "Sumaqallı", "Suvagil", "Tasmalı", "Zərnə",
-    ],
-    balaken: [
-      "Balakən şəhəri", "Qabaqçöl", "Ağzıbirçala", "Böyük Bəhmətli", "Kiçik Bəhmətli", "Gülüzanbinə", "Hənifə",
-      "İtitala", "Katex", "Mahamalar", "Mazımçay", "Püştətala", "Qarabaldır", "Qullar", "Şambul", "Talalar", "Tülü",
-    ],
-    qax: [
-      "Qax şəhəri", "Qaşqaçay", "Almalı", "Əlibəyli", "Əmbərçay", "Ərəbbinə", "Fıstıqlı", "İlisu", "Kötüklü",
-      "Lələpaşa", "Ləkit", "Marsan", "Meşəbaş", "Oncallı", "Qaxbaş", "Qax İngiloy", "Qaxmuğal", "Qorağan",
-      "Qum", "Sarıbaş",
-    ],
-    sheki: [
-      "Şəki şəhəri", "Aşağı Göynük", "Baş Göynük", "Aşağı Küngüt", "Baş Küngüt", "Aşağı Layısqı", "Baş Layısqı",
-      "Aşağı Şabalıd", "Baş Şabalıd", "Baltalı", "Bideyiz", "Cunud", "Daşüz", "Dəhnə", "İnçə", "Kiş", "Oxud",
-      "Qoxmuq", "Turan", "Zəyzid",
-    ],
-  },
+  // The districts the site started in, featured on the home page badge and in the footer.
+  // Every city and district of Azerbaijan is available (src/config/regions.ts, places in the database).
+  homeDistricts: ["zaqatala", "balaken", "qax", "sheki"],
 } as const;
 
 export type CategorySlug = (typeof site.categories)[number];
-export type DistrictSlug = keyof typeof site.districts;
+export type DistrictSlug = (typeof regions)[number]["slug"];
+
+/** Every district slug, in Azerbaijani alphabetical order of the names */
+export const DISTRICT_SLUGS: readonly string[] = regions.map((r) => r.slug);
+export const isDistrict = (slug: string): slug is DistrictSlug => DISTRICT_SLUGS.includes(slug);
