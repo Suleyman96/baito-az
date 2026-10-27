@@ -204,7 +204,7 @@ export function WorkerProfileForm({
               district={one("district") || undefined}
               location={one("locationId") ? Number(one("locationId")) : undefined}
               places={one("district") && one("district") === initial.district ? places : undefined}
-              labels={{ allDistricts: dict.postJob.chooseDistrict, allVillages: dict.postJob.chooseVillage }}
+              labels={{ allDistricts: dict.postJob.chooseDistrict, allVillages: dict.postJob.chooseVillage, loadFailed: dict.errorPage.placesFailed }}
               villageName="locationId"
               className={inputClass}
             />

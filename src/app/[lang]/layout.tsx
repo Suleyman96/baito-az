@@ -3,6 +3,7 @@ import { Montserrat, Noto_Sans } from "next/font/google";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { ErrorTextsProvider } from "@/components/errors/ErrorTexts";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { MainNav, NavList, type NavItem } from "@/components/MainNav";
 import { Logo } from "@/components/Logo";
@@ -89,7 +90,11 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
             </div>
           </div>
         </header>
-        <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-6">{children}</main>
+        <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-6">
+          <ErrorTextsProvider lang={lang} t={dict.errorPage}>
+            {children}
+          </ErrorTextsProvider>
+        </main>
         <SiteFooter lang={lang} dict={dict} />
       </body>
     </html>
