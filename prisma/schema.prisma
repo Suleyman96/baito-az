@@ -101,6 +101,16 @@ model Session {
   @@index([userId])
 }
 
+/// A failed login, kept for a short while to slow down password guessing (src/lib/auth/login-throttle.ts).
+/// `key` is the normalized email or phone that was tried; the rows of a key are cleared after a successful login
+model LoginAttempt {
+  id        String   @id @default(cuid())
+  key       String
+  createdAt DateTime @default(now())
+
+  @@index([key, createdAt])
+}
+
 model Company {
   id          String   @id @default(cuid())
   name        String

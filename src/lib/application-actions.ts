@@ -65,9 +65,10 @@ export async function updateApplicationStatus(formData: FormData) {
   const status = String(formData.get("status") ?? "");
   if (!(APPLICATION_STATUSES as readonly string[]).includes(status)) return;
 
-  // The job's owner in the filter: other employers' applications cannot be changed
+  // The job's owner in the filter: other employers' applications cannot be changed.
+  // Once the job is completed, a hired worker stays hired: un-hiring them would take away their review of the employer
   await db.application.updateMany({
-    where: { id: String(formData.get("id") ?? ""), job: { company: { ownerId: user.id } } },
+    where: { id: String(formData.get("id") ?? ""), job: { company: { ownerId: user.id } }, NOT: { status: "ACCEPTED", job: { status: "COMPLETED" } } },
     data: { status: status as (typeof APPLICATION_STATUSES)[number] },
   });
   refresh();

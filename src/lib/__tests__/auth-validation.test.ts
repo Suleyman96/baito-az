@@ -63,6 +63,15 @@ describe("safeNext", () => {
     expect(safeNext("/\\evil.example", "/az")).toBe("/az");
     expect(safeNext(undefined, "/az")).toBe("/az");
   });
+
+  it("refuses characters browsers strip from URLs", () => {
+    // A browser reads "/\t/evil.example" as "//evil.example", another site
+    expect(safeNext("/\t/evil.example", "/az")).toBe("/az");
+    expect(safeNext("/\n/evil.example", "/az")).toBe("/az");
+    expect(safeNext("/\r/evil.example", "/az")).toBe("/az");
+    expect(safeNext("/ /evil.example", "/az")).toBe("/az");
+    expect(safeNext("/az/jobs?q=sat%C4%B1%C5%9F", "/az")).toBe("/az/jobs?q=sat%C4%B1%C5%9F");
+  });
 });
 
 describe("profile schemas", () => {

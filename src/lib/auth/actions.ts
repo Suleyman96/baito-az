@@ -6,6 +6,7 @@ import { Prisma } from "@/generated/prisma/client";
 import { defaultLocale, hasLocale } from "@/i18n/config";
 import { companyNameKey } from "@/lib/company-name";
 import { db } from "@/lib/db";
+import { clearFailedLogins, isLoginThrottled, recordFailedLogin } from "./login-throttle";
 import { createSession, deleteSession } from "./session";
 import { fieldErrors, loginSchema, parseIdentifier, registerSchema, safeNext, type AuthErrorKey } from "./validation";
 
@@ -85,14 +86,23 @@ export async function login(_prev: AuthFormState, formData: FormData): Promise<A
   if (!parsed.success) return failed;
 
   const where = parseIdentifier(parsed.data.identifier);
+  // Counted per normalized email or phone, so "050..." and "+99450..." share one limit
+  const throttleKey = where ? ("email" in where ? where.email : where.phone) : parsed.data.identifier.toLowerCase().slice(0, 200);
+  // Checked for unknown accounts too, so the answer does not reveal which accounts exist
+  if (await isLoginThrottled(throttleKey)) return { errors: { form: "tooManyAttempts" }, values };
+
   const user = where ? await db.user.findUnique({ where }) : null;
   const ok = await bcrypt.compare(parsed.data.password, user?.passwordHash ?? DUMMY_HASH);
   // Same message for unknown account and wrong password, so accounts cannot be probed
-  if (!user || !ok) return failed;
+  if (!user || !ok) {
+    await recordFailedLogin(throttleKey);
+    return failed;
+  }
   // Told only after a correct password, so this does not reveal which accounts exist
   if (user.blockedAt) return { errors: { form: "blocked" }, values };
   if (user.deletedAt) return failed;
 
+  await clearFailedLogins(throttleKey);
   await createSession(user.id);
   redirect(safeNext(formData.get("next"), homeFor(formData)));
 }

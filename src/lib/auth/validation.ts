@@ -11,6 +11,7 @@ export type AuthErrorKey =
   | "phoneTaken"
   | "invalidCredentials"
   | "blocked"
+  | "tooManyAttempts"
   | "currentPasswordWrong"
   | "companyNameLong"
   | "descriptionLong"
@@ -98,9 +99,11 @@ export function fieldErrors(error: z.ZodError): Record<string, AuthErrorKey> {
 /**
  * Where to go after login. Only same-site paths are allowed, so a crafted
  * ?next=https://evil.example link cannot send users to another site.
+ * Control characters and spaces are refused too: browsers drop tabs and newlines from URLs,
+ * so "/\t/evil.example" would otherwise become "//evil.example".
  */
 export function safeNext(next: unknown, fallback: string): string {
-  if (typeof next !== "string" || !next.startsWith("/") || next.startsWith("//") || next.includes("\\")) {
+  if (typeof next !== "string" || !next.startsWith("/") || next.startsWith("//") || /[\\\s\u0000-\u001f\u007f]/.test(next)) {
     return fallback;
   }
   return next;
