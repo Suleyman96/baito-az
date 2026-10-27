@@ -124,6 +124,9 @@
     "logoutQuestion": "ログアウトしますか？",
     "cancel": "キャンセル",
     "loginToApply": "ログインして応募する",
+    "acceptTerms": "{terms}と{privacy}を読み、同意します。",
+    "termsLink": "利用規約",
+    "privacyLink": "プライバシーポリシー",
     "errors": {
       "nameRequired": "氏名を入力してください。",
       "emailInvalid": "メールアドレスが正しくありません。",
@@ -143,7 +146,8 @@
       "socialInvalid": "リンクまたはユーザー名が正しくありません。",
       "companyNameTaken": "この名前の会社はすでに登録されています。その会社で働いている場合は、会社名を空欄にして個人の雇用主として続けられます。別の支店や会社の場合は、名前を具体的にしてください（例:「Bərəkət Market — Qax」）。",
       "confirmRequired": "削除を確認するにはチェックを入れてください。",
-      "deleteNotAllowed": "管理者アカウントはここでは削除できません。"
+      "deleteNotAllowed": "管理者アカウントはここでは削除できません。",
+      "termsRequired": "続行するには、利用規約とプライバシーポリシーに同意してください。"
     }
   },
   "account": {
@@ -450,6 +454,13 @@
     "phone": "電話",
     "whatsapp": "WhatsApp"
   },
+  "legal": {
+    "privacyTitle": "プライバシーポリシー",
+    "termsTitle": "利用規約",
+    "effective": "施行日",
+    "contents": "目次",
+    "azOnly": "この文書の正式なテキストはアゼルバイジャン語です。以下はアゼルバイジャン語で表示されています。翻訳は今後追加される場合があります。"
+  },
   "upload": {
     "photoTitle": "プロフィール写真",
     "photoHint": "雇用主の場合、この写真は会社のロゴとしても表示されます。JPG・PNG・WebP、3MBまで。",
@@ -721,6 +732,8 @@
     "findCandidates": "人材を探す",
     "about": "私たちについて",
     "contact": "お問い合わせ",
+    "privacy": "プライバシーポリシー",
+    "terms": "利用規約",
     "districts": "地区から探す",
     "allDistricts": "すべての市と地区",
     "copyright": "© {year} Baito.az. All rights reserved."

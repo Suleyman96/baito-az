@@ -124,6 +124,9 @@
     "logoutQuestion": "Hesabdan çıxmaq istəyirsiniz?",
     "cancel": "Ləğv et",
     "loginToApply": "Müraciət etmək üçün daxil olun",
+    "acceptTerms": "{terms} və {privacy} ilə tanış oldum və qəbul edirəm.",
+    "termsLink": "İstifadə qaydaları",
+    "privacyLink": "Məxfilik siyasəti",
     "errors": {
       "nameRequired": "Adınızı yazın.",
       "emailInvalid": "Email düzgün deyil.",
@@ -143,7 +146,8 @@
       "socialInvalid": "Link və ya istifadəçi adı düzgün deyil.",
       "companyNameTaken": "Bu adla şirkət artıq qeydiyyatdadır. Bu şirkətdə işləyirsinizsə, şirkət adını boş saxlayıb fərdi işəgötürən kimi davam edə bilərsiniz. Fərqli filial və ya şirkətdirsə, adı dəqiqləşdirin (məsələn, «Bərəkət Market — Qax»).",
       "confirmRequired": "Silməni təsdiqləmək üçün qutunu işarələyin.",
-      "deleteNotAllowed": "Admin hesabı buradan silinə bilməz."
+      "deleteNotAllowed": "Admin hesabı buradan silinə bilməz.",
+      "termsRequired": "Davam etmək üçün İstifadə qaydalarını və Məxfilik siyasətini qəbul edin."
     }
   },
   "account": {
@@ -450,6 +454,13 @@
     "phone": "Telefon",
     "whatsapp": "WhatsApp"
   },
+  "legal": {
+    "privacyTitle": "Məxfilik siyasəti",
+    "termsTitle": "İstifadə qaydaları",
+    "effective": "Qüvvəyə minmə tarixi",
+    "contents": "Məzmun",
+    "azOnly": "Bu sənədin rəsmi mətni Azərbaycan dilindədir."
+  },
   "upload": {
     "photoTitle": "Profil şəkli",
     "photoHint": "İşəgötürənlər üçün bu şəkil şirkət loqosu kimi də göstərilir. JPG, PNG və ya WebP, ən çox 3 MB.",
@@ -721,6 +732,8 @@
     "findCandidates": "Namizəd axtar",
     "about": "Haqqımızda",
     "contact": "Əlaqə",
+    "privacy": "Məxfilik siyasəti",
+    "terms": "İstifadə qaydaları",
     "districts": "Rayonlar üzrə",
     "allDistricts": "Bütün şəhər və rayonlar",
     "copyright": "© {year} Baito.az. Bütün hüquqlar qorunur."

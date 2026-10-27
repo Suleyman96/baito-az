@@ -9,7 +9,23 @@ import { login, register, type AuthFormState } from "@/lib/auth/actions";
 
 type Texts = Dictionary["auth"];
 
-
+// "I accept the {terms} and the {privacy}" with both names as links. They open in a new tab,
+// so reading them does not lose what was typed in the form
+function TermsText({ lang, t }: { lang: Locale; t: Texts }) {
+  const links: Record<string, { href: string; label: string }> = {
+    "{terms}": { href: `/${lang}/terms`, label: t.termsLink },
+    "{privacy}": { href: `/${lang}/privacy-policy`, label: t.privacyLink },
+  };
+  return t.acceptTerms.split(/(\{terms\}|\{privacy\})/).map((part) => {
+    const link = links[part];
+    if (!link) return part;
+    return (
+      <Link key={part} href={link.href} target="_blank" className="font-medium text-accent hover:underline">
+        {link.label}
+      </Link>
+    );
+  });
+}
 
 function errorText(t: Texts, state: AuthFormState, field: string) {
   const key = state?.errors[field];
@@ -77,6 +93,28 @@ export function RegisterForm({ lang, next, role, t }: { lang: Locale; next?: str
       <Field label={t.password} hint={t.passwordHint} error={err("password")}>
         <input name="password" type="password" autoComplete="new-password" required minLength={8} aria-invalid={!!err("password")} className={inputClass} />
       </Field>
+
+      <div className="space-y-1.5">
+        <label className="flex cursor-pointer items-start gap-2.5 text-sm">
+          <input
+            type="checkbox"
+            name="acceptTerms"
+            defaultChecked={v.acceptTerms === "on"}
+            required
+            aria-invalid={!!err("acceptTerms")}
+            aria-describedby={err("acceptTerms") ? "acceptTerms-error" : undefined}
+            className="mt-0.5 size-4 shrink-0 accent-accent"
+          />
+          <span>
+            <TermsText lang={lang} t={t} />
+          </span>
+        </label>
+        {err("acceptTerms") && (
+          <p id="acceptTerms-error" className="text-sm text-error">
+            {err("acceptTerms")}
+          </p>
+        )}
+      </div>
 
       <button type="submit" disabled={pending} className={`${buttonClass.primary} w-full`}>
         {t.submitRegister}

@@ -124,6 +124,9 @@
     "logoutQuestion": "Do you want to log out?",
     "cancel": "Cancel",
     "loginToApply": "Log in to apply",
+    "acceptTerms": "I have read and accept the {terms} and the {privacy}.",
+    "termsLink": "Terms of Use",
+    "privacyLink": "Privacy Policy",
     "errors": {
       "nameRequired": "Please enter your name.",
       "emailInvalid": "This email is not valid.",
@@ -143,7 +146,8 @@
       "socialInvalid": "This link or username is not valid.",
       "companyNameTaken": "A company with this name is already registered. If you work there, you can leave the company name empty and continue as a private employer. If it's a different branch or company, make the name more specific (e.g. “Bərəkət Market — Qax”).",
       "confirmRequired": "Tick the box to confirm the deletion.",
-      "deleteNotAllowed": "Admin accounts can't be deleted here."
+      "deleteNotAllowed": "Admin accounts can't be deleted here.",
+      "termsRequired": "To continue, accept the Terms of Use and the Privacy Policy."
     }
   },
   "account": {
@@ -450,6 +454,13 @@
     "phone": "Phone",
     "whatsapp": "WhatsApp"
   },
+  "legal": {
+    "privacyTitle": "Privacy Policy",
+    "termsTitle": "Terms of Use",
+    "effective": "Effective date",
+    "contents": "Contents",
+    "azOnly": "The official text of this document is in Azerbaijani. It is shown below in Azerbaijani; a translation may be added later."
+  },
   "upload": {
     "photoTitle": "Profile photo",
     "photoHint": "For employers this photo is also shown as the company logo. JPG, PNG or WebP, up to 3 MB.",
@@ -721,6 +732,8 @@
     "findCandidates": "Find candidates",
     "about": "About us",
     "contact": "Contact",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use",
     "districts": "By district",
     "allDistricts": "All cities and districts",
     "copyright": "© {year} Baito.az. All rights reserved."

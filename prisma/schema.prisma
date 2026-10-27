@@ -67,6 +67,10 @@ model User {
   /// Set when the user deleted their profile. The row stays (with personal data removed) so jobs,
   /// applications and reviews other people took part in keep their history
   deletedAt    DateTime?
+  /// When the user accepted the Terms of Use and the Privacy Policy at sign-up, and which version
+  /// (src/config/legal.ts). Empty for accounts created before consent was recorded
+  termsAcceptedAt DateTime?
+  termsVersion    String?
   /// Profile photo; for employers it is also shown as the company logo
   avatar       Image?        @relation("UserAvatar", fields: [avatarId], references: [id], onDelete: SetNull)
   avatarId     String?       @unique
