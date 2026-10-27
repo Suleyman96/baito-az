@@ -12,7 +12,7 @@ describe("normalizePhone", () => {
 });
 
 describe("registerSchema", () => {
-  const base = { role: "SEEKER", name: "Əli Məmmədov", email: "", phone: "", password: "secret123", companyName: "" };
+  const base = { role: "SEEKER", name: "Əli Məmmədov", email: "", phone: "", password: "secret123", companyName: "", acceptTerms: "on" };
   const errors = (input: object) => {
     const result = registerSchema.safeParse(input);
     return result.success ? [] : result.error.issues.map((i) => `${String(i.path[0])}:${i.message}`);
@@ -25,6 +25,11 @@ describe("registerSchema", () => {
 
   it("accepts email only and lowercases it", () => {
     expect(registerSchema.parse({ ...base, email: " Ali@Mail.AZ " }).email).toBe("ali@mail.az");
+  });
+
+  it("requires the Terms of Use and Privacy Policy to be accepted", () => {
+    expect(errors({ ...base, phone: "0501234567", acceptTerms: "" })).toEqual(["acceptTerms:termsRequired"]);
+    expect(errors({ ...base, phone: "0501234567", acceptTerms: "yes" })).toEqual(["acceptTerms:termsRequired"]);
   });
 
   it("requires an email or a phone", () => {

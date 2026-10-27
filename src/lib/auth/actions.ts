@@ -2,6 +2,7 @@
 
 import bcrypt from "bcryptjs";
 import { redirect } from "next/navigation";
+import { legal } from "@/config/legal";
 import { Prisma } from "@/generated/prisma/client";
 import { defaultLocale, hasLocale } from "@/i18n/config";
 import { companyNameKey } from "@/lib/company-name";
@@ -29,7 +30,7 @@ function textValues(formData: FormData, keys: string[]) {
 }
 
 export async function register(_prev: AuthFormState, formData: FormData): Promise<AuthFormState> {
-  const values = textValues(formData, ["role", "name", "email", "phone", "companyName"]);
+  const values = textValues(formData, ["role", "name", "email", "phone", "companyName", "acceptTerms"]);
   const parsed = registerSchema.safeParse({ ...values, password: String(formData.get("password") ?? "") });
   if (!parsed.success) return { errors: fieldErrors(parsed.error), values };
 
@@ -58,6 +59,9 @@ export async function register(_prev: AuthFormState, formData: FormData): Promis
         email,
         phone,
         passwordHash: await bcrypt.hash(password, 10),
+        // Proof of consent: when, and to which version of the texts
+        termsAcceptedAt: new Date(),
+        termsVersion: legal.version,
         // Private persons post under their own name
         company: role === "EMPLOYER" ? { create: { name: companyName ?? name, nameKey, phone } } : undefined,
       },

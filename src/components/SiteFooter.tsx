@@ -80,6 +80,16 @@ export function SiteFooter({ lang, dict }: { lang: Locale; dict: Dictionary }) {
                 {f.contact}
               </Link>
             </li>
+            <li>
+              <Link href={`/${lang}/privacy-policy`} className={link}>
+                {f.privacy}
+              </Link>
+            </li>
+            <li>
+              <Link href={`/${lang}/terms`} className={link}>
+                {f.terms}
+              </Link>
+            </li>
           </Column>
 
           <Column title={f.districts}>

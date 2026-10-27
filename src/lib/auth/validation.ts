@@ -20,7 +20,8 @@ export type AuthErrorKey =
   | "socialInvalid"
   | "companyNameTaken"
   | "confirmRequired"
-  | "deleteNotAllowed";
+  | "deleteNotAllowed"
+  | "termsRequired";
 
 // Azerbaijani mobile operator codes (Azercell, Bakcell, Nar, Naxtel)
 const MOBILE_CODES = ["10", "50", "51", "55", "60", "70", "77", "99"];
@@ -65,6 +66,8 @@ export const registerSchema = z
     password,
     // Optional: private persons (e.g. someone hiring for one day) leave it empty
     companyName: optionalText.pipe(z.string().max(100).optional()),
+    // The Terms of Use and Privacy Policy checkbox: a ticked box sends "on", an unticked one nothing
+    acceptTerms: z.literal("on", "termsRequired"),
   })
   .superRefine((data, ctx) => {
     if (!data.email && !data.phone) {
