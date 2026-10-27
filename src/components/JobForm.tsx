@@ -108,7 +108,7 @@ export function JobForm({
               district={v.district || undefined}
               location={v.locationId ? Number(v.locationId) : undefined}
               places={v.district && v.district === initial?.district ? places : undefined}
-              labels={{ allDistricts: t.chooseDistrict, allVillages: t.chooseVillage }}
+              labels={{ allDistricts: t.chooseDistrict, allVillages: t.chooseVillage, loadFailed: dict.errorPage.placesFailed }}
               villageName="locationId"
               className={inputClass}
             />

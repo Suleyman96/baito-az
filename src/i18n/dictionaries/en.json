@@ -461,6 +461,16 @@
     "contents": "Contents",
     "azOnly": "The official text of this document is in Azerbaijani. It is shown below in Azerbaijani; a translation may be added later."
   },
+  "errorPage": {
+    "notFoundTitle": "Page not found",
+    "notFoundText": "The page you are looking for does not exist, was removed or has moved. Check the address or use one of the links below.",
+    "home": "Back to the home page",
+    "back": "Previous page",
+    "errorTitle": "Something went wrong",
+    "errorText": "An unexpected error occurred while showing this page. Please try again in a moment. If the problem continues, go back to the home page.",
+    "retry": "Try again",
+    "placesFailed": "The list did not load. Click to try again"
+  },
   "upload": {
     "photoTitle": "Profile photo",
     "photoHint": "For employers this photo is also shown as the company logo. JPG, PNG or WebP, up to 3 MB.",

@@ -59,7 +59,7 @@ export function JobFilters({
             district={filters.district}
             location={filters.location}
             places={places}
-            labels={{ allDistricts: dict.home.allDistricts, allVillages: dict.home.allVillages }}
+            labels={{ allDistricts: dict.home.allDistricts, allVillages: dict.home.allVillages, loadFailed: dict.errorPage.placesFailed }}
             className={field}
           />
         </div>

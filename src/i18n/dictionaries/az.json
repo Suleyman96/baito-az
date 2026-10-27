@@ -461,6 +461,16 @@
     "contents": "Məzmun",
     "azOnly": "Bu sənədin rəsmi mətni Azərbaycan dilindədir."
   },
+  "errorPage": {
+    "notFoundTitle": "Səhifə tapılmadı",
+    "notFoundText": "Axtardığınız səhifə mövcud deyil, silinib və ya ünvanı dəyişib. Ünvanı yoxlayın və ya aşağıdakı keçidlərdən birini seçin.",
+    "home": "Ana səhifəyə qayıt",
+    "back": "Əvvəlki səhifə",
+    "errorTitle": "Nəsə alınmadı",
+    "errorText": "Səhifəni göstərərkən gözlənilməz xəta baş verdi. Bir az sonra yenidən cəhd edin. Problem davam edərsə, ana səhifəyə qayıdın.",
+    "retry": "Yenidən cəhd et",
+    "placesFailed": "Siyahı yüklənmədi. Yenidən cəhd etmək üçün klikləyin"
+  },
   "upload": {
     "photoTitle": "Profil şəkli",
     "photoHint": "İşəgötürənlər üçün bu şəkil şirkət loqosu kimi də göstərilir. JPG, PNG və ya WebP, ən çox 3 MB.",
