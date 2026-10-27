@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient, type EmploymentType } from "../src/generated/prisma/client";
 import { site, type DistrictSlug } from "../src/config/site";
+import { companyNameKey } from "../src/lib/company-name";
 
 const db = new PrismaClient({
   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
@@ -71,6 +72,8 @@ async function main() {
       db.company.create({
         data: {
           name: c.name,
+          // Same key sign-up sets, so demo company names are taken like real ones
+          nameKey: companyNameKey(c.name),
           phone: c.phone,
           owner: { create: { email: c.email, name: c.owner, role: "EMPLOYER", passwordHash } },
         },
