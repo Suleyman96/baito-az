@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { isProfession, isProfessionGroup } from "@/config/professions";
-import { site } from "@/config/site";
+import { isDistrict } from "@/config/site";
 
 // Query-string filters of the "İş axtaranlar" directory. Like the job filters: invalid values are ignored.
 
@@ -10,7 +10,7 @@ const filtersSchema = z.object({
   q: z.string().trim().max(100).optional().catch(undefined),
   group: z.string().refine(isProfessionGroup).optional().catch(undefined),
   profession: z.string().refine(isProfession).optional().catch(undefined),
-  district: z.string().refine((d) => d in site.districts).optional().catch(undefined),
+  district: z.string().refine(isDistrict).optional().catch(undefined),
   type: z.enum(["FULL_TIME", "PART_TIME", "ONE_DAY"]).optional().catch(undefined),
   /** Minimum years of experience */
   exp: z.coerce.number().refine((n) => (EXPERIENCE_STEPS as readonly number[]).includes(n)).optional().catch(undefined),

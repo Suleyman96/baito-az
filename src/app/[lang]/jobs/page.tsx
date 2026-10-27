@@ -13,7 +13,7 @@ import { getDictionary, getLocale, type Dictionary } from "@/i18n/dictionaries";
 import { db } from "@/lib/db";
 import { filtersHref, hasActiveFilters, parseJobFilters, type JobFilters as Filters } from "@/lib/filters";
 import { t } from "@/lib/format";
-import { getFilterOptions, searchJobs } from "@/lib/jobs";
+import { getDistrictPlaces, getFilterOptions, searchJobs } from "@/lib/jobs";
 
 type SearchParams = PageProps<"/[lang]/jobs">["searchParams"];
 
@@ -39,8 +39,11 @@ export default async function JobsPage({ searchParams }: PageProps<"/[lang]/jobs
 
 async function JobSearchForm({ lang, dict, searchParams }: { lang: Locale; dict: Dictionary; searchParams: SearchParams }) {
   const filters = parseJobFilters(await searchParams);
-  const [categories, districts] = await getFilterOptions();
-  return <JobFilters lang={lang} dict={dict} filters={filters} categories={categories} districts={districts} />;
+  const [[categories, districts], places] = await Promise.all([
+    getFilterOptions(),
+    filters.district ? getDistrictPlaces(filters.district, filters.location) : undefined,
+  ]);
+  return <JobFilters lang={lang} dict={dict} filters={filters} categories={categories} districts={districts} places={places} />;
 }
 
 async function JobSearch({ lang, dict, searchParams }: { lang: Locale; dict: Dictionary; searchParams: SearchParams }) {

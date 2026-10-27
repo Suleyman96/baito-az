@@ -1,4 +1,4 @@
-import { ArrowRight, MapPin } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -8,11 +8,10 @@ import { JobCard, OneDayCard } from "@/components/JobCard";
 import { JobFilters } from "@/components/JobFilters";
 import { JobGridSkeleton, SearchSkeleton } from "@/components/Skeletons";
 import { buttonClass } from "@/components/ui";
-import { site, type DistrictSlug } from "@/config/site";
 import { hasLocale, type Locale } from "@/i18n/config";
 import { getDictionary, type Dictionary } from "@/i18n/dictionaries";
 import { filtersHref, hasActiveFilters, parseJobFilters } from "@/lib/filters";
-import { districtName, t } from "@/lib/format";
+import { t } from "@/lib/format";
 import { getFilterOptions, getHomeStats, getUpcomingOneDayJobs, searchJobs } from "@/lib/jobs";
 
 const NO_FILTERS = parseJobFilters({});
@@ -22,17 +21,12 @@ export default async function HomePage({ params, searchParams }: PageProps<"/[la
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const dict = getDictionary(lang);
-  const districts = (Object.keys(site.districts) as DistrictSlug[]).map((slug) => districtName(dict, slug)).join(" · ");
 
   return (
     <div className="space-y-10">
       <PageHero>
-        <p className="inline-flex items-center gap-2 rounded-full bg-surface px-3 py-1.5 text-sm font-semibold text-brand-strong">
-          <MapPin className="size-4" aria-hidden />
-          {districts}
-        </p>
         <h1 className="max-w-3xl text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-[56px]">{dict.home.title}</h1>
-        <p className="max-w-xl text-lg text-muted">{dict.home.subtitle}</p>
+        <p className="max-w-2xl text-lg text-muted">{dict.home.subtitle}</p>
         <Suspense fallback={<SearchSkeleton label={dict.home.loading} />}>
           <HeroSearch lang={lang} dict={dict} searchParams={searchParams} />
         </Suspense>

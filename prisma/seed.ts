@@ -22,7 +22,7 @@ const jobs: {
 }[] = [
   { title: "Satış məsləhətçisi", description: "Mağazada müştərilərə xidmət, kassa ilə iş. Təcrübə tələb olunmur, təlim veriləcək.", type: "FULL_TIME", salary: [450, 600], category: "sales", location: ["zaqatala", "Zaqatala şəhəri"], company: 0 },
   { title: "Kassir (axşam növbəsi)", description: "Həftədə 4 gün, 18:00–23:00. Tələbələr üçün uyğundur.", type: "PART_TIME", salary: [300, 350], category: "sales", location: ["zaqatala", "Zaqatala şəhəri"], company: 0 },
-  { title: "Anbar işçisi", description: "Malların qəbulu və yerləşdirilməsi. Fiziki cəhətdən sağlam olmaq.", type: "FULL_TIME", salary: [500, null], category: "other", location: ["zaqatala", "Əliabad"], company: 0 },
+  { title: "Anbar işçisi", description: "Malların qəbulu və yerləşdirilməsi. Fiziki cəhətdən sağlam olmaq.", type: "FULL_TIME", salary: [500, null], category: "other", location: ["zaqatala", "Əliabad qəsəbəsi"], company: 0 },
   { title: "Ofisiant", description: "Restoranda ofisiant. Nəzakətli ünsiyyət, komanda işi.", type: "PART_TIME", salary: [250, 400], category: "service", location: ["sheki", "Şəki şəhəri"], company: 1 },
   { title: "Aşpaz köməkçisi", description: "Mətbəxdə hazırlıq işləri. Yemək və iş geyimi təmin olunur.", type: "FULL_TIME", salary: [450, 550], category: "service", location: ["sheki", "Şəki şəhəri"], company: 1 },
   { title: "Fındıq bağında mövsümi işçi", description: "Avqust–sentyabr ayları fındıq yığımı. Nəqliyyat təmin olunur.", type: "PART_TIME", salary: [null, null], category: "agriculture", location: ["qax", "İlisu"], company: 1 },
@@ -43,22 +43,11 @@ async function main() {
   await db.job.deleteMany();
   await db.company.deleteMany();
   await db.user.deleteMany();
-  // Removes villages that were dropped from the config
-  await db.location.deleteMany();
 
   for (const slug of site.categories) {
     await db.category.upsert({ where: { slug }, update: {}, create: { slug } });
   }
-  for (const [slug, villages] of Object.entries(site.districts)) {
-    const district = await db.district.upsert({ where: { slug }, update: {}, create: { slug } });
-    for (const name of villages) {
-      await db.location.upsert({
-        where: { districtId_name: { districtId: district.id, name } },
-        update: {},
-        create: { name, districtId: district.id },
-      });
-    }
-  }
+  // Districts and places are loaded by the all_regions migration (official classification), not here
 
   const passwordHash = await bcrypt.hash(DEMO_PASSWORD, 10);
 

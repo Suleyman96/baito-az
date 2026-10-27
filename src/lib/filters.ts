@@ -1,11 +1,12 @@
 import { z } from "zod";
+import { isDistrict } from "@/config/site";
 
 // Query string values are untrusted: anything invalid is silently ignored
 const filtersSchema = z.object({
   q: z.string().trim().max(100).optional().catch(undefined),
   type: z.enum(["FULL_TIME", "PART_TIME", "ONE_DAY"]).optional().catch(undefined),
   category: z.string().max(50).optional().catch(undefined),
-  district: z.string().max(50).optional().catch(undefined),
+  district: z.string().refine(isDistrict).optional().catch(undefined),
   location: z.coerce.number().int().positive().optional().catch(undefined),
   // Pay: amounts only make sense within one pay period (500 a month vs 8 an hour)
   pay: z.enum(["MONTH", "DAY", "HOUR", "JOB"]).optional().catch(undefined),

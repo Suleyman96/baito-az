@@ -12,7 +12,8 @@ import { getDictionary, getLocale, type Dictionary } from "@/i18n/dictionaries";
 import { getCurrentUser } from "@/lib/auth/session";
 import { db } from "@/lib/db";
 import { districtName } from "@/lib/format";
-import { getFilterOptions } from "@/lib/jobs";
+import { getDistrictPlaces, getFilterOptions } from "@/lib/jobs";
+import { regions } from "@/config/regions";
 import { SOCIAL_KINDS, socialInputValue, socialSelect } from "@/lib/social-links";
 import { getOwnWorkerProfile } from "@/lib/worker-directory";
 import { NEGOTIABLE } from "@/lib/worker-profile";
@@ -44,6 +45,8 @@ async function Profile({ lang, dict }: { lang: Locale; dict: Dictionary }) {
     getOwnWorkerProfile(user.id),
     getFilterOptions(),
   ]);
+  // The saved district's places, so the village list shows at once
+  const places = profile ? await getDistrictPlaces(profile.district, profile.locationId ?? undefined) : undefined;
 
   // The saved profile as form values (a new profile starts from the account's name and phone)
   const initial: Record<string, string | string[]> = {
@@ -95,7 +98,8 @@ async function Profile({ lang, dict }: { lang: Locale; dict: Dictionary }) {
         initial={initial}
         professions={pickerOptions(professionGroups, lang)}
         skills={pickerOptions(skillGroups, lang)}
-        districts={districts.map((d) => ({ ...d, label: districtName(dict, d.slug) }))}
+        districts={districts.map((d) => ({ slug: d.slug, label: districtName(dict, d.slug), kind: regions.find((r) => r.slug === d.slug)?.kind ?? "rayon" }))}
+        places={places}
         portfolio={profile?.portfolio.map((i) => i.id) ?? []}
         today={dateInput(new Date())}
       />

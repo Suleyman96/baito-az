@@ -130,6 +130,8 @@ model Category {
 model District {
   id        Int        @id @default(autoincrement())
   slug      String     @unique
+  /// Official code in the State Statistics Committee's territorial classification (src/config/regions.ts)
+  code      String?    @unique
   locations Location[]
 }
 
@@ -137,6 +139,11 @@ model District {
 model Location {
   id         Int      @id @default(autoincrement())
   name       String
+  /// Official code in the territorial classification; null for places added before it that it does not
+  /// list for this district (kept for any job or profile that uses them, not offered in pickers)
+  code       String?  @unique
+  /// Order in the village picker: the city or town first, then settlements, then villages, alphabetically
+  position   Int      @default(0)
   district   District @relation(fields: [districtId], references: [id])
   districtId Int
   jobs       Job[]

@@ -15,7 +15,8 @@ import { SocialLinksFields } from "./SocialLinksFields";
 import { buttonClass, Field, inputClass } from "./ui";
 
 type PickerGroup = { label: string; items: { value: string; label: string }[] };
-type District = { id: number; slug: string; label: string; locations: { id: number; name: string }[] };
+type District = { slug: string; label: string; kind: "city" | "rayon" };
+type Place = { id: number; name: string };
 
 const WORK_TYPES = ["FULL_TIME", "PART_TIME", "ONE_DAY"] as const;
 /** Choice buttons in the work-preferences section, as tall as the inputs beside them */
@@ -93,6 +94,7 @@ export function WorkerProfileForm({
   professions,
   skills,
   districts,
+  places,
   portfolio,
   today,
 }: {
@@ -102,6 +104,8 @@ export function WorkerProfileForm({
   professions: PickerGroup[];
   skills: PickerGroup[];
   districts: District[];
+  /** Places of the saved district, so the village list shows at once */
+  places?: Place[];
   portfolio: string[];
   today: string;
 }) {
@@ -199,6 +203,7 @@ export function WorkerProfileForm({
               districts={districts}
               district={one("district") || undefined}
               location={one("locationId") ? Number(one("locationId")) : undefined}
+              places={one("district") && one("district") === initial.district ? places : undefined}
               labels={{ allDistricts: dict.postJob.chooseDistrict, allVillages: dict.postJob.chooseVillage }}
               villageName="locationId"
               className={inputClass}
@@ -206,17 +211,21 @@ export function WorkerProfileForm({
           </div>
           {(err("district") ?? err("locationId")) && <span className="block text-sm text-error">{err("district") ?? err("locationId")}</span>}
         </div>
-        <fieldset className="space-y-1.5">
-          <legend className="text-sm font-semibold">{p.preferredDistricts}</legend>
-          <div className="flex flex-wrap gap-2">
-            {districts.map((d) => (
-              <label key={d.slug} className={choice}>
-                <input type="checkbox" name="preferredDistricts" value={d.slug} defaultChecked={many("preferredDistricts").includes(d.slug)} className="size-4 accent-accent" />
-                {d.label}
-              </label>
-            ))}
-          </div>
-        </fieldset>
+        {/* A searchable list: there are 75 cities and districts */}
+        <div className="space-y-1.5">
+          <span className="text-sm font-semibold">{p.preferredDistricts}</span>
+          <OptionPicker
+            name="preferredDistricts"
+            multiple
+            groups={(["city", "rayon"] as const).map((kind) => ({
+              label: p.districtGroups[kind],
+              items: districts.filter((d) => d.kind === kind).map((d) => ({ value: d.slug, label: d.label })),
+            }))}
+            defaultValues={many("preferredDistricts")}
+            placeholder={dict.postJob.chooseDistrict}
+            texts={pickerTexts}
+          />
+        </div>
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label={p.maxCommuteKm} error={err("maxCommuteKm")}>
             <input name="maxCommuteKm" type="number" min={0} max={300} inputMode="numeric" defaultValue={one("maxCommuteKm")} aria-invalid={!!err("maxCommuteKm")} className={inputClass} />
