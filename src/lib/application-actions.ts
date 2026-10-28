@@ -2,6 +2,7 @@
 
 import { refresh } from "next/cache";
 import { redirect } from "next/navigation";
+import { after } from "next/server";
 import { Prisma } from "@/generated/prisma/client";
 import { defaultLocale, hasLocale } from "@/i18n/config";
 import { APPLICATION_STATUSES, applyProblem, applySchema, type ApplyErrorKey } from "@/lib/applications";
@@ -52,8 +53,9 @@ export async function applyToJob(jobId: string, _prev: ApplyState, formData: For
     throw e;
   }
 
-  // Only after the application is saved; never fails the application (errors are recorded and logged)
-  await notifyNewApplication(applicationId);
+  // Only after the application is saved, and after the response: the job seeker never waits for the
+  // email, and it never fails the application (errors are recorded and logged)
+  after(() => notifyNewApplication(applicationId));
   refresh();
   return { applied: true };
 }
