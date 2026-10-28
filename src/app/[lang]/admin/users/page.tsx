@@ -2,8 +2,10 @@ import { Suspense } from "react";
 import type { Locale } from "@/i18n/config";
 import { getDictionary, getLocale, type Dictionary } from "@/i18n/dictionaries";
 import { Avatar } from "@/components/Avatar";
+import { AdminResetLink } from "@/components/admin/AdminResetLink";
 import { getAdminUsers, parseAdminUsersQuery } from "@/lib/admin";
 import { requireAdminPage } from "@/lib/admin-guard";
+import { ADMIN_LINK_HOURS } from "@/lib/auth/password-reset";
 import { t } from "@/lib/format";
 import { setUserBlocked } from "@/lib/job-actions";
 
@@ -75,6 +77,10 @@ async function AdminUsers({
                   {t(a.joined, { date: date.format(u.createdAt) })}
                 </p>
               </div>
+              {/* For someone who cannot use the email reset; not for admins, blocked or deleted accounts (also enforced in the action) */}
+              {u.role !== "ADMIN" && !u.blockedAt && !u.deletedAt && (
+                <AdminResetLink lang={lang} userId={u.id} hours={ADMIN_LINK_HOURS} t={a.resetLink} />
+              )}
               {/* Admins cannot be blocked (also enforced in the action) */}
               {u.role !== "ADMIN" && (
                 <form action={setUserBlocked}>

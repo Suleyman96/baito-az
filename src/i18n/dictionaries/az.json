@@ -224,7 +224,9 @@
       "goodbyeTitle": "Profiliniz silindi",
       "goodbyeText": "Hesabınızdan çıxdınız. Baito.az-dan istifadə etdiyiniz üçün təşəkkür edirik.",
       "goodbyeHome": "Ana səhifəyə qayıt"
-    }
+    },
+    "emailReminder": "Hesabınıza email əlavə edin: şifrəni unutsanız, onu özünüz bərpa edə biləcəksiniz.",
+    "emailReminderAction": "Email əlavə et"
   },
   "postJob": {
     "title": "Elan yerləşdir",
@@ -355,7 +357,15 @@
     "blockedBadge": "Bloklanıb",
     "blockHint": "Bloklanan istifadəçi sayta daxil ola bilmir və onun elanları saytdan gizlənir.",
     "limitNote": "Ən çox 100 nəticə göstərilir. Daha dəqiq axtarış edin.",
-    "deletedBadge": "Silinib"
+    "deletedBadge": "Silinib",
+    "resetLink": {
+      "create": "Bərpa linki yarat",
+      "label": "Şifrə bərpası linki",
+      "copy": "Kopyala",
+      "copied": "Kopyalandı",
+      "hint": "Linki yalnız şəxsiyyətini yoxladığınız hesab sahibinə verin (məsələn, hesaba bağlı nömrəyə zəng edərək). Link {hours} saat etibarlıdır, bir dəfə işləyir və bir daha göstərilməyəcək. Yeni link əvvəlki admin linkini ləğv edir.",
+      "notAllowed": "Bu hesab üçün link yaratmaq olmur."
+    }
   },
   "jobsPage": {
     "title": "Bütün vakansiyalar",

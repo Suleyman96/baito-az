@@ -13,6 +13,7 @@ import type { SocialKind } from "@/lib/social-links";
 
 /** One profile section: its own form, action and "saved" message. */
 function Section({
+  id,
   title,
   hint,
   lang,
@@ -22,6 +23,8 @@ function Section({
   savedText,
   children,
 }: {
+  /** Anchor for links to this section (e.g. the email reminder) */
+  id?: string;
   title: string;
   hint?: string;
   lang: Locale;
@@ -38,7 +41,7 @@ function Section({
   };
 
   return (
-    <section className="rounded-xl border border-line bg-surface p-5">
+    <section id={id} className="scroll-mt-24 rounded-xl border border-line bg-surface p-5">
       <h2 className="text-lg font-semibold">{title}</h2>
       {hint && <p className="text-sm text-muted">{hint}</p>}
       {/* key: React resets uncontrolled fields after an action; remounting with the returned values keeps them */}
@@ -77,7 +80,7 @@ export function AccountForms({
 
   return (
     <div className="space-y-4">
-      <Section title={t.accountSection} hint={a.contactHint} lang={lang} action={updateAccount} dict={dict} submitLabel={t.save} savedText={t.saved}>
+      <Section id="account-details" title={t.accountSection} hint={a.contactHint} lang={lang} action={updateAccount} dict={dict} submitLabel={t.save} savedText={t.saved}>
         {(state, err) => {
           const v = state?.values ?? user;
           return (

@@ -224,7 +224,9 @@
       "goodbyeTitle": "Your profile was deleted",
       "goodbyeText": "You have been logged out. Thank you for using Baito.az.",
       "goodbyeHome": "Back to home"
-    }
+    },
+    "emailReminder": "Add an email to your account: if you forget your password, you will be able to reset it yourself.",
+    "emailReminderAction": "Add email"
   },
   "postJob": {
     "title": "Post a job",
@@ -355,7 +357,15 @@
     "blockedBadge": "Blocked",
     "blockHint": "Blocked users cannot log in, and their jobs are hidden from the site.",
     "limitNote": "Showing at most 100 results. Narrow your search.",
-    "deletedBadge": "Deleted"
+    "deletedBadge": "Deleted",
+    "resetLink": {
+      "create": "Make a reset link",
+      "label": "Password reset link",
+      "copy": "Copy",
+      "copied": "Copied",
+      "hint": "Give the link only to the account owner, after checking who they are (e.g. by calling the account's number). The link is valid for {hours} hours, works once and will not be shown again. A new link cancels the previous admin link.",
+      "notAllowed": "A link cannot be made for this account."
+    }
   },
   "jobsPage": {
     "title": "All jobs",

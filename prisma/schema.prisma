@@ -82,8 +82,9 @@ model User {
   reviewsWritten  Review[]   @relation("ReviewAuthor")
   reviewsReceived Review[]   @relation("ReviewSubject")
   notifications Notification[]
-  /// Password reset links sent by email (src/lib/auth/password-reset.ts)
-  passwordResets PasswordResetToken[]
+  /// Password reset links for this account (src/lib/auth/password-reset.ts), and those this admin made for others
+  passwordResets PasswordResetToken[] @relation("ResetLinkOwner")
+  resetLinksMade PasswordResetToken[] @relation("ResetLinkCreator")
   /// Job offers an employer sent to job seekers, and those a job seeker received
   offersSent     JobOffer[]  @relation("OfferEmployer")
   offersReceived JobOffer[]  @relation("OfferWorker")
@@ -107,16 +108,19 @@ model Session {
   @@index([userId])
 }
 
-/// A one-time password reset link, emailed to the account's address. The id is the SHA-256 hash of the
-/// token in the link, so a leaked database copy cannot be used to reset a password. `email` is the address
-/// it was sent to: the link stops working if the account's email changes. Deleted once used
+/// A one-time password reset link. The id is the SHA-256 hash of the token in the link, so a leaked
+/// database copy cannot be used to reset a password. Deleted once used.
+/// Emailed links: `email` is the address it was sent to, and the link stops working if the account's email changes.
+/// Links an admin made for an account without email (handed over after checking who asks): `createdBy` is that admin
 model PasswordResetToken {
-  id        String   @id
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
-  email     String
-  expiresAt DateTime
-  createdAt DateTime @default(now())
+  id          String   @id
+  user        User     @relation("ResetLinkOwner", fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  email       String?
+  createdBy   User?    @relation("ResetLinkCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  createdById String?
+  expiresAt   DateTime
+  createdAt   DateTime @default(now())
 
   @@index([userId, createdAt])
 }

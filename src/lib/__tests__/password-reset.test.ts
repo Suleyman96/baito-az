@@ -39,6 +39,14 @@ describe("resetLinkUsable", () => {
     expect(resetLinkUsable(link, { ...user, blockedAt: now }, now)).toBe(false);
     expect(resetLinkUsable(link, { ...user, deletedAt: now }, now)).toBe(false);
   });
+
+  it("a link an admin made has no email and is not tied to one", () => {
+    const adminLink = { email: null, expiresAt: link.expiresAt };
+    expect(resetLinkUsable(adminLink, { ...user, email: null }, now)).toBe(true);
+    expect(resetLinkUsable(adminLink, user, now)).toBe(true);
+    expect(resetLinkUsable(adminLink, { ...user, email: null, blockedAt: now }, now)).toBe(false);
+    expect(resetLinkUsable(adminLink, { ...user, email: null }, new Date("2026-10-28T11:00:00Z"))).toBe(false);
+  });
 });
 
 describe("buildPasswordResetEmail", () => {
