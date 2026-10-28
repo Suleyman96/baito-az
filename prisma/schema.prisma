@@ -82,6 +82,8 @@ model User {
   reviewsWritten  Review[]   @relation("ReviewAuthor")
   reviewsReceived Review[]   @relation("ReviewSubject")
   notifications Notification[]
+  /// Password reset links sent by email (src/lib/auth/password-reset.ts)
+  passwordResets PasswordResetToken[]
   /// Job offers an employer sent to job seekers, and those a job seeker received
   offersSent     JobOffer[]  @relation("OfferEmployer")
   offersReceived JobOffer[]  @relation("OfferWorker")
@@ -103,6 +105,20 @@ model Session {
   createdAt DateTime @default(now())
 
   @@index([userId])
+}
+
+/// A one-time password reset link, emailed to the account's address. The id is the SHA-256 hash of the
+/// token in the link, so a leaked database copy cannot be used to reset a password. `email` is the address
+/// it was sent to: the link stops working if the account's email changes. Deleted once used
+model PasswordResetToken {
+  id        String   @id
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  email     String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
 }
 
 /// A failed login, kept for a short while to slow down password guessing (src/lib/auth/login-throttle.ts).

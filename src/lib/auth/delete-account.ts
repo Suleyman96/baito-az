@@ -13,7 +13,7 @@ export const DELETED_USER_NAME = "Silinmiş istifadəçi";
  * - contacts, photo, social links, CVs, the worker profile and its portfolio are deleted;
  * - email and phone are freed, so the person can register again with them;
  * - the employer's open jobs are closed, the company page is hidden and its name freed;
- * - open offers to or from the user are withdrawn; every session ends.
+ * - open offers to or from the user are withdrawn; every session and password reset link ends.
  * One transaction: either all of it happens or none.
  */
 export async function softDeleteUser(userId: string) {
@@ -51,5 +51,6 @@ export async function softDeleteUser(userId: string) {
     db.resume.deleteMany({ where: { ownerId: userId } }),
     ...(avatarId ? [db.image.deleteMany({ where: { id: avatarId } })] : []),
     db.session.deleteMany({ where: { userId } }),
+    db.passwordResetToken.deleteMany({ where: { userId } }),
   ]);
 }

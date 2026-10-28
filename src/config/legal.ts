@@ -5,7 +5,7 @@ export const legal = {
    * Version of the two documents, stored with each new account's consent (User.termsVersion).
    * Change it (e.g. to the new date) whenever the texts change in substance.
    */
-  version: "2026-10-28",
+  version: "2026-10-28.2",
   /** Date the current texts take effect, shown at the top of both pages (YYYY-MM-DD) */
   effectiveDate: "2026-10-28",
   operator: {

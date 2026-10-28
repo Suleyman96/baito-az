@@ -150,6 +150,27 @@
       "termsRequired": "To continue, accept the Terms of Use and the Privacy Policy."
     }
   },
+  "passwordReset": {
+    "forgotLink": "Forgot your password?",
+    "forgotTitle": "Reset your password",
+    "forgotText": "Enter the email of your account. We will send a link there to set a new password.",
+    "submitRequest": "Send link",
+    "sentText": "If there is an account with {email}, we have sent a link there to reset your password. The link is valid for {minutes} minutes. If you don't see the email, check your spam folder.",
+    "phoneOnly": "If you signed up with a mobile number only, contact the site administration to reset your password.",
+    "backToLogin": "Back to log in",
+    "resetTitle": "New password",
+    "resetText": "Set a new password for your account. You will then be logged out on all devices.",
+    "newPassword": "New password",
+    "submitReset": "Update password",
+    "invalidTitle": "This link is not valid",
+    "invalidText": "This link has already been used, has expired or is not correct. Ask for a new link.",
+    "requestNew": "Ask for a new link",
+    "doneNotice": "Your password has been updated. Log in with your new password.",
+    "email": {
+      "subject": "Baito.az: reset your password",
+      "text": "Hello, {name}!\n\nA password reset was requested for your Baito.az account. To set a new password, open this link:\n{link}\n\nThe link is valid for {minutes} minutes and can be used only once.\n\nIf you did not ask for this, ignore this email: your password will not change.\n\nBaito.az"
+    }
+  },
   "account": {
     "title": "Profile",
     "accountSection": "Account details",

@@ -103,8 +103,9 @@ export async function changePassword(_prev: AccountFormState, formData: FormData
     return { errors: { currentPassword: "currentPasswordWrong" }, values: {} };
   }
   await db.user.update({ where: { id: user.id }, data: { passwordHash: await bcrypt.hash(parsed.data.newPassword, 10) } });
-  // Someone who knew the old password is logged out everywhere else
+  // Someone who knew the old password is logged out everywhere else, and reset links sent before stop working
   await deleteOtherSessions(user.id);
+  await db.passwordResetToken.deleteMany({ where: { userId: user.id } });
   return { errors: {}, values: {}, saved: true };
 }
 

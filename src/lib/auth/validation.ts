@@ -161,6 +161,14 @@ export const companySchema = z
     }
   });
 
+/** "Forgot password": the account's email */
+export const resetRequestSchema = z.object({
+  email: z.string().trim().toLowerCase().pipe(z.email("emailInvalid")),
+});
+
+/** The new password set through a reset link */
+export const resetPasswordSchema = z.object({ password });
+
 export const passwordChangeSchema = z.object({
   currentPassword: z.string().min(1, "currentPasswordWrong"),
   newPassword: password,
