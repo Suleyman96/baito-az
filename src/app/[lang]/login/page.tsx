@@ -29,9 +29,18 @@ async function Login({
   dict: Dictionary;
   searchParams: PageProps<"/[lang]/login">["searchParams"];
 }) {
-  const { next } = await searchParams;
+  const { next, reset } = await searchParams;
   const nextPath = safeNext(next, "") || undefined;
   if (await getCurrentUser()) redirect(nextPath ?? `/${lang}`);
 
-  return <LoginForm lang={lang} next={nextPath} t={dict.auth} />;
+  return (
+    <LoginForm
+      lang={lang}
+      next={nextPath}
+      // After a password reset (password-reset-actions.ts)
+      notice={reset === "1" ? dict.passwordReset.doneNotice : undefined}
+      forgotLink={dict.passwordReset.forgotLink}
+      t={dict.auth}
+    />
+  );
 }

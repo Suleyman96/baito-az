@@ -129,7 +129,8 @@ export function RegisterForm({ lang, next, role, t }: { lang: Locale; next?: str
   );
 }
 
-export function LoginForm({ lang, next, t }: { lang: Locale; next?: string; t: Texts }) {
+/** `notice`: a success message from the step before (e.g. "password updated") */
+export function LoginForm({ lang, next, notice, forgotLink, t }: { lang: Locale; next?: string; notice?: string; forgotLink: string; t: Texts }) {
   const [state, action, pending] = useActionState(login, undefined);
   const formError = errorText(t, state, "form");
 
@@ -138,10 +139,16 @@ export function LoginForm({ lang, next, t }: { lang: Locale; next?: string; t: T
       <input type="hidden" name="lang" value={lang} />
       {next && <input type="hidden" name="next" value={next} />}
 
-      {formError && (
+      {formError ? (
         <p role="alert" className="rounded-lg bg-error-soft px-3 py-2 text-sm text-error">
           {formError}
         </p>
+      ) : (
+        notice && (
+          <p role="status" className="rounded-lg bg-brand-soft px-3 py-2 text-sm">
+            {notice}
+          </p>
+        )
       )}
       <Field label={t.identifier} hint={t.phoneHint}>
         <input name="identifier" defaultValue={state?.values.identifier} autoComplete="username" required className={inputClass} />
@@ -149,6 +156,11 @@ export function LoginForm({ lang, next, t }: { lang: Locale; next?: string; t: T
       <Field label={t.password}>
         <input name="password" type="password" autoComplete="current-password" required className={inputClass} />
       </Field>
+      <p className="-mt-2 text-right text-sm">
+        <Link href={`/${lang}/forgot-password`} className="font-medium text-accent hover:underline">
+          {forgotLink}
+        </Link>
+      </p>
 
       <button type="submit" disabled={pending} className={`${buttonClass.primary} w-full`}>
         {t.submitLogin}

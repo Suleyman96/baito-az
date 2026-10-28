@@ -150,6 +150,27 @@
       "termsRequired": "Davam etmək üçün İstifadə qaydalarını və Məxfilik siyasətini qəbul edin."
     }
   },
+  "passwordReset": {
+    "forgotLink": "Şifrəni unutmusunuz?",
+    "forgotTitle": "Şifrənin bərpası",
+    "forgotText": "Hesabınıza bağlı emaili yazın. Yeni şifrə təyin etmək üçün ora link göndərəcəyik.",
+    "submitRequest": "Link göndər",
+    "sentText": "Əgər {email} ilə hesab varsa, ora şifrəni yeniləmək üçün link göndərdik. Link {minutes} dəqiqə etibarlıdır. Məktubu görmürsünüzsə, «Spam» qovluğunu yoxlayın.",
+    "phoneOnly": "Qeydiyyatdan yalnız mobil nömrə ilə keçmisinizsə, şifrəni bərpa etmək üçün sayt administrasiyası ilə əlaqə saxlayın.",
+    "backToLogin": "Girişə qayıt",
+    "resetTitle": "Yeni şifrə",
+    "resetText": "Hesabınız üçün yeni şifrə təyin edin. Bundan sonra bütün cihazlarda hesabdan çıxılacaq.",
+    "newPassword": "Yeni şifrə",
+    "submitReset": "Şifrəni yenilə",
+    "invalidTitle": "Link etibarsızdır",
+    "invalidText": "Bu link artıq istifadə olunub, vaxtı keçib və ya düzgün deyil. Yeni link istəyin.",
+    "requestNew": "Yeni link istə",
+    "doneNotice": "Şifrəniz yeniləndi. Yeni şifrə ilə daxil olun.",
+    "email": {
+      "subject": "Baito.az: şifrənin bərpası",
+      "text": "Salam, {name}!\n\nBaito.az hesabınız üçün şifrənin bərpası istənildi. Yeni şifrə təyin etmək üçün bu linkə keçin:\n{link}\n\nLink {minutes} dəqiqə etibarlıdır və yalnız bir dəfə istifadə oluna bilər.\n\nBunu siz istəməmisinizsə, bu məktubu nəzərə almayın: şifrəniz dəyişməyəcək.\n\nBaito.az"
+    }
+  },
   "account": {
     "title": "Profil",
     "accountSection": "Hesab məlumatları",
