@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Baito.az — local jobs in the district",
-    "description": "Part-time and full-time jobs in our district. For job seekers and employers."
+    "title": "Baito.az — one-day jobs and vacancies",
+    "description": "One-day, part-time and full-time jobs. For job seekers and employers."
   },
   "nav": {
     "jobs": "Jobs",
@@ -26,8 +26,8 @@
     "offersSent": "Sent offers"
   },
   "home": {
-    "title": "Find work or workers near you",
-    "subtitle": "Looking for a job or for staff? Explore permanent, part-time and one-day work, or easily find the right person for what you need.",
+    "title": "Find a one-day job near you",
+    "subtitle": "One-day jobs, plus part-time and full-time vacancies. Need a worker? Post a job.",
     "searchPlaceholder": "Job title or keyword",
     "search": "Search",
     "allCategories": "All categories",
@@ -48,9 +48,12 @@
     "oneDayTitle": "One-day jobs this week",
     "seeAll": "See all",
     "latest": "Latest jobs",
-    "stats": "{jobs} active jobs · {oneDay} one-day jobs this week",
+    "stats": "{jobs} active jobs",
     "removeFilter": "Remove filter: {name}",
-    "allJobs": "All jobs"
+    "allJobs": "All jobs",
+    "statsOneDay": "{count} one-day jobs this week",
+    "oneDayEmpty": "No one-day jobs this week.",
+    "oneDayPost": "Post a one-day job"
   },
   "jobType": {
     "FULL_TIME": "Full-time",
@@ -108,7 +111,7 @@
     "email": "Email",
     "phone": "Mobile number",
     "phoneHint": "For example: 050 123 45 67",
-    "contactHint": "Enter at least one: email or mobile number. You can log in with either.",
+    "contactHint": "Enter an email, a mobile number or both. You can log in with either.",
     "companyName": "Business name (optional)",
     "companyHint": "Leave empty if you are hiring as a private person. Your name will be shown on your jobs.",
     "roleQuestion": "Who are you?",
@@ -136,7 +139,7 @@
       "emailTaken": "An account with this email already exists.",
       "phoneTaken": "An account with this number already exists.",
       "invalidCredentials": "Wrong email/phone or password.",
-      "blocked": "Your account has been blocked. Please contact the site administration.",
+      "blocked": "Your account is blocked. Contact the site administration.",
       "tooManyAttempts": "Too many failed login attempts. Please try again in 15 minutes.",
       "currentPasswordWrong": "The current password is wrong.",
       "companyNameLong": "The name is too long (at most 100 characters).",
@@ -144,7 +147,7 @@
       "addressLong": "The address is too long (at most 200 characters).",
       "locationInvalid": "The map location is not valid. Please pick it again.",
       "socialInvalid": "This link or username is not valid.",
-      "companyNameTaken": "A company with this name is already registered. If you work there, you can leave the company name empty and continue as a private employer. If it's a different branch or company, make the name more specific (e.g. “Bərəkət Market — Qax”).",
+      "companyNameTaken": "This company name is taken. If you work there, leave the name empty (private employer). If it's another branch or company, make it specific: “Bərəkət Market — Qax”.",
       "confirmRequired": "Tick the box to confirm the deletion.",
       "deleteNotAllowed": "Admin accounts can't be deleted here.",
       "termsRequired": "To continue, accept the Terms of Use and the Privacy Policy."
@@ -153,17 +156,17 @@
   "passwordReset": {
     "forgotLink": "Forgot your password?",
     "forgotTitle": "Reset your password",
-    "forgotText": "Enter the email of your account. We will send a link there to set a new password.",
+    "forgotText": "Enter your account's email and we'll send a link to set a new password.",
     "submitRequest": "Send link",
-    "sentText": "If there is an account with {email}, we have sent a link there to reset your password. The link is valid for {minutes} minutes. If you don't see the email, check your spam folder.",
-    "phoneOnly": "If you signed up with a mobile number only, contact the site administration to reset your password.",
+    "sentText": "If there is an account with {email}, we sent a link there. It is valid for {minutes} minutes. No email? Check your spam folder.",
+    "phoneOnly": "Signed up with a phone number only? Contact the site administration to reset your password.",
     "backToLogin": "Back to log in",
     "resetTitle": "New password",
-    "resetText": "Set a new password for your account. You will then be logged out on all devices.",
+    "resetText": "Set a new password. You will be logged out on all devices.",
     "newPassword": "New password",
     "submitReset": "Update password",
     "invalidTitle": "This link is not valid",
-    "invalidText": "This link has already been used, has expired or is not correct. Ask for a new link.",
+    "invalidText": "This link was used, has expired or is wrong. Ask for a new one.",
     "requestNew": "Ask for a new link",
     "doneNotice": "Your password has been updated. Log in with your new password.",
     "email": {
@@ -261,7 +264,7 @@
     "submit": "Send for review",
     "moderationNote": "The job appears on the site after an admin approves it.",
     "formHasErrors": "The job was not sent. Please fix the fields marked in red.",
-    "employersOnly": "Only “I'm hiring” accounts can post jobs. Your account is a job seeker account.",
+    "employersOnly": "Only employer accounts can post jobs. Yours is a job seeker account.",
     "errors": {
       "titleRequired": "Enter a title (3–100 characters).",
       "descriptionRequired": "Describe the job briefly (at least 10 characters).",
@@ -280,7 +283,7 @@
   "myJobs": {
     "title": "My jobs",
     "empty": "You have no jobs yet.",
-    "created": "Your job was sent for review. It will appear on the site after an admin approves it.",
+    "created": "Your job was sent for review. It will appear once approved.",
     "expired": "Expired",
     "status": {
       "PENDING": "In review",
@@ -293,7 +296,7 @@
   },
   "manageJob": {
     "editTitle": "Edit job",
-    "editNote": "After saving, the job goes back to admin review and is hidden until it is approved.",
+    "editNote": "After saving, the job is reviewed again and hidden until approved.",
     "save": "Save and send for review",
     "edit": "Edit",
     "duplicate": "Duplicate",
@@ -359,7 +362,8 @@
   },
   "jobsPage": {
     "title": "All jobs",
-    "subtitle": "Active jobs across every city and district of Azerbaijan. Narrow the search with filters."
+    "subtitle": "Active jobs in every city and district.",
+    "typeAll": "All"
   },
   "companies": {
     "title": "Companies",
@@ -386,85 +390,85 @@
   },
   "about": {
     "title": "About Baito.az",
-    "lead": "Baito.az is a job platform that brings job seekers and employers together. Find permanent, part-time and one-day jobs, and people ready to work, in one place.",
+    "lead": "Baito.az is a job platform for one-day, part-time and full-time work, and for people ready to work.",
     "whoTitle": "Who we are",
     "who": [
-      "Baito.az is an online platform built for Azerbaijan's job market. Our goal is to make vacancies and job opportunities easier to reach for everyone.",
-      "Jobs can be posted and found for every city and district of Azerbaijan, from Baku to Nakhchivan, down to the village. Work in shops, restaurants, construction, farming and other fields is gathered in one place, so nobody has to search for it in social media groups."
+      "Baito.az is an online job platform for Azerbaijan. Our goal is to make work opportunities easy to reach for everyone.",
+      "Post and find jobs in every city and district, from Baku to Nakhchivan, down to the village. Jobs in shops, restaurants, construction, farming and more are in one place — no need to search social media groups."
     ],
     "missionTitle": "Our mission",
-    "mission": "To shorten the path between job seekers and employers. Posting a job, finding the right job or worker and getting in touch should be simple and clear for everyone.",
+    "mission": "To shorten the path between job seekers and employers: posting a job and finding work or a worker should be simple for everyone.",
     "offerTitle": "What we offer",
-    "offerLead": "What you can use on the platform today:",
+    "offerLead": "On the site today:",
     "offers": [
       {
         "title": "Posting jobs",
-        "text": "Employers post permanent, part-time and one-day jobs. Every post is reviewed before it appears on the site."
+        "text": "Employers post one-day, part-time and full-time jobs. Every post is reviewed before it goes live."
       },
       {
         "title": "Job search",
-        "text": "Search and filters by keyword, district, village, category, job type and pay."
+        "text": "Filters by keyword, district, village, category, job type and pay."
       },
       {
         "title": "Online applications",
-        "text": "Apply through the site. Permanent jobs take a CV, and you can follow the status of your applications in your profile."
+        "text": "Apply through the site and follow the status in your profile. Full-time jobs need a CV."
       },
       {
         "title": "Job seekers directory",
-        "text": "Job seekers create a profile showing their profession, skills and experience. Employers find suitable candidates by profession, district and job type."
+        "text": "Job seekers create a profile with their profession, skills and experience. Employers find candidates by profession, district and job type."
       },
       {
         "title": "Job offers",
-        "text": "Employers send a job offer to a candidate they like through the site. The candidate accepts or declines."
+        "text": "Employers send a job offer to a candidate through the site; the candidate accepts or declines."
       },
       {
         "title": "Reviews and ratings",
-        "text": "When a job is done, the employer and the worker review each other. These reviews build trust for the next choice."
+        "text": "When a job is done, the employer and the worker review each other."
       }
     ],
     "audienceTitle": "Who it is for",
     "audiences": [
       {
         "title": "Job seekers",
-        "text": "People looking for a permanent job, part-time work or a few hours of extra income."
+        "text": "For anyone looking for one-day, part-time or permanent work."
       },
       {
         "title": "Companies",
-        "text": "Shops, restaurants, construction firms and other businesses looking for staff. All of a company's jobs appear together on its page."
+        "text": "For shops, restaurants, construction firms and other businesses hiring staff. All of a company's jobs are on its page."
       },
       {
         "title": "Private employers",
-        "text": "People who need help at home, in the garden or for a one-day job. No company name needed: post under your own name."
+        "text": "For people who need help at home, in the garden or for a day. No company name needed."
       }
     ],
     "valuesTitle": "Our values",
     "values": [
       {
         "title": "Accessibility",
-        "text": "The site works well on phones and is available in Azerbaijani, English, Russian and Japanese."
+        "text": "Works well on phones; in Azerbaijani, English, Russian and Japanese."
       },
       {
         "title": "Transparency",
-        "text": "Job posts clearly show the job type, place and pay (or a “negotiable” note)."
+        "text": "Each job clearly shows the type, place and pay (or “negotiable”)."
       },
       {
         "title": "Ease of use",
-        "text": "Browse jobs without signing up. To register, an email or a phone number is enough."
+        "text": "Browse jobs without signing up. An email or a phone number is enough to register."
       },
       {
         "title": "Mutual trust",
-        "text": "Two-way reviews, profiles that are public only if their owner chooses, and private phone numbers that are never shown."
+        "text": "Two-way reviews, profiles public only if their owner chooses, and private phone numbers kept hidden."
       }
     ],
     "ctaSeekers": {
       "title": "Looking for work?",
-      "text": "Sign up and create a profile so employers can find you, or browse the jobs right now.",
+      "text": "Create a profile so employers can find you, or browse the jobs.",
       "register": "Sign up",
       "browse": "Browse jobs"
     },
     "ctaEmployers": {
       "title": "Looking for workers?",
-      "text": "Post a job, or find a suitable candidate yourself in “Job seekers”.",
+      "text": "Post a job, or find a candidate in “Job seekers”.",
       "post": "Post a job",
       "workers": "Browse job seekers"
     },
@@ -484,17 +488,17 @@
   },
   "errorPage": {
     "notFoundTitle": "Page not found",
-    "notFoundText": "The page you are looking for does not exist, was removed or has moved. Check the address or use one of the links below.",
+    "notFoundText": "This page does not exist or has moved. Check the address or use the links below.",
     "home": "Back to the home page",
     "back": "Previous page",
     "errorTitle": "Something went wrong",
-    "errorText": "An unexpected error occurred while showing this page. Please try again in a moment. If the problem continues, go back to the home page.",
+    "errorText": "An unexpected error occurred. Try again in a moment, or go back to the home page.",
     "retry": "Try again",
     "placesFailed": "The list did not load. Click to try again"
   },
   "upload": {
     "photoTitle": "Profile photo",
-    "photoHint": "For employers this photo is also shown as the company logo. JPG, PNG or WebP, up to 3 MB.",
+    "photoHint": "JPG, PNG or WebP, up to 3 MB. For employers it is also the company logo.",
     "choosePhoto": "Choose photo",
     "changePhoto": "Change photo",
     "removePhoto": "Remove",
@@ -513,7 +517,7 @@
   },
   "resume": {
     "title": "CV (resume)",
-    "hint": "PDF, DOC or DOCX, up to 5 MB. A CV is required to apply for full-time jobs. Only employers you apply to can see it.",
+    "hint": "PDF, DOC or DOCX, up to 5 MB. Required for full-time jobs. Only employers you apply to can see it.",
     "none": "You have not uploaded a CV yet.",
     "upload": "Upload CV",
     "replace": "Replace CV",
@@ -588,7 +592,7 @@
     "download": "Download",
     "wordNote": "Word files cannot be shown in the browser. Download and open it.",
     "changeStatus": "Status",
-    "statusLocked": "The job is completed: a hired worker's status can no longer be changed, so they can still leave a review.",
+    "statusLocked": "The job is completed: a hired worker's status stays fixed so they can leave a review.",
     "save": "Save",
     "count": "{count} applications",
     "newCount": "{count} new",
@@ -607,7 +611,7 @@
     "title": "Reviews",
     "subtitle": "After a job is completed, the employer and the worker review each other.",
     "pendingTitle": "Reviews to write",
-    "pendingEmpty": "No reviews to write. Reviews open once the employer marks a job as completed.",
+    "pendingEmpty": "No reviews to write. Reviews open once a job is marked completed.",
     "writtenTitle": "Reviews I wrote",
     "writtenEmpty": "You have not written any reviews yet.",
     "receivedTitle": "Reviews about me",
@@ -638,7 +642,7 @@
   },
   "workerProfile": {
     "title": "My work profile",
-    "subtitle": "Let employers find you on the “Job seekers” page. Your phone number is never shown publicly.",
+    "subtitle": "Let employers find you on the “Job seekers” page. Your phone is never shown publicly.",
     "personal": "Personal details",
     "profession": "Profession and skills",
     "location": "Location",
@@ -711,7 +715,7 @@
   },
   "workers": {
     "title": "Job seekers",
-    "subtitle": "People looking for work in the district. Search by profession, place and work type.",
+    "subtitle": "People looking for work. Search by profession, place and work type.",
     "searchPlaceholder": "Name, profession or skill",
     "allGroups": "All fields",
     "allProfessions": "All professions",
@@ -753,7 +757,7 @@
   },
   "footer": {
     "text": "Opportunities for job seekers, the right candidates for employers.",
-    "tagline": "Baito.az brings job seekers and employers together in cities and districts across Azerbaijan.",
+    "tagline": "One-day jobs and vacancies in cities and districts across Azerbaijan.",
     "seekersTitle": "Job seekers",
     "jobs": "Jobs",
     "workers": "Job seekers",
@@ -771,7 +775,7 @@
   },
   "social": {
     "title": "Social media",
-    "hint": "Optional. Links you fill in are shown to everyone on your profile; empty ones are not shown. You can enter a username or a link.",
+    "hint": "Optional. Filled-in links are public on your profile. Enter a username or a link.",
     "whatsappHint": "This number will be visible to everyone on your profile. Your account number is never shown automatically.",
     "open": "{network}: {name} (opens in a new tab)",
     "names": {
@@ -801,7 +805,7 @@
     "dialogTitle": "Contact {name}",
     "close": "Close",
     "siteTitle": "Job offer through the site",
-    "siteHint": "The offer is sent under your company name. The job seeker sees it on their “Job offers” page and can reply.",
+    "siteHint": "Sent under your company name. The job seeker sees it on their “Job offers” page and can reply.",
     "job": "Job (optional)",
     "noJob": "No specific job",
     "message": "Message",

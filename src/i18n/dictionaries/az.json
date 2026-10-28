@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Baito.az — rayonda iş elanları",
-    "description": "Rayonumuzda part-time və full-time iş elanları. İş axtaranlar və işəgötürənlər üçün."
+    "title": "Baito.az — günlük iş və vakansiyalar",
+    "description": "Günlük, part-time və full-time işlər. İş axtaranlar və işəgötürənlər üçün."
   },
   "nav": {
     "jobs": "Vakansiyalar",
@@ -26,8 +26,8 @@
     "offersSent": "Göndərilmiş təkliflər"
   },
   "home": {
-    "title": "Yaxınında iş və ya işçi tap",
-    "subtitle": "İş axtarırsan, yoxsa işçi? Daimi, part-time və gündəlik iş imkanlarını kəşf et, yaxud ehtiyacına uyğun işçini asanlıqla tap.",
+    "title": "Yaxınında günlük iş tap",
+    "subtitle": "Bir günlük işlər, həmçinin part-time və full-time vakansiyalar. İşçi lazımdırsa, elan yerləşdir.",
     "searchPlaceholder": "Vəzifə və ya açar söz",
     "search": "Axtar",
     "allCategories": "Bütün kateqoriyalar",
@@ -48,9 +48,12 @@
     "oneDayTitle": "Bu həftə günlük işlər",
     "seeAll": "Hamısına bax",
     "latest": "Son vakansiyalar",
-    "stats": "{jobs} aktiv vakansiya · bu həftə {oneDay} günlük iş",
+    "stats": "{jobs} aktiv vakansiya",
     "removeFilter": "Filtri sil: {name}",
-    "allJobs": "Bütün vakansiyalar"
+    "allJobs": "Bütün vakansiyalar",
+    "statsOneDay": "bu həftə {count} günlük iş",
+    "oneDayEmpty": "Bu həftə günlük iş elanı yoxdur.",
+    "oneDayPost": "Günlük iş elanı yerləşdir"
   },
   "jobType": {
     "FULL_TIME": "Full-time",
@@ -108,7 +111,7 @@
     "email": "Email",
     "phone": "Mobil nömrə",
     "phoneHint": "Məsələn: 050 123 45 67",
-    "contactHint": "Email və ya mobil nömrədən ən azı birini yazın. Hər ikisi ilə daxil ola bilərsiniz.",
+    "contactHint": "Email və ya telefondan ən azı birini yazın. İkisi ilə də daxil ola bilərsiniz.",
     "companyName": "Şirkətin və ya obyektin adı (istəyə bağlı)",
     "companyHint": "Fərdi şəxssinizsə, boş saxlayın. Elanlarda adınız göstəriləcək.",
     "roleQuestion": "Siz kimsiniz?",
@@ -136,7 +139,7 @@
       "emailTaken": "Bu email ilə artıq hesab var.",
       "phoneTaken": "Bu nömrə ilə artıq hesab var.",
       "invalidCredentials": "Email/telefon və ya şifrə yanlışdır.",
-      "blocked": "Hesabınız bloklanıb. Ətraflı məlumat üçün sayt administrasiyası ilə əlaqə saxlayın.",
+      "blocked": "Hesabınız bloklanıb. Sayt administrasiyası ilə əlaqə saxlayın.",
       "tooManyAttempts": "Çox sayda uğursuz giriş cəhdi. 15 dəqiqə sonra yenidən yoxlayın.",
       "currentPasswordWrong": "Hazırkı şifrə yanlışdır.",
       "companyNameLong": "Ad çox uzundur (ən çox 100 simvol).",
@@ -144,7 +147,7 @@
       "addressLong": "Ünvan çox uzundur (ən çox 200 simvol).",
       "locationInvalid": "Xəritədəki yer düzgün deyil. Yenidən seçin.",
       "socialInvalid": "Link və ya istifadəçi adı düzgün deyil.",
-      "companyNameTaken": "Bu adla şirkət artıq qeydiyyatdadır. Bu şirkətdə işləyirsinizsə, şirkət adını boş saxlayıb fərdi işəgötürən kimi davam edə bilərsiniz. Fərqli filial və ya şirkətdirsə, adı dəqiqləşdirin (məsələn, «Bərəkət Market — Qax»).",
+      "companyNameTaken": "Bu adla şirkət artıq var. Orada işləyirsinizsə, adı boş saxlayın (fərdi işəgötürən kimi). Başqa filial və ya şirkətdirsə, adı dəqiqləşdirin: «Bərəkət Market — Qax».",
       "confirmRequired": "Silməni təsdiqləmək üçün qutunu işarələyin.",
       "deleteNotAllowed": "Admin hesabı buradan silinə bilməz.",
       "termsRequired": "Davam etmək üçün İstifadə qaydalarını və Məxfilik siyasətini qəbul edin."
@@ -153,17 +156,17 @@
   "passwordReset": {
     "forgotLink": "Şifrəni unutmusunuz?",
     "forgotTitle": "Şifrənin bərpası",
-    "forgotText": "Hesabınıza bağlı emaili yazın. Yeni şifrə təyin etmək üçün ora link göndərəcəyik.",
+    "forgotText": "Hesabınızın emailini yazın, şifrəni yeniləmək üçün link göndərək.",
     "submitRequest": "Link göndər",
-    "sentText": "Əgər {email} ilə hesab varsa, ora şifrəni yeniləmək üçün link göndərdik. Link {minutes} dəqiqə etibarlıdır. Məktubu görmürsünüzsə, «Spam» qovluğunu yoxlayın.",
-    "phoneOnly": "Qeydiyyatdan yalnız mobil nömrə ilə keçmisinizsə, şifrəni bərpa etmək üçün sayt administrasiyası ilə əlaqə saxlayın.",
+    "sentText": "{email} ilə hesab varsa, ora link göndərdik. Link {minutes} dəqiqə etibarlıdır. Məktub yoxdursa, «Spam» qovluğuna baxın.",
+    "phoneOnly": "Yalnız telefonla qeydiyyatdan keçmisinizsə, şifrə üçün sayt administrasiyasına müraciət edin.",
     "backToLogin": "Girişə qayıt",
     "resetTitle": "Yeni şifrə",
-    "resetText": "Hesabınız üçün yeni şifrə təyin edin. Bundan sonra bütün cihazlarda hesabdan çıxılacaq.",
+    "resetText": "Yeni şifrə təyin edin. Bütün cihazlarda hesabdan çıxılacaq.",
     "newPassword": "Yeni şifrə",
     "submitReset": "Şifrəni yenilə",
     "invalidTitle": "Link etibarsızdır",
-    "invalidText": "Bu link artıq istifadə olunub, vaxtı keçib və ya düzgün deyil. Yeni link istəyin.",
+    "invalidText": "Link istifadə olunub, vaxtı keçib və ya səhvdir. Yenisini istəyin.",
     "requestNew": "Yeni link istə",
     "doneNotice": "Şifrəniz yeniləndi. Yeni şifrə ilə daxil olun.",
     "email": {
@@ -261,7 +264,7 @@
     "submit": "Yoxlamaya göndər",
     "moderationNote": "Elan admin yoxlayandan sonra saytda görünəcək.",
     "formHasErrors": "Elan göndərilmədi. Qırmızı ilə qeyd olunan xanaları düzəldin.",
-    "employersOnly": "Elan yerləşdirmək yalnız «İşçi axtarıram» hesabları üçündür. Sizin hesabınız iş axtaran hesabıdır.",
+    "employersOnly": "Elanı yalnız işəgötürən hesabı ilə yerləşdirmək olar. Sizin hesabınız iş axtaran hesabıdır.",
     "errors": {
       "titleRequired": "Başlıq yazın (3–100 simvol).",
       "descriptionRequired": "İşi qısa təsvir edin (ən azı 10 simvol).",
@@ -280,7 +283,7 @@
   "myJobs": {
     "title": "Elanlarım",
     "empty": "Hələ elanınız yoxdur.",
-    "created": "Elan yoxlamaya göndərildi. Admin təsdiqləyəndən sonra saytda görünəcək.",
+    "created": "Elan yoxlamaya göndərildi. Təsdiqdən sonra saytda görünəcək.",
     "expired": "Vaxtı keçib",
     "status": {
       "PENDING": "Yoxlanılır",
@@ -293,7 +296,7 @@
   },
   "manageJob": {
     "editTitle": "Elanı redaktə et",
-    "editNote": "Yadda saxladıqdan sonra elan yenidən admin yoxlamasına göndəriləcək və təsdiqlənənə qədər saytda görünməyəcək.",
+    "editNote": "Yadda saxladıqdan sonra elan yenidən yoxlanılır və təsdiqə qədər saytda görünmür.",
     "save": "Yadda saxla və yoxlamaya göndər",
     "edit": "Redaktə et",
     "duplicate": "Təkrarla",
@@ -359,7 +362,8 @@
   },
   "jobsPage": {
     "title": "Bütün vakansiyalar",
-    "subtitle": "Azərbaycanın bütün şəhər və rayonları üzrə aktiv elanlar. Axtarışı filtrlərlə daraldın."
+    "subtitle": "Bütün şəhər və rayonlar üzrə aktiv elanlar.",
+    "typeAll": "Hamısı"
   },
   "companies": {
     "title": "Şirkətlər",
@@ -386,85 +390,85 @@
   },
   "about": {
     "title": "Baito.az haqqında",
-    "lead": "Baito.az iş axtaranlarla işəgötürənləri bir araya gətirən vakansiya platformasıdır. Daimi, part-time və gündəlik işləri, eləcə də işə hazır insanları burada bir yerdə tapa bilərsiniz.",
+    "lead": "Baito.az — günlük, part-time və full-time işlər, eləcə də işə hazır insanlar üçün vakansiya platforması.",
     "whoTitle": "Biz kimik?",
     "who": [
-      "Baito.az Azərbaycanın iş bazarı üçün yaradılmış onlayn platformadır. Məqsədimiz vakansiyaları və iş imkanlarını hər kəs üçün daha əlçatan etməkdir.",
-      "Platformada Azərbaycanın bütün şəhər və rayonları üzrə — Bakıdan Naxçıvana qədər, kəndlər də daxil — vakansiya yerləşdirmək və axtarmaq olar. Mağaza, restoran, tikinti, kənd təsərrüfatı və digər sahələrdəki işlər bir yerə toplanır ki, onları sosial şəbəkə qruplarında axtarmağa ehtiyac qalmasın."
+      "Baito.az Azərbaycan üçün onlayn iş platformasıdır. Məqsədimiz iş imkanlarını hər kəs üçün əlçatan etməkdir.",
+      "Bakıdan Naxçıvana, kəndlər də daxil, bütün şəhər və rayonlar üzrə elan yerləşdirmək və axtarmaq olar. Mağaza, restoran, tikinti, kənd təsərrüfatı və digər sahələrin işləri bir yerdədir — sosial şəbəkə qruplarında axtarmağa ehtiyac yoxdur."
     ],
     "missionTitle": "Missiyamız",
-    "mission": "İş axtaranla işəgötürən arasındakı yolu qısaltmaq. Elan vermək, uyğun işi və ya işçini tapmaq və əlaqə qurmaq hər kəs üçün sadə və aydın olmalıdır.",
+    "mission": "İş axtaranla işəgötürən arasındakı yolu qısaltmaq: elan vermək, iş və ya işçi tapmaq hər kəs üçün sadə olsun.",
     "offerTitle": "Nə təklif edirik?",
-    "offerLead": "Platformada hazırda istifadə edə biləcəyiniz imkanlar:",
+    "offerLead": "Saytda hazırda bunlar var:",
     "offers": [
       {
         "title": "Vakansiya yerləşdirmə",
-        "text": "İşəgötürənlər daimi, part-time və gündəlik iş elanı yerləşdirir. Hər elan saytda görünməzdən əvvəl yoxlanılır."
+        "text": "İşəgötürənlər günlük, part-time və full-time elan yerləşdirir. Hər elan dərcdən əvvəl yoxlanılır."
       },
       {
         "title": "Vakansiya axtarışı",
-        "text": "Açar söz, rayon, kənd, kateqoriya, iş növü və maaşa görə axtarış və filtrlər."
+        "text": "Açar söz, rayon, kənd, kateqoriya, iş növü və maaşa görə filtrlər."
       },
       {
         "title": "Onlayn müraciət",
-        "text": "Elana sayt üzərindən müraciət edin. Daimi işlər üçün CV əlavə olunur, müraciətlərin vəziyyətini profilinizdən izləyə bilərsiniz."
+        "text": "Sayt üzərindən müraciət edin, vəziyyətini profilinizdə izləyin. Full-time işlər üçün CV lazımdır."
       },
       {
         "title": "İş axtaranlar bölməsi",
-        "text": "İş axtaranlar peşə, bacarıq və təcrübələrini göstərən profil yaradır. İşəgötürənlər uyğun namizədi peşə, rayon və iş növünə görə tapır."
+        "text": "İş axtaranlar peşə, bacarıq və təcrübəsini göstərən profil yaradır. İşəgötürənlər namizədi peşə, rayon və iş növünə görə tapır."
       },
       {
         "title": "İş təklifləri",
-        "text": "İşəgötürən bəyəndiyi namizədə sayt üzərindən iş təklifi göndərir. Namizəd təklifi qəbul edir və ya imtina edir."
+        "text": "İşəgötürən namizədə sayt üzərindən iş təklifi göndərir, namizəd qəbul və ya imtina edir."
       },
       {
         "title": "Rəylər və reytinq",
-        "text": "İş tamamlandıqdan sonra işəgötürən və işçi bir-birinə rəy yazır. Bu rəylər növbəti seçimdə etibar yaradır."
+        "text": "İş bitəndən sonra işəgötürən və işçi bir-birinə rəy yazır."
       }
     ],
     "audienceTitle": "Kimlər üçün nəzərdə tutulub?",
     "audiences": [
       {
         "title": "İş axtaranlar",
-        "text": "Daimi iş, part-time iş və ya bir neçə saatlıq əlavə gəlir axtaranlar üçün."
+        "text": "Günlük, part-time və ya daimi iş axtaranlar üçün."
       },
       {
         "title": "Şirkətlər",
-        "text": "İşçi axtaran mağaza, restoran, tikinti və digər müəssisələr üçün. Şirkətin bütün elanları onun səhifəsində bir yerdə görünür."
+        "text": "İşçi axtaran mağaza, restoran, tikinti və digər müəssisələr üçün. Şirkətin bütün elanları onun səhifəsindədir."
       },
       {
         "title": "Fərdi işəgötürənlər",
-        "text": "Ev, bağ və ya bir günlük iş üçün köməkçi axtaran şəxslər üçün. Şirkət adı tələb olunmur, elanı öz adınızla verə bilərsiniz."
+        "text": "Ev, bağ və ya bir günlük iş üçün köməkçi axtaranlar üçün. Şirkət adı lazım deyil."
       }
     ],
     "valuesTitle": "Dəyərlərimiz",
     "values": [
       {
         "title": "Əlçatanlıq",
-        "text": "Sayt telefonda rahat işləyir və Azərbaycan, ingilis, rus və yapon dillərində mövcuddur."
+        "text": "Telefonda rahat işləyir; Azərbaycan, ingilis, rus və yapon dillərində."
       },
       {
         "title": "Şəffaflıq",
-        "text": "Elanlarda iş növü, yer və maaş (və ya «razılaşma yolu ilə» qeydi) aydın göstərilir."
+        "text": "Elanda iş növü, yer və maaş (və ya «razılaşma yolu ilə») aydın göstərilir."
       },
       {
         "title": "Rahat istifadə",
-        "text": "Vakansiyalara qeydiyyatsız baxmaq olar. Qeydiyyat üçün email və ya telefon nömrəsi kifayətdir."
+        "text": "Vakansiyalara qeydiyyatsız baxmaq olar. Qeydiyyat üçün email və ya telefon kifayətdir."
       },
       {
         "title": "Qarşılıqlı etibar",
-        "text": "İki tərəfli rəylər, yalnız sahibinin seçimi ilə görünən profillər və açıq göstərilməyən şəxsi telefon nömrələri."
+        "text": "İki tərəfli rəylər, yalnız sahibinin istəyi ilə görünən profillər, açıq göstərilməyən şəxsi telefonlar."
       }
     ],
     "ctaSeekers": {
       "title": "İş axtarırsınız?",
-      "text": "Qeydiyyatdan keçib profil yaradın ki, işəgötürənlər sizi tapa bilsin, və ya elə indi vakansiyalara baxın.",
+      "text": "Profil yaradın ki, işəgötürənlər sizi tapsın, və ya vakansiyalara baxın.",
       "register": "Qeydiyyatdan keç",
       "browse": "Vakansiyalara bax"
     },
     "ctaEmployers": {
       "title": "İşçi axtarırsınız?",
-      "text": "Elan yerləşdirin və ya «İş axtaranlar» bölməsindən uyğun namizədi özünüz tapın.",
+      "text": "Elan yerləşdirin və ya «İş axtaranlar» bölməsində namizəd tapın.",
       "post": "Elan yerləşdir",
       "workers": "İş axtaranlara bax"
     },
@@ -484,17 +488,17 @@
   },
   "errorPage": {
     "notFoundTitle": "Səhifə tapılmadı",
-    "notFoundText": "Axtardığınız səhifə mövcud deyil, silinib və ya ünvanı dəyişib. Ünvanı yoxlayın və ya aşağıdakı keçidlərdən birini seçin.",
+    "notFoundText": "Səhifə mövcud deyil və ya ünvanı dəyişib. Ünvanı yoxlayın və ya aşağıdakı keçidlərdən istifadə edin.",
     "home": "Ana səhifəyə qayıt",
     "back": "Əvvəlki səhifə",
     "errorTitle": "Nəsə alınmadı",
-    "errorText": "Səhifəni göstərərkən gözlənilməz xəta baş verdi. Bir az sonra yenidən cəhd edin. Problem davam edərsə, ana səhifəyə qayıdın.",
+    "errorText": "Gözlənilməz xəta baş verdi. Bir az sonra yenidən cəhd edin və ya ana səhifəyə qayıdın.",
     "retry": "Yenidən cəhd et",
     "placesFailed": "Siyahı yüklənmədi. Yenidən cəhd etmək üçün klikləyin"
   },
   "upload": {
     "photoTitle": "Profil şəkli",
-    "photoHint": "İşəgötürənlər üçün bu şəkil şirkət loqosu kimi də göstərilir. JPG, PNG və ya WebP, ən çox 3 MB.",
+    "photoHint": "JPG, PNG və ya WebP, ən çox 3 MB. İşəgötürənlərdə şirkət loqosu kimi də göstərilir.",
     "choosePhoto": "Şəkil seç",
     "changePhoto": "Şəkli dəyiş",
     "removePhoto": "Sil",
@@ -513,7 +517,7 @@
   },
   "resume": {
     "title": "CV (rezüme)",
-    "hint": "PDF, DOC və ya DOCX, ən çox 5 MB. Full-time vakansiyalara müraciət üçün CV lazımdır. CV yalnız müraciət etdiyiniz işəgötürənlərə görünür.",
+    "hint": "PDF, DOC və ya DOCX, ən çox 5 MB. Full-time müraciət üçün lazımdır. Yalnız müraciət etdiyiniz işəgötürənlər görür.",
     "none": "Hələ CV yükləməmisiniz.",
     "upload": "CV yüklə",
     "replace": "CV-ni dəyiş",
@@ -588,7 +592,7 @@
     "download": "Yüklə",
     "wordNote": "Word faylını brauzerdə göstərmək olmur. Yükləyib açın.",
     "changeStatus": "Status",
-    "statusLocked": "İş tamamlanıb: qəbul edilmiş işçinin statusu artıq dəyişdirilmir, belə ki o, rəy yaza bilsin.",
+    "statusLocked": "İş tamamlanıb: qəbul edilmiş işçinin statusu dəyişmir ki, rəy yaza bilsin.",
     "save": "Yadda saxla",
     "count": "{count} müraciət",
     "newCount": "{count} yeni",
@@ -607,7 +611,7 @@
     "title": "Rəylər",
     "subtitle": "İş tamamlanandan sonra işəgötürən və işçi bir-birinə rəy yazır.",
     "pendingTitle": "Yazılacaq rəylər",
-    "pendingEmpty": "Yazılacaq rəy yoxdur. Rəylər işəgötürən elanı «Tamamlandı» kimi işarələyəndən sonra açılır.",
+    "pendingEmpty": "Yazılacaq rəy yoxdur. Rəy iş «Tamamlandı» olandan sonra açılır.",
     "writtenTitle": "Yazdığım rəylər",
     "writtenEmpty": "Hələ rəy yazmamısınız.",
     "receivedTitle": "Haqqımda yazılan rəylər",
@@ -638,7 +642,7 @@
   },
   "workerProfile": {
     "title": "İşçi profilim",
-    "subtitle": "İşəgötürənlər sizi «İş axtaranlar» səhifəsində tapa bilsin. Telefonunuz heç vaxt açıq göstərilmir.",
+    "subtitle": "İşəgötürənlər sizi «İş axtaranlar» səhifəsində tapsın. Telefonunuz açıq göstərilmir.",
     "personal": "Şəxsi məlumatlar",
     "profession": "Peşə və bacarıqlar",
     "location": "Yer",
@@ -688,7 +692,7 @@
     },
     "portfolioHint": "İşlərinizdən nümunə şəkillər (istəyə bağlı). Ən çox {max} şəkil.",
     "visible": "Profilimi «İş axtaranlar» səhifəsində göstər",
-    "visibleHint": "Söndürülübsə, profiliniz siyahıda görünmür. Telefon və email heç vaxt göstərilmir.",
+    "visibleHint": "Söndürülübsə, profil siyahıda görünmür. Telefon və email heç vaxt göstərilmir.",
     "save": "Yadda saxla",
     "saved": "Profil yadda saxlandı.",
     "viewPublic": "Açıq profilə bax",
@@ -711,7 +715,7 @@
   },
   "workers": {
     "title": "İş axtaranlar",
-    "subtitle": "Rayonda iş axtaran insanlar. Peşəyə, yerə və iş növünə görə axtarın.",
+    "subtitle": "İş axtaran insanlar. Peşəyə, yerə və iş növünə görə axtarın.",
     "searchPlaceholder": "Ad, peşə və ya bacarıq",
     "allGroups": "Bütün sahələr",
     "allProfessions": "Bütün peşələr",
@@ -753,7 +757,7 @@
   },
   "footer": {
     "text": "İş axtaranlara fürsət, işəgötürənlərə doğru namizəd.",
-    "tagline": "Baito.az Azərbaycanın şəhər və rayonlarında iş axtaranlarla işəgötürənləri bir araya gətirir.",
+    "tagline": "Azərbaycanın şəhər və rayonlarında günlük iş və vakansiyalar.",
     "seekersTitle": "İş axtaranlar",
     "jobs": "Vakansiyalar",
     "workers": "İş axtaranlar",
@@ -771,7 +775,7 @@
   },
   "social": {
     "title": "Sosial şəbəkələr",
-    "hint": "İstəyə bağlı. Doldurduğunuz linklər profilinizdə hamıya görünəcək, boş saxladıqlarınız göstərilməyəcək. İstifadəçi adını və ya linki yaza bilərsiniz.",
+    "hint": "İstəyə bağlı. Doldurulan linklər profilinizdə hamıya görünür. İstifadəçi adı və ya link yazın.",
     "whatsappHint": "Bu nömrə profilinizdə hamıya görünəcək. Hesabınızın nömrəsi avtomatik göstərilmir.",
     "open": "{network}: {name} (yeni pəncərədə açılır)",
     "names": {
@@ -801,7 +805,7 @@
     "dialogTitle": "{name} ilə əlaqə",
     "close": "Bağla",
     "siteTitle": "Sayt üzərindən iş təklifi",
-    "siteHint": "Təklif şirkətinizin adı ilə göndəriləcək. İş axtaran onu «İş təklifləri» səhifəsində görüb cavab verəcək.",
+    "siteHint": "Təklif şirkətinizin adı ilə gedəcək. İş axtaran onu «İş təklifləri» səhifəsində görüb cavab verəcək.",
     "job": "Vakansiya (istəyə bağlı)",
     "noJob": "Konkret vakansiya olmadan",
     "message": "Mesaj",
@@ -819,7 +823,7 @@
     "subtitleSeeker": "İşəgötürənlərin profiliniz vasitəsilə göndərdiyi təkliflər.",
     "titleEmployer": "Göndərilmiş təkliflər",
     "subtitleEmployer": "İş axtaranlara göndərdiyiniz təkliflər və onların cavabları.",
-    "emptySeeker": "Hələ iş təklifi yoxdur. Profilinizi doldurub görünən edin ki, işəgötürənlər sizi tapsın.",
+    "emptySeeker": "Hələ təklif yoxdur. Profilinizi doldurub görünən edin ki, işəgötürənlər sizi tapsın.",
     "fillProfile": "Profilimə keç",
     "emptyEmployer": "Hələ təklif göndərməmisiniz. «İş axtaranlar» bölməsindən uyğun işçini tapın.",
     "browseWorkers": "İş axtaranlara bax",

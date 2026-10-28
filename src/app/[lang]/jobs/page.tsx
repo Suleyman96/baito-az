@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { ActiveFilters } from "@/components/home/ActiveFilters";
 import { CategoryChips } from "@/components/home/CategoryChips";
 import { PageHero } from "@/components/home/PageHero";
+import { TypeChips } from "@/components/home/TypeChips";
 import { JobCard } from "@/components/JobCard";
 import { JobFilters } from "@/components/JobFilters";
 import { PageHeader } from "@/components/PageHeader";
@@ -56,6 +57,7 @@ async function JobSearch({ lang, dict, searchParams }: { lang: Locale; dict: Dic
 
   return (
     <>
+      <TypeChips lang={lang} dict={dict} filters={filters} />
       <CategoryChips lang={lang} dict={dict} filters={filters} />
 
       <section className="space-y-4">

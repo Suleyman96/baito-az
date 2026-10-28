@@ -8,25 +8,25 @@ import { defaultLocale, hasLocale, type Locale } from "./config";
 export const globalErrorTexts: Record<Locale, { errorTitle: string; errorText: string; retry: string; home: string }> = {
   az: {
     errorTitle: "Nəsə alınmadı",
-    errorText: "Səhifəni göstərərkən gözlənilməz xəta baş verdi. Bir az sonra yenidən cəhd edin. Problem davam edərsə, ana səhifəyə qayıdın.",
+    errorText: "Gözlənilməz xəta baş verdi. Bir az sonra yenidən cəhd edin və ya ana səhifəyə qayıdın.",
     retry: "Yenidən cəhd et",
     home: "Ana səhifəyə qayıt",
   },
   en: {
     errorTitle: "Something went wrong",
-    errorText: "An unexpected error occurred while showing this page. Please try again in a moment. If the problem continues, go back to the home page.",
+    errorText: "An unexpected error occurred. Try again in a moment, or go back to the home page.",
     retry: "Try again",
     home: "Back to the home page",
   },
   ja: {
     errorTitle: "問題が発生しました",
-    errorText: "ページの表示中に予期しないエラーが発生しました。しばらくしてからもう一度お試しください。問題が続く場合は、ホームに戻ってください。",
+    errorText: "予期しないエラーが発生しました。しばらくしてから再度お試しいただくか、ホームに戻ってください。",
     retry: "もう一度試す",
     home: "ホームに戻る",
   },
   ru: {
     errorTitle: "Что-то пошло не так",
-    errorText: "При показе страницы произошла непредвиденная ошибка. Попробуйте ещё раз чуть позже. Если проблема не исчезнет, вернитесь на главную.",
+    errorText: "Произошла непредвиденная ошибка. Попробуйте ещё раз чуть позже или вернитесь на главную.",
     retry: "Попробовать снова",
     home: "На главную",
   },

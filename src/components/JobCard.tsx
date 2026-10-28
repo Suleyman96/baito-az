@@ -64,7 +64,7 @@ export function JobCard({ job, lang, dict, now }: { job: Job; lang: Locale; dict
   );
 }
 
-/** One-day job: a date tile ("15 OKT") up front, then time, length and pay. */
+/** One-day job: a date tile ("15 OKT") up front, a "one-day" badge, then time, length and pay. */
 export function OneDayCard({ job, lang, dict }: { job: Job; lang: Locale; dict: Dictionary }) {
   const start = job.workStart!;
   const part = (options: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat(lang, { timeZone: "Asia/Baku", ...options }).format(start);
@@ -86,6 +86,7 @@ export function OneDayCard({ job, lang, dict }: { job: Job; lang: Locale; dict: 
           <span className="mt-1 text-xs font-bold uppercase tracking-wider text-accent-ink">{part({ month: "short" }).replace(".", "")}</span>
         </time>
         <span className="flex min-w-0 flex-col gap-1">
+          <span className="w-fit rounded-full bg-surface px-2.5 py-0.5 text-xs font-bold text-accent-ink">{dict.jobType.ONE_DAY}</span>
           <span className="font-heading text-lg font-bold leading-snug group-hover:text-accent">{job.title}</span>
           <span className="text-sm text-muted">{details.join(" · ")}</span>
           <span className="font-bold text-brand-strong">
