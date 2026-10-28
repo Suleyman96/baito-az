@@ -1,8 +1,8 @@
 import type { LegalDocument } from "@/components/legal/LegalDocument";
 
 // The Privacy Policy and Terms of Use, in Azerbaijani only (the official text for every language).
-// Each statement describes what the code actually does today; if a feature changes (e.g. email
-// notifications, analytics, a new third-party service), update the text and legal.version.
+// Each statement describes what the code actually does today; if a feature changes (e.g. new
+// kinds of email, analytics, a new third-party service), update the text and legal.version.
 // {placeholders} are filled from src/config/legal.ts and shown highlighted while still empty.
 
 export const privacyPolicy: LegalDocument = {
@@ -32,7 +32,7 @@ export const privacyPolicy: LegalDocument = {
             "CV (iş axtaranlar üçün, istəyə bağlı; tam ştat vakansiyaya müraciət üçün tələb olunur): PDF, DOC və ya DOCX faylı, ən çox 5 MB.",
             "Şirkət məlumatları (işəgötürənlər üçün): şirkət adı (fərdi işəgötürənlər üçün boş qala bilər), təsvir, telefon, ünvan və xəritədə seçilmiş yer (koordinatlar).",
             "Elanlar: vakansiyanın mətni, əmək haqqı, iş yeri, əlaqə telefonu və 5-ə qədər şəkil.",
-            "Saytdakı əlaqələr: müraciətlər və onlara əlavə etdiyiniz mesajlar, müraciətin statusu, işəgötürənlərin göndərdiyi iş təklifləri və onlara cavablarınız, tamamlanmış iş üzrə yazdığınız və aldığınız rəylər (qiymət və şərh), saytdaxili bildirişlər.",
+            "Saytdakı əlaqələr: müraciətlər və onlara əlavə etdiyiniz mesajlar, müraciətin statusu, yeni müraciət barədə bildirişlər və onların e-poçtla göndərilib-göndərilmədiyi, işəgötürənlərin göndərdiyi iş təklifləri və onlara cavablarınız, tamamlanmış iş üzrə yazdığınız və aldığınız rəylər (qiymət və şərh), saytdaxili bildirişlər.",
             "Texniki məlumatlar: giriş sessiyası (aşağıdakı «Cookie və brauzer yaddaşı» bölməsinə baxın) və uğursuz giriş cəhdləri (daxil edilən e-poçt və ya telefon və cəhdin vaxtı) – şifrənin təxmin edilməsinin qarşısını almaq üçün.",
           ],
         },
@@ -48,13 +48,14 @@ export const privacyPolicy: LegalDocument = {
             "Hesab yaratmaq, sizi tanımaq və hesabınıza girişi təmin etmək.",
             "Elanları dərc etmək, axtarmaq və filtrləmək; elanları dərcdən əvvəl moderasiya etmək.",
             "Müraciət göndərməyiniz, CV-nizin seçdiyiniz işəgötürənə çatdırılması və müraciətin statusunu izləməyiniz üçün.",
+            "İşəgötürənə onun vakansiyasına gələn yeni müraciət barədə saytda və e-poçtla bildiriş göndərmək.",
             "İşəgötürənlərin açıq profili olan namizədlərə sayt vasitəsilə iş təklifi göndərməsi üçün.",
             "Tamamlanmış iş üzrə qarşılıqlı rəyləri göstərmək.",
             "Saytın təhlükəsizliyini qorumaq: saxta elanların, spamın və icazəsiz girişin qarşısını almaq, qaydaları pozan hesabları məhdudlaşdırmaq.",
             "Qanunvericilikdən irəli gələn öhdəlikləri yerinə yetirmək.",
           ],
         },
-        "Məlumatlarınızı satmırıq, reklam məqsədilə istifadə etmirik və reklam şəbəkələrinə ötürmürük. Hazırda sayt e-poçt və ya SMS göndərmir; bildirişlər yalnız saytın daxilində göstərilir. Belə göndərişlər başlamazdan əvvəl bu siyasət yenilənəcək.",
+        "Məlumatlarınızı satmırıq, reklam məqsədilə istifadə etmirik və reklam şəbəkələrinə ötürmürük. Sayt reklam və ya marketinq məktubları və SMS göndərmir. Yalnız xidməti məktub göndərilir: hesabında e-poçt ünvanı olan işəgötürənə onun vakansiyasına yeni müraciət gələndə. Məktubda vakansiyanın adı, namizədin adı, müraciətin tarixi və müraciətə keçid olur; namizədin CV-si, telefonu və e-poçtu məktuba əlavə edilmir – onlara yalnız hesaba daxil olduqdan sonra saytda baxmaq olar. Yeni növ məktublar göndərilməzdən əvvəl bu siyasət yenilənəcək.",
       ],
     },
     {
@@ -71,7 +72,7 @@ export const privacyPolicy: LegalDocument = {
             "Saytın administratorları: moderasiya və təhlükəsizlik üçün bütün hesabları (ad, e-poçt, telefon), elanları və müraciətlərin CV-lərini görə bilər.",
           ],
         },
-        "Məlumatlarınızı qanunla nəzərdə tutulmuş hallarda və qaydada səlahiyyətli dövlət orqanlarına təqdim edə bilərik. Bundan başqa, məlumatlarınızı üçüncü şəxslərə ötürmürük.",
+        "Məlumatlarınızı qanunla nəzərdə tutulmuş hallarda və qaydada səlahiyyətli dövlət orqanlarına təqdim edə bilərik. Bundan və aşağıdakı «Üçüncü tərəf xidmətləri» bölməsində göstərilən hallardan başqa, məlumatlarınızı üçüncü şəxslərə ötürmürük.",
       ],
     },
     {
@@ -81,6 +82,7 @@ export const privacyPolicy: LegalDocument = {
         {
           list: [
             "Hostinq: sayt və verilənlər bazası {hosting} tərəfindən yerləşdirilir.",
+            "E-poçt göndərişi: bildiriş məktubları ABŞ şirkəti olan Resend xidməti vasitəsilə göndərilir. Bunun üçün alıcının e-poçt ünvanı və məktubun məzmunu (yuxarıdakı «Məlumatlardan nə üçün istifadə edirik» bölməsinə baxın) Resend-ə ötürülür və onun Azərbaycandan kənarda yerləşə bilən serverlərində emal olunur. Resend-in öz məxfilik qaydaları tətbiq olunur.",
             "Google Maps: xəritə funksiyası aktiv olduqda, şirkətin yerini seçmək və göstərmək üçün xəritə Google serverlərindən yüklənir. Bu zaman brauzeriniz Google ilə birbaşa əlaqə qurur və Google-un öz məxfilik qaydaları tətbiq olunur. «Google Maps-da aç» linkinə kliklədikdə Google Maps səhifəsinə keçirsiniz.",
             "Sosial şəbəkələr: profillərdəki Instagram, Facebook, TikTok, WhatsApp və Telegram linklərinə kliklədikdə həmin xidmətin saytına keçirsiniz; orada onların öz qaydaları tətbiq olunur.",
           ],

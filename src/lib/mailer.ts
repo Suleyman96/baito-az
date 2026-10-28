@@ -1,14 +1,10 @@
 import "server-only";
-import type { Mailer } from "./notification-email";
+import { createResendMailer } from "./resend";
 
 /**
- * The site's email sender. No email service is set up yet, so nothing is sent:
- * notifications are stored and shown on the site (status NOT_CONFIGURED).
- * To start sending, implement `send` here (e.g. SMTP with nodemailer, or Resend) and set `configured: true`.
+ * The site's email sender, through Resend. Without RESEND_API_KEY nothing is sent: notifications
+ * are still stored and shown on the site (status NOT_CONFIGURED). MAIL_FROM is the sender, e.g.
+ * «Baito.az <no-reply@baito.az>» once that domain is verified in Resend; until then Resend's test
+ * sender is used, which only delivers to the Resend account's own email.
  */
-export const mailer: Mailer = {
-  configured: false,
-  async send() {
-    throw new Error("Email delivery is not configured");
-  },
-};
+export const mailer = createResendMailer({ apiKey: process.env.RESEND_API_KEY, from: process.env.MAIL_FROM });

@@ -5,9 +5,9 @@ export const legal = {
    * Version of the two documents, stored with each new account's consent (User.termsVersion).
    * Change it (e.g. to the new date) whenever the texts change in substance.
    */
-  version: "2026-10-27",
+  version: "2026-10-28",
   /** Date the current texts take effect, shown at the top of both pages (YYYY-MM-DD) */
-  effectiveDate: "2026-10-27",
+  effectiveDate: "2026-10-28",
   operator: {
     /** Full legal name: a company (e.g. «... MMC») or an individual entrepreneur */
     name: "",
