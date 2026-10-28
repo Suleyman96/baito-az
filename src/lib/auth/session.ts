@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { cache } from "react";
 import { db } from "@/lib/db";
 
-const COOKIE_NAME = "zw_session";
+const COOKIE_NAME = "baito_session";
 const SESSION_DAYS = 30;
 
 // The cookie holds the raw token; the database only stores its hash,

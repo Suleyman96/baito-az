@@ -6,7 +6,7 @@ const email = buildApplicationEmail({
   applicantName: "Əli Məmmədov",
   jobTitle: "Ofisiant",
   appliedAt: new Date("2026-10-12T08:30:00Z"),
-  link: "https://zaqawork.az/az/my/applications/abc",
+  link: "https://baito.az/az/my/applications/abc",
 });
 
 describe("buildApplicationEmail", () => {
@@ -14,7 +14,7 @@ describe("buildApplicationEmail", () => {
     expect(email.subject).toBe("Yeni müraciət: Ofisiant");
     expect(email.text).toContain("Əli Məmmədov");
     expect(email.text).toContain("12:30"); // Baku time
-    expect(email.text).toContain("https://zaqawork.az/az/my/applications/abc");
+    expect(email.text).toContain("https://baito.az/az/my/applications/abc");
   });
 });
 

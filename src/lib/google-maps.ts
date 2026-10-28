@@ -16,7 +16,7 @@ export function loadGoogleMaps(): Promise<void> {
   const loaded = (window as { google?: { maps?: unknown } }).google?.maps;
   if (loaded) return Promise.resolve();
   loading ??= new Promise<void>((resolve, reject) => {
-    const callback = "__zaqaworkMapsReady";
+    const callback = "__baitoMapsReady";
     (window as unknown as Record<string, () => void>)[callback] = () => resolve();
     const script = document.createElement("script");
     script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(MAPS_API_KEY)}&v=weekly&loading=async&callback=${callback}`;

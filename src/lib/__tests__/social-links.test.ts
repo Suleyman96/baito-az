@@ -3,14 +3,14 @@ import { normalizeSocial, parseSocialLinks, presentLinks, socialInputValue, soci
 
 describe("normalizeSocial", () => {
   it("accepts a username, @username or a link and keeps only the username", () => {
-    for (const v of ["zaqawork", "@zaqawork", "instagram.com/zaqawork", "https://www.instagram.com/zaqawork/?hl=az"]) {
-      expect(normalizeSocial("instagram", v)).toBe("zaqawork");
+    for (const v of ["baito", "@baito", "instagram.com/baito", "https://www.instagram.com/baito/?hl=az"]) {
+      expect(normalizeSocial("instagram", v)).toBe("baito");
     }
     for (const v of ["@zaqa.work", "tiktok.com/@zaqa.work", "https://www.tiktok.com/@zaqa.work?lang=az"]) {
       expect(normalizeSocial("tiktok", v)).toBe("zaqa.work");
     }
-    for (const v of ["zaqawork_bot", "@zaqawork_bot", "t.me/zaqawork_bot", "https://telegram.me/zaqawork_bot"]) {
-      expect(normalizeSocial("telegram", v)).toBe("zaqawork_bot");
+    for (const v of ["baito_bot", "@baito_bot", "t.me/baito_bot", "https://telegram.me/baito_bot"]) {
+      expect(normalizeSocial("telegram", v)).toBe("baito_bot");
     }
     expect(normalizeSocial("facebook", "https://m.facebook.com/zaqa.work")).toBe("zaqa.work");
     expect(normalizeSocial("facebook", "facebook.com/profile.php?id=100012345678")).toBe("profile.php?id=100012345678");
@@ -27,13 +27,13 @@ describe("normalizeSocial", () => {
     expect(normalizeSocial("instagram", "  ")).toBeNull();
     for (const [kind, v] of [
       ["instagram", "javascript:alert(1)"],
-      ["instagram", "https://evil.com/zaqawork"],
+      ["instagram", "https://evil.com/baito"],
       ["instagram", "instagram.com.evil.com/x"],
       ["instagram", "has space"],
       ["facebook", "<script>"],
       ["tiktok", "https://www.tiktok.com/"],
       ["telegram", "ab"],
-      ["telegram", "ftp://t.me/zaqawork"],
+      ["telegram", "ftp://t.me/baito"],
       ["whatsapp", "12345"],
       ["whatsapp", "https://wa.me/abc"],
     ] as const) {
@@ -51,10 +51,10 @@ describe("parseSocialLinks", () => {
 
 describe("links shown on profiles", () => {
   it("are rebuilt on the network's own https domain and skip empty ones", () => {
-    expect(presentLinks({ instagram: "zaqawork", facebook: null, whatsapp: "994501234567", telegram: "zaqawork_bot" })).toEqual([
-      { kind: "instagram", url: "https://www.instagram.com/zaqawork/", label: "@zaqawork" },
+    expect(presentLinks({ instagram: "baito", facebook: null, whatsapp: "994501234567", telegram: "baito_bot" })).toEqual([
+      { kind: "instagram", url: "https://www.instagram.com/baito/", label: "@baito" },
       { kind: "whatsapp", url: "https://wa.me/994501234567", label: "+994501234567" },
-      { kind: "telegram", url: "https://t.me/zaqawork_bot", label: "@zaqawork_bot" },
+      { kind: "telegram", url: "https://t.me/baito_bot", label: "@baito_bot" },
     ]);
     expect(socialUrl("tiktok", "zaqa.work")).toBe("https://www.tiktok.com/@zaqa.work");
     expect(socialInputValue("facebook", "zaqa.work")).toBe("facebook.com/zaqa.work");

@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # Build does not query the database; a placeholder is enough for Prisma generate
-      DATABASE_URL: postgresql://user:pass@localhost:5432/zaqawork
+      DATABASE_URL: postgresql://user:pass@localhost:5432/baito
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

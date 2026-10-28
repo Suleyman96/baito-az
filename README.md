@@ -79,7 +79,7 @@ Requirements: Node.js 22+, PostgreSQL.
 ```bash
 npm install
 cp .env.example .env          # set DATABASE_URL
-createdb zaqawork
+createdb baito
 npm run db:migrate            # create tables
 npm run db:seed               # demo data
 npm run dev                   # http://localhost:3000
@@ -91,10 +91,10 @@ All demo accounts use the password `demo1234`. The job seeker can also log in wi
 
 | Role | Email |
 |---|---|
-| Admin | admin@zaqawork.test |
-| Employer | market@zaqawork.test |
-| Employer | restoran@zaqawork.test |
-| Job seeker | seeker@zaqawork.test |
+| Admin | admin@baito.test |
+| Employer | market@baito.test |
+| Employer | restoran@baito.test |
+| Job seeker | seeker@baito.test |
 
 ## Scripts
 

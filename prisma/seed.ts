@@ -58,16 +58,16 @@ async function main() {
   const passwordHash = await bcrypt.hash(DEMO_PASSWORD, 10);
 
   await db.user.create({
-    data: { email: "admin@zaqawork.test", name: "Admin", role: "ADMIN", passwordHash },
+    data: { email: "admin@baito.test", name: "Admin", role: "ADMIN", passwordHash },
   });
   await db.user.create({
-    data: { email: "seeker@zaqawork.test", phone: "+994501110001", name: "Əli Məmmədov", role: "SEEKER", passwordHash },
+    data: { email: "seeker@baito.test", phone: "+994501110001", name: "Əli Məmmədov", role: "SEEKER", passwordHash },
   });
 
   const companies = await Promise.all(
     [
-      { email: "market@zaqawork.test", owner: "Rəşad Həsənov", name: "Bərəkət Market", phone: "+994 50 000 00 01" },
-      { email: "restoran@zaqawork.test", owner: "Leyla Quliyeva", name: "Dağ Restoranı", phone: "+994 50 000 00 02" },
+      { email: "market@baito.test", owner: "Rəşad Həsənov", name: "Bərəkət Market", phone: "+994 50 000 00 01" },
+      { email: "restoran@baito.test", owner: "Leyla Quliyeva", name: "Dağ Restoranı", phone: "+994 50 000 00 02" },
     ].map((c) =>
       db.company.create({
         data: {

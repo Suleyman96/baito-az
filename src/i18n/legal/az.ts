@@ -97,7 +97,7 @@ export const privacyPolicy: LegalDocument = {
       blocks: [
         {
           list: [
-            "zw_session – hesaba daxil olduqda yaradılan zəruri cookie. Daxil olduğunuzu yadda saxlayır, JavaScript tərəfindən oxuna bilmir və 30 gün və ya hesabdan çıxana qədər qüvvədədir. Bazada yalnız onun şifrələnmiş (hash) forması saxlanılır.",
+            "baito_session – hesaba daxil olduqda yaradılan zəruri cookie. Daxil olduğunuzu yadda saxlayır, JavaScript tərəfindən oxuna bilmir və 30 gün və ya hesabdan çıxana qədər qüvvədədir. Bazada yalnız onun şifrələnmiş (hash) forması saxlanılır.",
             "theme – brauzerinizin yaddaşında (localStorage) saxlanılan açıq/qaranlıq görünüş seçimi. Serverə göndərilmir.",
           ],
         },
