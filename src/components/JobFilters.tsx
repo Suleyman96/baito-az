@@ -76,9 +76,9 @@ export function JobFilters({
         <div className="grid gap-2 px-1 pb-1 pt-1 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_1.4fr]">
           <select name="type" defaultValue={filters.type ?? ""} aria-label={dict.home.allTypes} className={field}>
             <option value="">{dict.home.allTypes}</option>
-            <option value="FULL_TIME">{dict.jobType.FULL_TIME}</option>
-            <option value="PART_TIME">{dict.jobType.PART_TIME}</option>
             <option value="ONE_DAY">{dict.jobType.ONE_DAY}</option>
+            <option value="PART_TIME">{dict.jobType.PART_TIME}</option>
+            <option value="FULL_TIME">{dict.jobType.FULL_TIME}</option>
           </select>
           <select name="category" defaultValue={filters.category ?? ""} aria-label={dict.home.allCategories} className={field}>
             <option value="">{dict.home.allCategories}</option>
