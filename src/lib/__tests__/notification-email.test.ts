@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { buildApplicationEmail, deliver, type Mailer } from "../notification-email";
+import { buildApplicationEmail, buildArchiveEmail, deliver, type Mailer } from "../notification-email";
 
 const email = buildApplicationEmail({
   to: "employer@example.az",
@@ -43,5 +43,26 @@ describe("deliver", () => {
     expect(off.send).not.toHaveBeenCalled();
     expect(await deliver("PENDING", null, working)).toEqual({ emailStatus: "NO_ADDRESS" });
     expect(await deliver("FAILED", email, working)).toMatchObject({ emailStatus: "SENT" });
+  });
+});
+
+describe("buildArchiveEmail", () => {
+  const archive = buildArchiveEmail({
+    to: "employer@example.az",
+    jobTitle: "Kassir",
+    jobType: "Part-time",
+    archivedAt: new Date("2026-11-03T20:00:00Z"),
+    link: "https://baito.az/az/my/jobs",
+    idempotencyKey: "job-archive/n1",
+  });
+
+  it("names the job, its type, the Baku date and how to reactivate it", () => {
+    expect(archive.subject).toBe("Elan arxivə keçirildi: Kassir");
+    expect(archive.text).toContain("Elan: Kassir");
+    expect(archive.text).toContain("Növ: Part-time");
+    expect(archive.text).toContain("4 noyabr 2026"); // 20:00Z is already 4 November in Baku
+    expect(archive.text).toContain("yenidən aktivləşdirə");
+    expect(archive.text).toContain("https://baito.az/az/my/jobs");
+    expect(archive.idempotencyKey).toBe("job-archive/n1");
   });
 });

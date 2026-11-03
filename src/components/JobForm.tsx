@@ -149,7 +149,14 @@ export function JobForm({
             </div>
           </fieldset>
         </div>
+        {/* Optional: when the listing ends; the rule for an empty field is shown before posting */}
+        <Field label={t.endDate} hint={t.endDateNote} error={err("endDate")}>
+          <input type="date" name="endDate" min={today} defaultValue={v.endDate} aria-invalid={!!err("endDate")} className={inputClass} />
+        </Field>
       </div>
+
+      {/* Full-time / part-time: listed for one month, which the employer cannot change */}
+      <p className="rounded-lg bg-surface-2 px-3 py-2 text-sm text-muted group-has-[#type-one-day:checked]:hidden">{t.monthlyNote}</p>
 
       {/* Full-time / part-time: monthly salary range */}
       <div className="grid gap-4 sm:grid-cols-2 group-has-[#type-one-day:checked]:hidden">
