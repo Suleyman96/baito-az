@@ -6,7 +6,8 @@ import { defaultLocale, hasLocale } from "@/i18n/config";
 import { getCurrentUser } from "@/lib/auth/session";
 import { db } from "@/lib/db";
 import { MAX_JOB_IMAGES, type ImageErrorKey } from "@/lib/images";
-import { parseJobForm, type JobFormErrorKey } from "@/lib/job-form";
+import { checkEndDate, monthlyExpiry, oneDayExpiry, type EndDateError } from "@/lib/job-expiry";
+import { parseJobForm, parseWorkStart, type JobFormErrorKey } from "@/lib/job-form";
 import { readUploadedImages, type CheckedImage } from "@/lib/storage";
 
 export type JobFormState = {
@@ -17,7 +18,7 @@ export type JobFormState = {
 
 const FIELDS = [
   "employmentType", "title", "description", "categoryId", "district", "locationId", "contactPhone",
-  "salaryMin", "salaryMax", "salaryPeriod", "workDate", "startTime", "durationHours", "workersNeeded", "payAmount", "payPeriod",
+  "salaryMin", "salaryMax", "salaryPeriod", "workDate", "startTime", "durationHours", "workersNeeded", "payAmount", "payPeriod", "endDate",
 ];
 
 function langOf(formData: FormData) {
@@ -94,7 +95,7 @@ export async function updateJob(jobId: string, _prev: JobFormState, formData: Fo
   // companyId in the filter: employers can only change their own jobs
   const job = await db.job.findFirst({
     where: { id: jobId, companyId: company.id, status: { not: "COMPLETED" } },
-    select: { images: { select: { id: true, position: true }, orderBy: { position: "asc" } } },
+    select: { employmentType: true, images: { select: { id: true, position: true }, orderBy: { position: "asc" } } },
   });
   if (!job) redirect(`/${lang}/my/jobs`);
 
@@ -113,6 +114,8 @@ export async function updateJob(jobId: string, _prev: JobFormState, formData: Fo
     where: { id: jobId, status: { not: "COMPLETED" } },
     data: {
       ...form.data,
+      // A one-day job turned into a monthly one starts its month at approval; a monthly one keeps its month
+      ...(job.employmentType === "ONE_DAY" && form.data.employmentType !== "ONE_DAY" ? { expiresAt: null, publishedAt: null } : {}),
       status: "PENDING",
       rejectReason: null,
       images: {
@@ -145,16 +148,62 @@ export async function reopenOwnJob(formData: FormData) {
 
 /**
  * Employer marks their job as done. Reviews then open between the employer and the workers they accepted.
- * Only published or closed jobs can be completed; a completed job leaves the public listings.
+ * Only published, closed or archived jobs can be completed; a completed job leaves the public listings.
  */
 export async function completeOwnJob(formData: FormData) {
   const lang = langOf(formData);
   const company = await requireEmployer(lang, `/${lang}/my/jobs`);
   await db.job.updateMany({
-    where: { id: String(formData.get("id") ?? ""), companyId: company.id, status: { in: ["ACTIVE", "CLOSED"] } },
+    where: { id: String(formData.get("id") ?? ""), companyId: company.id, status: { in: ["ACTIVE", "CLOSED", "ARCHIVED"] } },
     data: { status: "COMPLETED", completedAt: new Date() },
   });
   refresh();
+}
+
+export type ReactivateState = { errors: Partial<Record<"workDate" | "endDate", JobFormErrorKey | EndDateError>>; values: Record<string, string> } | undefined;
+
+// Archived, or past its end and waiting for the archive run
+const expired = (now: Date) => ({ OR: [{ status: "ARCHIVED" as const }, { status: "ACTIVE" as const, expiresAt: { lte: now } }] });
+
+/**
+ * Employer puts an archived job back on the site, with a new listing period. Its content was approved
+ * before and is unchanged, so it goes live without a new review. Full-time / part-time: one month from now.
+ * One-day: a work date in the future (the old one has usually passed) and an optional new end date.
+ */
+export async function reactivateJob(_prev: ReactivateState, formData: FormData): Promise<ReactivateState> {
+  const lang = langOf(formData);
+  const company = await requireEmployer(lang, `/${lang}/my/jobs`);
+  const now = new Date();
+  const id = String(formData.get("id") ?? "");
+  const job = await db.job.findFirst({ where: { id, companyId: company.id, ...expired(now) }, select: { employmentType: true } });
+  if (!job) {
+    refresh();
+    return undefined;
+  }
+
+  let listing: { expiresAt: Date; workStart?: Date; endDate?: Date | null };
+  if (job.employmentType === "ONE_DAY") {
+    const values = { workDate: String(formData.get("workDate") ?? ""), startTime: String(formData.get("startTime") ?? ""), endDate: String(formData.get("endDate") ?? "") };
+    const start = parseWorkStart(values.workDate, values.startTime, now);
+    if ("error" in start) return { errors: { workDate: start.error }, values };
+    const end = checkEndDate(values.endDate, start.workStart, now);
+    if ("error" in end) return { errors: { endDate: end.error }, values };
+    listing = {
+      workStart: start.workStart,
+      endDate: end.endDate ? new Date(`${end.endDate}T00:00:00Z`) : null,
+      expiresAt: oneDayExpiry(start.workStart, end.endDate),
+    };
+  } else {
+    listing = { expiresAt: monthlyExpiry(now) };
+  }
+
+  // The same conditions again: a double click or a second tab cannot reactivate it twice
+  await db.job.updateMany({
+    where: { id, companyId: company.id, ...expired(now) },
+    data: { ...listing, status: "ACTIVE", publishedAt: now, archivedAt: null },
+  });
+  refresh();
+  return undefined;
 }
 
 async function requireAdmin(formData: FormData) {
@@ -169,10 +218,21 @@ export async function reviewJob(formData: FormData) {
   const id = String(formData.get("id") ?? "");
   const approve = formData.get("decision") === "approve";
   const reason = String(formData.get("reason") ?? "").trim().slice(0, 300) || null;
-  // Only pending jobs can be reviewed, so a double click cannot flip a decision
+  if (!approve) {
+    // Only pending jobs can be reviewed, so a double click cannot flip a decision
+    await db.job.updateMany({ where: { id, status: "PENDING" }, data: { status: "REJECTED", rejectReason: reason } });
+    refresh();
+    return;
+  }
+  const job = await db.job.findFirst({ where: { id, status: "PENDING" }, select: { employmentType: true, expiresAt: true } });
+  if (!job) return refresh();
+  const now = new Date();
+  // A monthly job starts its month now, unless an edit of a published job is being approved while its
+  // month is still running. A one-day job's end was set from its dates when it was saved
+  const renew = job.employmentType !== "ONE_DAY" && (!job.expiresAt || job.expiresAt <= now);
   await db.job.updateMany({
     where: { id, status: "PENDING" },
-    data: approve ? { status: "ACTIVE", rejectReason: null } : { status: "REJECTED", rejectReason: reason },
+    data: { status: "ACTIVE", rejectReason: null, archivedAt: null, ...(renew ? { publishedAt: now, expiresAt: monthlyExpiry(now) } : {}) },
   });
   refresh();
 }

@@ -2,12 +2,15 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { JobPay, WorkTime } from "@/components/JobPay";
+import { ReactivateJob } from "@/components/ReactivateJob";
 import type { Locale } from "@/i18n/config";
 import { getDictionary, getLocale, type Dictionary } from "@/i18n/dictionaries";
 import { getCurrentUser } from "@/lib/auth/session";
 import { formatPlace, formatRelativeDate, t } from "@/lib/format";
 import { imageUrl } from "@/lib/images";
 import { closeOwnJob, completeOwnJob, reopenOwnJob } from "@/lib/job-actions";
+import { bakuDate, lastListedDay } from "@/lib/job-expiry";
+import { jobToFormValues } from "@/lib/job-form";
 import { getJobsByOwner } from "@/lib/jobs";
 
 const STATUS_STYLE = {
@@ -16,6 +19,7 @@ const STATUS_STYLE = {
   CLOSED: "bg-surface-2 text-muted",
   REJECTED: "bg-error-soft text-error",
   COMPLETED: "bg-info-soft text-info",
+  ARCHIVED: "bg-surface-2 text-muted",
 } as const;
 
 export default async function MyJobsPage({ searchParams }: PageProps<"/[lang]/my/jobs">) {
@@ -51,6 +55,10 @@ async function MyJobs({
   const [{ created, updated }, jobs] = await Promise.all([searchParams, getJobsByOwner(user.id)]);
   const now = new Date();
   const button = "rounded-lg border border-line px-3 py-1.5 text-sm hover:border-accent hover:text-accent";
+  const today = bakuDate(now);
+  const longDate = new Intl.DateTimeFormat(lang, { timeZone: "Asia/Baku", dateStyle: "long" });
+  // A Baku calendar date ("2026-11-10"), shown in the page's language
+  const day = (date: string) => longDate.format(new Date(`${date}T12:00:00+04:00`));
 
   return (
     <>
@@ -65,8 +73,10 @@ async function MyJobs({
         <ul className="space-y-3">
           {jobs.map((job) => {
             const completed = job.status === "COMPLETED";
-            // A completed job shows as completed, even when its one-day date has passed
-            const expired = !completed && job.employmentType === "ONE_DAY" && job.workStart !== null && job.workStart <= now;
+            // Past its listing period: archived, or due for the next archive run (already off the site)
+            const archived = job.status === "ARCHIVED" || (job.status === "ACTIVE" && job.expiresAt !== null && job.expiresAt <= now);
+            const live = job.status === "ACTIVE" && !archived;
+            const emailStatus = job.archiveNotices[0]?.emailStatus;
             const title = <h2 className="font-semibold">{job.title}</h2>;
             return (
               <li key={job.id} className="flex gap-4 rounded-xl border border-line bg-surface p-4">
@@ -77,15 +87,15 @@ async function MyJobs({
                 <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-start justify-between gap-2">
                   {/* Only published jobs have a public page */}
-                  {job.status === "ACTIVE" && !expired ? (
+                  {live ? (
                     <Link href={`/${lang}/jobs/${job.id}`} className="hover:text-accent hover:underline">
                       {title}
                     </Link>
                   ) : (
                     title
                   )}
-                  <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${expired ? STATUS_STYLE.CLOSED : STATUS_STYLE[job.status]}`}>
-                    {expired ? dict.myJobs.expired : dict.myJobs.status[job.status]}
+                  <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${archived ? STATUS_STYLE.ARCHIVED : STATUS_STYLE[job.status]}`}>
+                    {archived ? dict.myJobs.status.ARCHIVED : dict.myJobs.status[job.status]}
                   </span>
                 </div>
                 <p className="mt-1 text-sm text-muted">
@@ -95,6 +105,16 @@ async function MyJobs({
                 <p className="mt-1 text-sm font-medium">
                   <JobPay job={job} dict={dict} />
                 </p>
+                {live && job.expiresAt && (
+                  <p className="mt-1 text-sm text-muted">{t(dict.myJobs.activeUntil, { date: day(lastListedDay(job.expiresAt)) })}</p>
+                )}
+                {archived && (
+                  <div className="mt-2 space-y-1 rounded-lg bg-surface-2 px-3 py-2 text-sm text-muted">
+                    <p>{t(dict.myJobs.archivedOn, { date: day(bakuDate(job.archivedAt ?? job.expiresAt ?? now)) })}</p>
+                    {/* Whether the archive email went out; an unconfigured or failed email is never shown as sent */}
+                    {emailStatus && <p>{dict.myJobs.archiveEmail[emailStatus]}</p>}
+                  </div>
+                )}
                 {job.status === "REJECTED" && job.rejectReason && (
                   <p className="mt-2 rounded-lg bg-error-soft px-3 py-2 text-sm text-error">
                     {t(dict.myJobs.reason, { reason: job.rejectReason })}
@@ -113,8 +133,19 @@ async function MyJobs({
                   )}
                 </Link>
                 <div className="mt-3 flex flex-wrap gap-2">
-                  {/* An expired one-day job cannot be moved to a new date in place; it is copied instead */}
-                  {!expired && !completed && (
+                  {archived && (
+                    <ReactivateJob
+                      lang={lang}
+                      jobId={job.id}
+                      oneDay={job.employmentType === "ONE_DAY"}
+                      today={today}
+                      initial={job.employmentType === "ONE_DAY" ? pickDate(jobToFormValues(job)) : undefined}
+                      dict={dict}
+                      buttonClassName={`${button} border-accent text-accent`}
+                    />
+                  )}
+                  {/* Editing sends the job back to review; an archived one is usually reactivated instead */}
+                  {!completed && (
                     <Link href={`/${lang}/jobs/${job.id}/edit`} className={button}>
                       {dict.manageJob.edit}
                     </Link>
@@ -122,14 +153,14 @@ async function MyJobs({
                   <Link href={`/${lang}/jobs/new?from=${job.id}`} className={button}>
                     {dict.manageJob.duplicate}
                   </Link>
-                  {job.status === "ACTIVE" && !expired && (
+                  {live && (
                     <form action={closeOwnJob}>
                       <input type="hidden" name="lang" value={lang} />
                       <input type="hidden" name="id" value={job.id} />
                       <button className={button}>{dict.manageJob.close}</button>
                     </form>
                   )}
-                  {job.status === "CLOSED" && !expired && (
+                  {job.status === "CLOSED" && (
                     <form action={reopenOwnJob}>
                       <input type="hidden" name="lang" value={lang} />
                       <input type="hidden" name="id" value={job.id} />
@@ -139,7 +170,7 @@ async function MyJobs({
                     </form>
                   )}
                   {/* The work is done: opens reviews between the employer and the accepted workers */}
-                  {(job.status === "ACTIVE" || job.status === "CLOSED") && (
+                  {(job.status === "ACTIVE" || job.status === "CLOSED" || job.status === "ARCHIVED") && (
                     <form action={completeOwnJob}>
                       <input type="hidden" name="lang" value={lang} />
                       <input type="hidden" name="id" value={job.id} />
@@ -163,3 +194,5 @@ async function MyJobs({
     </>
   );
 }
+
+const pickDate = (values: Record<string, string>) => ({ workDate: values.workDate ?? "", startTime: values.startTime ?? "" });

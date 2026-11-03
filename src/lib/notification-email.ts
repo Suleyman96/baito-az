@@ -1,6 +1,7 @@
 // Email content and delivery decisions for "new application" notifications; no database here, so it is unit-tested
 
-export type Email = { to: string; subject: string; text: string };
+/** idempotencyKey: the same key sends at most once (within 24 hours at Resend), so a retry never emails twice */
+export type Email = { to: string; subject: string; text: string; idempotencyKey?: string };
 export type Mailer = { configured: boolean; send(email: Email): Promise<void> };
 export type EmailStatusValue = "PENDING" | "SENT" | "FAILED" | "NOT_CONFIGURED" | "NO_ADDRESS";
 
@@ -26,6 +27,32 @@ export function buildApplicationEmail(input: { to: string; applicantName: string
       "",
       "Baito.az",
     ].join("\n"),
+  };
+}
+
+/** The email to an employer whose job was archived at the end of its listing period. */
+export function buildArchiveEmail(input: { to: string; jobTitle: string; jobType: string; archivedAt: Date; link: string; idempotencyKey: string }): Email {
+  const date = new Intl.DateTimeFormat("az", { timeZone: "Asia/Baku", dateStyle: "long", timeStyle: "short" }).format(input.archivedAt);
+  return {
+    to: input.to,
+    subject: `Elan arxivə keçirildi: ${input.jobTitle}`,
+    text: [
+      "Salam,",
+      "",
+      `«${input.jobTitle}» elanınızın müddəti bitdi və o, avtomatik arxivə keçirildi.`,
+      "",
+      `Elan: ${input.jobTitle}`,
+      `Növ: ${input.jobType}`,
+      `Arxivə keçirilmə tarixi: ${date}`,
+      "",
+      "Elan artıq saytda görünmür və yeni müraciət qəbul etmir. Əvvəlki müraciətlər silinmir, onlara baxa bilərsiniz.",
+      "",
+      "Elanı «Elanlarım» səhifəsində yenidən aktivləşdirə bilərsiniz (hesabınıza daxil olmaq lazımdır):",
+      input.link,
+      "",
+      "Baito.az",
+    ].join("\n"),
+    idempotencyKey: input.idempotencyKey,
   };
 }
 

@@ -4,6 +4,7 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient, type EmploymentType } from "../src/generated/prisma/client";
 import { site, type DistrictSlug } from "../src/config/site";
 import { companyNameKey } from "../src/lib/company-name";
+import { monthlyExpiry, oneDayExpiry } from "../src/lib/job-expiry";
 
 const db = new PrismaClient({
   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
@@ -85,6 +86,8 @@ async function main() {
   const locations = await db.location.findMany({ include: { district: true } });
 
   for (const [i, job] of jobs.entries()) {
+    // Spread creation dates so "newest first" ordering is visible; each was published when posted
+    const createdAt = new Date(Date.now() - i * 1000 * 60 * 60 * 20);
     await db.job.create({
       data: {
         title: job.title,
@@ -96,8 +99,9 @@ async function main() {
         companyId: companies[job.company].id,
         categoryId: categories.find((c) => c.slug === job.category)!.id,
         locationId: locations.find((l) => l.district.slug === job.location[0] && l.name === job.location[1])!.id,
-        // Spread creation dates so "newest first" ordering is visible
-        createdAt: new Date(Date.now() - i * 1000 * 60 * 60 * 20),
+        createdAt,
+        publishedAt: createdAt,
+        expiresAt: monthlyExpiry(createdAt),
       },
     });
   }
@@ -128,6 +132,8 @@ async function main() {
         salaryMin: job.pay,
         payPeriod: job.period,
         status: job.status,
+        expiresAt: oneDayExpiry(job.start, null),
+        ...(job.status === "ACTIVE" ? { publishedAt: new Date() } : {}),
         companyId: companies[1].id,
         categoryId: categories.find((c) => c.slug === "other")!.id,
         locationId: place(job.district, job.village),
