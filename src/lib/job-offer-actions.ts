@@ -38,7 +38,7 @@ export async function sendJobOffer(workerId: string, _prev: OfferFormState, form
   if (!worker) return { errors: { form: "notAvailable" }, values };
 
   if (jobId) {
-    const job = await db.job.findFirst({ where: { id: jobId, status: "ACTIVE", company: { ownerId: user.id } }, select: { id: true } });
+    const job = await db.job.findFirst({ where: { id: jobId, status: "ACTIVE", expiresAt: { gt: new Date() }, company: { ownerId: user.id } }, select: { id: true } });
     if (!job) return { errors: { jobId: "jobInvalid" }, values };
   }
 

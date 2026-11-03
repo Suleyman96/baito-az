@@ -15,7 +15,11 @@ export function createResendMailer(options: { apiKey?: string; from?: string; fe
       if (!apiKey) throw new Error("RESEND_API_KEY is not set");
       const res = await doFetch("https://api.resend.com/emails", {
         method: "POST",
-        headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+          ...(email.idempotencyKey ? { "Idempotency-Key": email.idempotencyKey } : {}),
+        },
         body: JSON.stringify({ from, to: [email.to], subject: email.subject, text: email.text }),
         signal: AbortSignal.timeout(10_000),
       });

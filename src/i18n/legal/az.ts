@@ -32,7 +32,7 @@ export const privacyPolicy: LegalDocument = {
             "CV (iş axtaranlar üçün, istəyə bağlı; tam ştat vakansiyaya müraciət üçün tələb olunur): PDF, DOC və ya DOCX faylı, ən çox 5 MB.",
             "Şirkət məlumatları (işəgötürənlər üçün): şirkət adı (fərdi işəgötürənlər üçün boş qala bilər), təsvir, telefon, ünvan və xəritədə seçilmiş yer (koordinatlar).",
             "Elanlar: vakansiyanın mətni, əmək haqqı, iş yeri, əlaqə telefonu və 5-ə qədər şəkil.",
-            "Saytdakı əlaqələr: müraciətlər və onlara əlavə etdiyiniz mesajlar, müraciətin statusu, yeni müraciət barədə bildirişlər və onların e-poçtla göndərilib-göndərilmədiyi, işəgötürənlərin göndərdiyi iş təklifləri və onlara cavablarınız, tamamlanmış iş üzrə yazdığınız və aldığınız rəylər (qiymət və şərh), saytdaxili bildirişlər.",
+            "Saytdakı əlaqələr: müraciətlər və onlara əlavə etdiyiniz mesajlar, müraciətin statusu, yeni müraciət və elanın arxivə keçirilməsi barədə bildirişlər və onların e-poçtla göndərilib-göndərilmədiyi, işəgötürənlərin göndərdiyi iş təklifləri və onlara cavablarınız, tamamlanmış iş üzrə yazdığınız və aldığınız rəylər (qiymət və şərh), saytdaxili bildirişlər.",
             "Texniki məlumatlar: giriş sessiyası (aşağıdakı «Cookie və brauzer yaddaşı» bölməsinə baxın) uğursuz giriş cəhdləri (daxil edilən e-poçt və ya telefon və cəhdin vaxtı) – şifrənin təxmin edilməsinin qarşısını almaq üçün, və şifrə bərpası linkləri (linkin yalnız şifrələnmiş forması (hash), göndərildiyi e-poçt və ya linki yaradan administrator, yaradılma və bitmə vaxtı).",
           ],
         },
@@ -56,7 +56,7 @@ export const privacyPolicy: LegalDocument = {
             "Qanunvericilikdən irəli gələn öhdəlikləri yerinə yetirmək.",
           ],
         },
-        "Məlumatlarınızı satmırıq, reklam məqsədilə istifadə etmirik və reklam şəbəkələrinə ötürmürük. Sayt reklam və ya marketinq məktubları və SMS göndərmir. Yalnız iki növ xidməti məktub göndərilir. Birincisi, hesabında e-poçt ünvanı olan işəgötürənə onun vakansiyasına yeni müraciət gələndə: məktubda vakansiyanın adı, namizədin adı, müraciətin tarixi və müraciətə keçid olur; namizədin CV-si, telefonu və e-poçtu məktuba əlavə edilmir – onlara yalnız hesaba daxil olduqdan sonra saytda baxmaq olar. İkincisi, şifrənin bərpası istənildikdə, hesabın e-poçtuna: məktubda hesab sahibinin adı və şifrəni yeniləmək üçün birdəfəlik link olur. Yeni növ məktublar göndərilməzdən əvvəl bu siyasət yenilənəcək.",
+        "Məlumatlarınızı satmırıq, reklam məqsədilə istifadə etmirik və reklam şəbəkələrinə ötürmürük. Sayt reklam və ya marketinq məktubları və SMS göndərmir. Yalnız üç növ xidməti məktub göndərilir. Birincisi, hesabında e-poçt ünvanı olan işəgötürənə onun vakansiyasına yeni müraciət gələndə: məktubda vakansiyanın adı, namizədin adı, müraciətin tarixi və müraciətə keçid olur; namizədin CV-si, telefonu və e-poçtu məktuba əlavə edilmir – onlara yalnız hesaba daxil olduqdan sonra saytda baxmaq olar. İkincisi, şifrənin bərpası istənildikdə, hesabın e-poçtuna: məktubda hesab sahibinin adı və şifrəni yeniləmək üçün birdəfəlik link olur. Üçüncüsü, elanın müddəti bitib o, arxivə keçirildikdə, onu yerləşdirən işəgötürənin e-poçtuna: məktubda elanın adı, növü, arxivə keçirilmə tarixi və «Elanlarım» səhifəsinə keçid olur. Yeni növ məktublar göndərilməzdən əvvəl bu siyasət yenilənəcək.",
       ],
     },
     {
@@ -83,7 +83,7 @@ export const privacyPolicy: LegalDocument = {
         {
           list: [
             "Hostinq: sayt və verilənlər bazası {hosting} tərəfindən yerləşdirilir.",
-            "E-poçt göndərişi: saytın məktubları (müraciət bildirişləri və şifrə bərpası) ABŞ şirkəti olan Resend xidməti vasitəsilə göndərilir. Bunun üçün alıcının e-poçt ünvanı və məktubun məzmunu (yuxarıdakı «Məlumatlardan nə üçün istifadə edirik» bölməsinə baxın) Resend-ə ötürülür və onun Azərbaycandan kənarda yerləşə bilən serverlərində emal olunur. Resend-in öz məxfilik qaydaları tətbiq olunur.",
+            "E-poçt göndərişi: saytın məktubları (müraciət bildirişləri, şifrə bərpası və elanın arxivə keçirilməsi) ABŞ şirkəti olan Resend xidməti vasitəsilə göndərilir. Bunun üçün alıcının e-poçt ünvanı və məktubun məzmunu (yuxarıdakı «Məlumatlardan nə üçün istifadə edirik» bölməsinə baxın) Resend-ə ötürülür və onun Azərbaycandan kənarda yerləşə bilən serverlərində emal olunur. Resend-in öz məxfilik qaydaları tətbiq olunur.",
             "Google Maps: xəritə funksiyası aktiv olduqda, şirkətin yerini seçmək və göstərmək üçün xəritə Google serverlərindən yüklənir. Bu zaman brauzeriniz Google ilə birbaşa əlaqə qurur və Google-un öz məxfilik qaydaları tətbiq olunur. «Google Maps-da aç» linkinə kliklədikdə Google Maps səhifəsinə keçirsiniz.",
             "Sosial şəbəkələr: profillərdəki Instagram, Facebook, TikTok, WhatsApp və Telegram linklərinə kliklədikdə həmin xidmətin saytına keçirsiniz; orada onların öz qaydaları tətbiq olunur.",
           ],
@@ -254,7 +254,7 @@ export const termsOfUse: LegalDocument = {
             "İş təkliflərini yalnız real vakansiyalar üçün göndərin. Sayt bir işəgötürənin bir gündə göndərə biləcəyi təkliflərin sayını məhdudlaşdırır.",
           ],
         },
-        "Yeni və redaktə edilmiş elanlar administrator yoxlanışından sonra dərc olunur. Bir günlük işlər başlama vaxtı keçdikdən sonra siyahıdan avtomatik çıxarılır. Elan dərc edildikdən sonra onun məzmununa görə məsuliyyəti elanı yerləşdirən işəgötürən daşıyır.",
+        "Yeni və redaktə edilmiş elanlar administrator yoxlanışından sonra dərc olunur. Full-time və part-time elanlar dərc edildiyi tarixdən 1 ay, bir günlük işlər isə işəgötürənin seçdiyi bitmə tarixinədək (seçilməyibsə, iş tarixindən 3 gün sonrayadək) saytda qalır; müddət bitdikdə elan avtomatik arxivə keçirilir və yeni müraciət qəbul etmir. Arxivdəki elanı işəgötürən yenidən aktivləşdirə bilər; əvvəlki müraciətlər silinmir. Elan dərc edildikdən sonra onun məzmununa görə məsuliyyəti elanı yerləşdirən işəgötürən daşıyır.",
       ],
     },
     {

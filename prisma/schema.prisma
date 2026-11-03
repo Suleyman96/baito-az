@@ -37,6 +37,8 @@ enum JobStatus {
   REJECTED
   /// The work is done (set by the employer); its hired workers and the employer can review each other
   COMPLETED
+  /// Its listing period ended (expiresAt); taken off the site automatically. The employer can reactivate it
+  ARCHIVED
 }
 
 enum ApplicationStatus {
@@ -207,6 +209,16 @@ model Job {
   /// Admin's reason when rejecting, shown to the employer
   rejectReason   String?
   completedAt    DateTime?
+  /// When the listing ends (src/lib/job-expiry.ts). Full-time / part-time: one month after publishedAt.
+  /// One-day: the end of endDate, or of the third day after the work date. Listings hide a job from this moment
+  expiresAt      DateTime?
+  /// One-day jobs: the last day of the listing the employer picked (Baku date); empty = the default
+  endDate        DateTime?      @db.Date
+  /// Start of the current listing period: approval, or reactivation
+  publishedAt    DateTime?
+  /// When the listing period ended and the job was archived
+  archivedAt     DateTime?
+  archiveNotices JobArchiveNotice[]
   reviews        Review[]
   company        Company        @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId      String
@@ -223,6 +235,7 @@ model Job {
   updatedAt      DateTime       @updatedAt
 
   @@index([status, createdAt])
+  @@index([status, expiresAt])
   @@index([companyId])
   @@index([categoryId])
   @@index([locationId])
@@ -281,6 +294,26 @@ enum EmailStatus {
 
 /// "Someone applied to your job", for the employer. One per application, so a retried
 /// submit never notifies twice. Shown on the site; emailed when an email service is configured.
+/// The email telling an employer their job was archived: one per archiving (jobId + archivedAt), so a
+/// re-run of the archive job never makes a second one. Failed emails are retried up to a limit
+model JobArchiveNotice {
+  id          String      @id @default(cuid())
+  job         Job         @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  jobId       String
+  archivedAt  DateTime
+  emailStatus EmailStatus @default(PENDING)
+  emailError  String?
+  emailedAt   DateTime?
+  /// Sending attempts so far
+  attempts    Int         @default(0)
+  /// Set while one run is sending it, so two runs at once never send it twice
+  lockedUntil DateTime?
+  createdAt   DateTime    @default(now())
+
+  @@unique([jobId, archivedAt])
+  @@index([emailStatus])
+}
+
 model Notification {
   id            String      @id @default(cuid())
   user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)

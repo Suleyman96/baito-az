@@ -29,8 +29,7 @@ export async function getAdminStats(now = new Date()) {
   return { pending, active, oneDaySoon, newSeekers: newByRole("SEEKER"), newEmployers: newByRole("EMPLOYER"), totalUsers, blocked };
 }
 
-// "EXPIRED" is not stored: it is an approved one-day job whose start time has passed
-export const ADMIN_JOB_TABS = ["PENDING", "ACTIVE", "EXPIRED", "REJECTED", "CLOSED"] as const;
+export const ADMIN_JOB_TABS = ["PENDING", "ACTIVE", "ARCHIVED", "REJECTED", "CLOSED"] as const;
 export type AdminJobTab = (typeof ADMIN_JOB_TABS)[number];
 
 const adminJobsQuery = z.object({
@@ -46,8 +45,9 @@ export function parseAdminJobsQuery(searchParams: Record<string, string | string
 export async function getAdminJobs({ tab, q }: z.infer<typeof adminJobsQuery>, now = new Date()) {
   const byTab: Record<AdminJobTab, Prisma.JobWhereInput> = {
     PENDING: { status: "PENDING", company: { owner: { blockedAt: null } } },
-    ACTIVE: { status: "ACTIVE", OR: [{ employmentType: { not: "ONE_DAY" } }, { workStart: { gt: now } }] },
-    EXPIRED: { status: "ACTIVE", employmentType: "ONE_DAY", workStart: { lte: now } },
+    ACTIVE: { status: "ACTIVE", expiresAt: { gt: now } },
+    // Archived, and past their end but not archived yet (the archive run is due)
+    ARCHIVED: { OR: [{ status: "ARCHIVED" }, { status: "ACTIVE", expiresAt: { lte: now } }] },
     REJECTED: { status: "REJECTED" },
     CLOSED: { status: "CLOSED" },
   };
