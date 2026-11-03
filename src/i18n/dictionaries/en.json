@@ -277,22 +277,42 @@
       "dateInPast": "This time has already passed.",
       "dateTooFar": "Jobs can be posted up to 90 days ahead.",
       "durationInvalid": "Enter a duration of 1–24 hours.",
-      "workersInvalid": "Workers needed must be 1–100."
-    }
+      "workersInvalid": "Workers needed must be 1–100.",
+      "endDateInvalid": "The end date is not valid.",
+      "endDateInPast": "The end date cannot be in the past.",
+      "endDateBeforeWork": "The end date cannot be before the work date.",
+      "endDateTooFar": "The end date can be at most 30 days after the work date."
+    },
+    "monthlyNote": "Your job will be active for 1 month from the date it is posted. When that ends, it is archived automatically.",
+    "endDate": "Listing end date (optional)",
+    "endDateNote": "If you don't pick an end date, the job is archived automatically 3 days after the work date."
   },
   "myJobs": {
     "title": "My jobs",
     "empty": "You have no jobs yet.",
     "created": "Your job was sent for review. It will appear once approved.",
-    "expired": "Expired",
     "status": {
       "PENDING": "In review",
       "ACTIVE": "Published",
       "CLOSED": "Closed",
       "REJECTED": "Rejected",
-      "COMPLETED": "Completed"
+      "COMPLETED": "Completed",
+      "ARCHIVED": "Archived"
     },
-    "reason": "Reason: {reason}"
+    "reason": "Reason: {reason}",
+    "activeUntil": "Active until {date}",
+    "archivedOn": "Archived on {date}. Not shown on the site and closed to new applications; earlier applications are kept.",
+    "reactivate": "Reactivate",
+    "reactivateNote": "The job will be active for 1 month from today.",
+    "reactivateOneDayNote": "Pick a new work date. The job goes live right away, without a new review.",
+    "reactivateSubmit": "Activate",
+    "archiveEmail": {
+      "PENDING": "The notification email has not been sent yet.",
+      "SENT": "A notification was sent to your email.",
+      "FAILED": "The notification email could not be sent.",
+      "NOT_CONFIGURED": "No notification email was sent: email sending is not set up on the site.",
+      "NO_ADDRESS": "No notification email was sent: your account has no email."
+    }
   },
   "manageJob": {
     "editTitle": "Edit job",
@@ -332,7 +352,7 @@
     "tabs": {
       "PENDING": "Pending",
       "ACTIVE": "Active",
-      "EXPIRED": "Expired",
+      "ARCHIVED": "Archive",
       "REJECTED": "Rejected",
       "CLOSED": "Closed"
     },

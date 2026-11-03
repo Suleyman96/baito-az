@@ -277,22 +277,42 @@
       "dateInPast": "Bu vaxt artıq keçib.",
       "dateTooFar": "Ən çox 90 gün sonrası üçün elan vermək olar.",
       "durationInvalid": "Müddəti 1–24 saat arasında yazın.",
-      "workersInvalid": "Nəfər sayı 1–100 arasında olmalıdır."
-    }
+      "workersInvalid": "Nəfər sayı 1–100 arasında olmalıdır.",
+      "endDateInvalid": "Bitmə tarixi düzgün deyil.",
+      "endDateInPast": "Bitmə tarixi keçmişdə ola bilməz.",
+      "endDateBeforeWork": "Bitmə tarixi iş tarixindən əvvəl ola bilməz.",
+      "endDateTooFar": "Bitmə tarixi iş tarixindən ən çox 30 gün sonra ola bilər."
+    },
+    "monthlyNote": "Elanınız yerləşdirildiyi tarixdən etibarən 1 ay aktiv olacaq. Müddət bitdikdə avtomatik arxivə keçiriləcək.",
+    "endDate": "Elanın bitmə tarixi (istəyə bağlı)",
+    "endDateNote": "Bitmə tarixi seçməsəniz, elan iş tarixindən 3 gün sonra avtomatik arxivə keçiriləcək."
   },
   "myJobs": {
     "title": "Elanlarım",
     "empty": "Hələ elanınız yoxdur.",
     "created": "Elan yoxlamaya göndərildi. Təsdiqdən sonra saytda görünəcək.",
-    "expired": "Vaxtı keçib",
     "status": {
       "PENDING": "Yoxlanılır",
       "ACTIVE": "Dərc olunub",
       "CLOSED": "Bağlanıb",
       "REJECTED": "Rədd edilib",
-      "COMPLETED": "Tamamlanıb"
+      "COMPLETED": "Tamamlanıb",
+      "ARCHIVED": "Arxivdə"
     },
-    "reason": "Səbəb: {reason}"
+    "reason": "Səbəb: {reason}",
+    "activeUntil": "{date} tarixinədək aktivdir",
+    "archivedOn": "Arxivə keçirilib: {date}. Saytda görünmür və yeni müraciət qəbul etmir; əvvəlki müraciətlər qalır.",
+    "reactivate": "Yenidən aktivləşdir",
+    "reactivateNote": "Elan bu gündən 1 ay aktiv olacaq.",
+    "reactivateOneDayNote": "Yeni iş tarixini seçin. Elan yenidən yoxlanılmadan dərhal saytda görünəcək.",
+    "reactivateSubmit": "Aktivləşdir",
+    "archiveEmail": {
+      "PENDING": "Bildiriş emaili hələ göndərilməyib.",
+      "SENT": "Bildiriş emailinizə göndərildi.",
+      "FAILED": "Bildiriş emaili göndərilə bilmədi.",
+      "NOT_CONFIGURED": "Bildiriş emaili göndərilmədi: saytda email göndərişi qoşulmayıb.",
+      "NO_ADDRESS": "Bildiriş emaili göndərilmədi: hesabınızda email yoxdur."
+    }
   },
   "manageJob": {
     "editTitle": "Elanı redaktə et",
@@ -332,7 +352,7 @@
     "tabs": {
       "PENDING": "Gözləyir",
       "ACTIVE": "Aktiv",
-      "EXPIRED": "Vaxtı keçib",
+      "ARCHIVED": "Arxiv",
       "REJECTED": "Rədd edilib",
       "CLOSED": "Bağlanıb"
     },

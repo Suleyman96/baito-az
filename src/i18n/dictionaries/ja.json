@@ -277,22 +277,42 @@
       "dateInPast": "この日時はすでに過ぎています。",
       "dateTooFar": "掲載できるのは90日先までです。",
       "durationInvalid": "作業時間は1〜24時間で入力してください。",
-      "workersInvalid": "募集人数は1〜100名にしてください。"
-    }
+      "workersInvalid": "募集人数は1〜100名にしてください。",
+      "endDateInvalid": "終了日が正しくありません。",
+      "endDateInPast": "終了日に過去の日付は指定できません。",
+      "endDateBeforeWork": "終了日は勤務日より前にできません。",
+      "endDateTooFar": "終了日は勤務日の30日後までです。"
+    },
+    "monthlyNote": "求人は掲載日から1か月間公開されます。期間が終了すると自動的にアーカイブされます。",
+    "endDate": "掲載終了日（任意）",
+    "endDateNote": "終了日を選ばない場合、求人は勤務日の3日後に自動的にアーカイブされます。"
   },
   "myJobs": {
     "title": "掲載中の求人",
     "empty": "まだ求人がありません。",
     "created": "求人を審査に送りました。承認後に掲載されます。",
-    "expired": "期限切れ",
     "status": {
       "PENDING": "審査中",
       "ACTIVE": "掲載中",
       "CLOSED": "終了",
       "REJECTED": "却下",
-      "COMPLETED": "完了"
+      "COMPLETED": "完了",
+      "ARCHIVED": "アーカイブ済み"
     },
-    "reason": "理由：{reason}"
+    "reason": "理由：{reason}",
+    "activeUntil": "{date}まで公開",
+    "archivedOn": "{date}にアーカイブされました。サイトには表示されず、新しい応募は受け付けません。これまでの応募は残ります。",
+    "reactivate": "再公開する",
+    "reactivateNote": "本日から1か月間公開されます。",
+    "reactivateOneDayNote": "新しい勤務日を選んでください。再審査なしですぐに公開されます。",
+    "reactivateSubmit": "公開する",
+    "archiveEmail": {
+      "PENDING": "通知メールはまだ送信されていません。",
+      "SENT": "通知をメールで送信しました。",
+      "FAILED": "通知メールを送信できませんでした。",
+      "NOT_CONFIGURED": "通知メールは送信されていません：サイトのメール送信が設定されていません。",
+      "NO_ADDRESS": "通知メールは送信されていません：アカウントにメールアドレスがありません。"
+    }
   },
   "manageJob": {
     "editTitle": "求人を編集",
@@ -332,7 +352,7 @@
     "tabs": {
       "PENDING": "審査待ち",
       "ACTIVE": "掲載中",
-      "EXPIRED": "期限切れ",
+      "ARCHIVED": "アーカイブ",
       "REJECTED": "却下",
       "CLOSED": "終了"
     },

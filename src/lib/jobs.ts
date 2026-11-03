@@ -15,12 +15,16 @@ export const cardInclude = {
   images: { select: { id: true }, orderBy: { position: "asc" }, take: 1 },
 } as const satisfies Prisma.JobInclude;
 
-// Publicly listed: approved, posted by a user who is not blocked, and for one-day jobs not yet started
+/**
+ * Publicly listed and open to applications: approved, posted by a user who is not blocked, and within its
+ * listing period (src/lib/job-expiry.ts). The period is checked here, so a job leaves the site the moment
+ * it ends, whenever the archive run (src/lib/job-archive.ts) gets to it.
+ */
 export function visible(now: Date): Prisma.JobWhereInput {
   return {
     status: "ACTIVE",
+    expiresAt: { gt: now },
     company: { owner: { blockedAt: null, deletedAt: null } },
-    OR: [{ employmentType: { not: "ONE_DAY" } }, { workStart: { gt: now } }],
   };
 }
 
@@ -71,7 +75,7 @@ export async function searchJobs(filters: JobFilters, { excludeOneDay = false } 
 }
 
 export async function getActiveJob(id: string) {
-  // Whether a one-day job is still listed depends on the current time, so this runs per request
+  // Whether a job is still listed depends on the current time, so this runs per request
   await connection();
   return db.job.findFirst({
     where: { id, ...visible(new Date()) },
@@ -118,6 +122,8 @@ export function getJobsByOwner(userId: string) {
       location: { include: { district: true } },
       images: { select: { id: true }, orderBy: { position: "asc" }, take: 1 },
       applications: { select: { status: true } },
+      // The email about its latest archiving, so the employer sees whether it was sent
+      archiveNotices: { select: { emailStatus: true }, orderBy: { archivedAt: "desc" }, take: 1 },
     },
   });
 }

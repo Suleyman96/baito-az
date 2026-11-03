@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { normalizePhone } from "@/lib/auth/validation";
+import { checkEndDate, oneDayExpiry, type EndDateError } from "@/lib/job-expiry";
 
 // Error messages are dictionary keys (postJob.errors.*), translated in the form
 export type JobFormErrorKey =
@@ -14,7 +15,8 @@ export type JobFormErrorKey =
   | "dateInPast"
   | "dateTooFar"
   | "durationInvalid"
-  | "workersInvalid";
+  | "workersInvalid"
+  | EndDateError;
 
 // Azerbaijan has no daylight saving time, so local time is always UTC+4
 const BAKU_OFFSET = "+04:00";
@@ -67,7 +69,23 @@ export type JobFormData = {
   workStart: Date | null;
   durationHours: number | null;
   workersNeeded: number | null;
+  /** One-day: the end date the employer picked (a date column, so UTC midnight), or null for the default */
+  endDate: Date | null;
+  /**
+   * One-day: when the listing ends, from the work date and the end date. Absent for full-time / part-time:
+   * their month starts at approval, so saving the form never moves it
+   */
+  expiresAt?: Date;
 };
+
+/** A one-day job's start from the form's date and time (Baku): in the future, at most MAX_DAYS_AHEAD days away */
+export function parseWorkStart(date: string, time: string, now: Date): { workStart: Date } | { error: "dateRequired" | "dateInPast" | "dateTooFar" } {
+  const workStart = /^\d{4}-\d{2}-\d{2}$/.test(date) && /^\d{2}:\d{2}$/.test(time) ? new Date(`${date}T${time}:00${BAKU_OFFSET}`) : null;
+  if (!workStart || Number.isNaN(workStart.getTime())) return { error: "dateRequired" };
+  if (workStart <= now) return { error: "dateInPast" };
+  if (workStart.getTime() - now.getTime() > MAX_DAYS_AHEAD * 24 * 60 * 60 * 1000) return { error: "dateTooFar" };
+  return { workStart };
+}
 
 type Result = { success: true; data: JobFormData } | { success: false; errors: Partial<Record<string, JobFormErrorKey>> };
 
@@ -75,7 +93,7 @@ type Result = { success: true; data: JobFormData } | { success: false; errors: P
 export function parseJobForm(input: Record<string, unknown>, now = new Date()): Result {
   const type = schema.shape.employmentType.parse(input.employmentType);
   // Hidden fields of the other job type may still hold values; drop them before validating
-  const ignored = type === "ONE_DAY" ? ["salaryMin", "salaryMax", "salaryPeriod"] : ["workDate", "startTime", "durationHours", "workersNeeded", "payAmount", "payPeriod"];
+  const ignored = type === "ONE_DAY" ? ["salaryMin", "salaryMax", "salaryPeriod"] : ["workDate", "startTime", "durationHours", "workersNeeded", "payAmount", "payPeriod", "endDate"];
   const parsed = schema.safeParse(Object.fromEntries(Object.entries(input).filter(([k]) => !ignored.includes(k))));
 
   const errors: Partial<Record<string, JobFormErrorKey>> = {};
@@ -86,15 +104,19 @@ export function parseJobForm(input: Record<string, unknown>, now = new Date()): 
 
   const d = parsed.success ? parsed.data : undefined;
   let workStart: Date | null = null;
+  let endDate: string | null = null;
 
   if (type === "ONE_DAY") {
-    const date = String(input.workDate ?? "");
-    const time = String(input.startTime ?? "");
-    workStart = /^\d{4}-\d{2}-\d{2}$/.test(date) && /^\d{2}:\d{2}$/.test(time) ? new Date(`${date}T${time}:00${BAKU_OFFSET}`) : null;
-    if (!workStart || Number.isNaN(workStart.getTime())) add("workDate", "dateRequired");
-    else if (workStart <= now) add("workDate", "dateInPast");
-    else if (workStart.getTime() - now.getTime() > MAX_DAYS_AHEAD * 24 * 60 * 60 * 1000) add("workDate", "dateTooFar");
+    const start = parseWorkStart(String(input.workDate ?? ""), String(input.startTime ?? ""), now);
+    if ("error" in start) add("workDate", start.error);
+    else workStart = start.workStart;
     if (d && d.durationHours === undefined) add("durationHours", "durationInvalid");
+    // Checked once the work date is valid: the latest end date depends on it
+    if (workStart && !errors.workDate) {
+      const end = checkEndDate(String(input.endDate ?? ""), workStart, now);
+      if ("error" in end) add("endDate", end.error);
+      else endDate = end.endDate;
+    }
   } else if (d?.salaryMin && d.salaryMax && d.salaryMax < d.salaryMin) {
     add("salaryMax", "salaryRange");
   }
@@ -117,12 +139,14 @@ export function parseJobForm(input: Record<string, unknown>, now = new Date()): 
       workStart: oneDay ? workStart : null,
       durationHours: oneDay ? (d.durationHours ?? null) : null,
       workersNeeded: oneDay ? (d.workersNeeded ?? 1) : null,
+      endDate: oneDay && endDate ? new Date(`${endDate}T00:00:00Z`) : null,
+      ...(oneDay && workStart ? { expiresAt: oneDayExpiry(workStart, endDate) } : {}),
     },
   };
 }
 
 // Older jobs may have no phone of their own (the form then offers the company phone)
-type StoredJob = Omit<JobFormData, "contactPhone"> & { contactPhone: string | null; location: { district: { slug: string } } };
+type StoredJob = Omit<JobFormData, "contactPhone" | "expiresAt"> & { contactPhone: string | null; location: { district: { slug: string } } };
 
 /**
  * The form values of a saved job, the inverse of parseJobForm. Used to edit a job,
@@ -147,6 +171,8 @@ export function jobToFormValues(job: StoredJob, { copy = false } = {}): Record<s
     ...(oneDay
       ? {
           workDate: copy ? "" : date,
+          // A copy gets a new work date, so its own end date too
+          endDate: copy || !job.endDate ? "" : job.endDate.toISOString().slice(0, 10),
           startTime: time,
           durationHours: str(job.durationHours),
           workersNeeded: str(job.workersNeeded),

@@ -58,5 +58,5 @@ export function getUnseenOfferCount(userId: string, role: string) {
 
 /** The employer's open jobs an offer can be about. */
 export function getOfferableJobs(employerId: string) {
-  return db.job.findMany({ where: { status: "ACTIVE", company: { ownerId: employerId } }, orderBy: { createdAt: "desc" }, select: { id: true, title: true } });
+  return db.job.findMany({ where: { status: "ACTIVE", expiresAt: { gt: new Date() }, company: { ownerId: employerId } }, orderBy: { createdAt: "desc" }, select: { id: true, title: true } });
 }

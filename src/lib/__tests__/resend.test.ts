@@ -23,6 +23,18 @@ describe("createResendMailer", () => {
     expect(JSON.parse(String(init.body))).toEqual({ from: "Baito.az <no-reply@baito.az>", to: ["employer@example.az"], subject: email.subject, text: "Salam" });
   });
 
+  it("sends an idempotency key only when the email has one", async () => {
+    const fetch = reply(200, { id: "abc" });
+    const mailer = createResendMailer({ apiKey: "re_test", fetch });
+    await mailer.send({ ...email, idempotencyKey: "job-archive/n1" });
+    await mailer.send(email);
+    const headers = (call: number) => (fetch.mock.calls[call] as unknown as [string, RequestInit])[1].headers as Record<string, string>;
+    expect(headers(0)["Idempotency-Key"]).toBe("job-archive/n1");
+    expect(headers(1)).not.toHaveProperty("Idempotency-Key");
+    // The key is a header, not part of the email
+    expect(JSON.parse(String((fetch.mock.calls[0] as unknown as [string, RequestInit])[1].body))).not.toHaveProperty("idempotencyKey");
+  });
+
   it("uses Resend's test sender when no sender is set", async () => {
     const fetch = reply(200, { id: "abc" });
     await createResendMailer({ apiKey: "re_test", from: "", fetch }).send(email);
