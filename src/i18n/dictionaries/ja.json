@@ -106,7 +106,7 @@
     "registerTitle": "新規登録",
     "identifier": "メールアドレスまたは電話番号",
     "password": "パスワード",
-    "passwordHint": "8文字以上",
+    "passwordHint": "8文字以上、文字と数字を含む",
     "name": "氏名",
     "email": "メールアドレス",
     "phone": "携帯電話番号",
@@ -132,7 +132,7 @@
     "privacyLink": "プライバシーポリシー",
     "errors": {
       "nameRequired": "氏名を入力してください。",
-      "emailInvalid": "メールアドレスが正しくありません。",
+      "emailInvalid": "メールアドレスが正しくありません。例: name@mail.az",
       "phoneInvalid": "携帯電話番号が正しくありません。例：050 123 45 67",
       "contactRequired": "メールアドレスか携帯電話番号を入力してください。",
       "passwordShort": "パスワードは8文字以上にしてください。",
@@ -150,8 +150,16 @@
       "companyNameTaken": "この会社名はすでに登録されています。その会社で働いている場合は会社名を空欄に（個人の雇用主として）。別の支店や会社なら名前を具体的に:「Bərəkət Market — Qax」。",
       "confirmRequired": "削除を確認するにはチェックを入れてください。",
       "deleteNotAllowed": "管理者アカウントはここでは削除できません。",
-      "termsRequired": "続行するには、利用規約とプライバシーポリシーに同意してください。"
+      "termsRequired": "続行するには、利用規約とプライバシーポリシーに同意してください。",
+      "nameInvalid": "名前には文字のみ使用できます（スペースとハイフンは可）。2文字以上。",
+      "passwordWeak": "パスワードには文字と数字をそれぞれ1つ以上含めてください。",
+      "passwordLong": "パスワードが長すぎます。",
+      "companyNameInvalid": "名前に使えるのは文字、数字、および . , & « » ( ) - / № などの記号です。"
     }
+  },
+  "validation": {
+    "required": "この項目を入力してください。",
+    "maxChars": "{max}文字まで。"
   },
   "passwordReset": {
     "forgotLink": "パスワードをお忘れですか？",
@@ -250,7 +258,7 @@
     "chooseVillage": "村・町を選択",
     "salaryMin": "給与（下限）AZN",
     "salaryMax": "給与（上限）AZN",
-    "salaryHint": "空欄の場合は「応相談」と表示されます。",
+    "salaryHint": "空欄の場合は「応相談」と表示されます。小数も入力できます: 3.50",
     "workDate": "日付",
     "startTime": "開始時刻",
     "durationHours": "作業時間（時間）",
@@ -273,7 +281,7 @@
       "categoryRequired": "カテゴリーを選択してください。",
       "locationRequired": "村・町を選択してください。",
       "phoneInvalid": "携帯電話番号が正しくありません。例：050 123 45 67",
-      "salaryInvalid": "金額が正しくありません。",
+      "salaryInvalid": "金額は0より大きく、小数点以下2桁までです。例: 3.50",
       "salaryRange": "上限は下限以上にしてください。",
       "dateRequired": "日付と時刻を選択してください。",
       "dateInPast": "この日時はすでに過ぎています。",
@@ -738,9 +746,11 @@
       "districtRequired": "地区を選んでください。",
       "numberInvalid": "数値が正しくありません。",
       "workTypeRequired": "雇用形態を1つ以上選んでください。",
-      "dateInvalid": "日付が正しくありません。",
+      "dateInvalid": "日付が正しくありません（1年以内）。",
       "textTooLong": "文章が長すぎます。",
-      "locationInvalid": "村が選択した地区にありません。"
+      "locationInvalid": "村が選択した地区にありません。",
+      "nameInvalid": "名前には文字のみ使用できます（スペースとハイフンは可）。",
+      "payInvalid": "金額は0より大きく、小数点以下2桁までです。例: 3.50"
     }
   },
   "workers": {

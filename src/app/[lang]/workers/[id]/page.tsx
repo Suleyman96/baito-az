@@ -169,7 +169,7 @@ async function Worker({ lang, dict, params }: { lang: Locale; dict: Dictionary; 
             </p>
             <p className="flex items-start gap-2 font-semibold">
               <Wallet className="mt-0.5 size-4 shrink-0 text-accent" aria-hidden />
-              {expectedPayText(profile, dict)}
+              {expectedPayText(profile, dict, lang)}
             </p>
             {profile.ageRange && (
               <p className="text-muted">

@@ -2,11 +2,14 @@ import { z } from "zod";
 import { AGE_RANGES, isProfession, isSkill } from "@/config/professions";
 import { isDistrict } from "@/config/site";
 import { normalizePhone } from "@/lib/auth/validation";
+import { bakuDate } from "@/lib/job-expiry";
+import { cleanText, isPersonName, parseAmount, squeezeSpaces } from "@/lib/validation-rules";
 
 // Rules for the job seeker's work profile; no database here, so it is unit-tested
 
 export type WorkerProfileErrorKey =
   | "nameRequired"
+  | "nameInvalid"
   | "phoneRequired"
   | "phoneInvalid"
   | "professionRequired"
@@ -14,21 +17,25 @@ export type WorkerProfileErrorKey =
   | "tooManySkills"
   | "districtRequired"
   | "numberInvalid"
+  | "payInvalid"
   | "workTypeRequired"
   | "dateInvalid"
   | "textTooLong";
 
 export const MAX_EXTRA_PROFESSIONS = 5;
 export const MAX_SKILLS = 15;
+/** "Available from" may be at most this far ahead */
+export const MAX_AVAILABLE_DAYS_AHEAD = 365;
 
 /** Form input: single fields as strings, multi-select fields as string arrays. */
 export type ProfileInput = Record<string, string | string[] | undefined>;
 
+// Free text: invisible control characters removed, any letters and symbols kept
 const text = (max: number) =>
   z
     .string()
-    .trim()
-    .max(max, "textTooLong")
+    .transform(cleanText)
+    .pipe(z.string().max(max, "textTooLong"))
     .transform((v) => v || null);
 const optionalInt = (min: number, max: number) =>
   z
@@ -47,7 +54,13 @@ const list = (valid: (v: string) => boolean) => z.array(z.string()).transform((v
 const checkbox = z.string().transform((v) => v === "on" || v === "true" || v === "1");
 
 const schema = z.object({
-  name: z.string().trim().min(2, "nameRequired").max(80, "nameRequired"),
+  name: z
+    .string()
+    .transform(squeezeSpaces)
+    .superRefine((v, ctx) => {
+      if (!v) ctx.addIssue({ code: "custom", message: "nameRequired" });
+      else if (!isPersonName(v)) ctx.addIssue({ code: "custom", message: "nameInvalid" });
+    }),
   phone: z.string().transform((v, ctx) => {
     if (!v.trim()) {
       ctx.addIssue({ code: "custom", message: "phoneRequired" });
@@ -77,7 +90,8 @@ const schema = z.object({
   availableFrom: z.string().transform((v, ctx) => {
     if (!v) return null;
     const date = /^\d{4}-\d{2}-\d{2}$/.test(v) ? new Date(`${v}T00:00:00+04:00`) : null;
-    if (!date || Number.isNaN(date.getTime())) {
+    // A real calendar date (no 31 February), not more than a year ahead; a past date means "available now"
+    if (!date || Number.isNaN(date.getTime()) || bakuDate(date) !== v || date.getTime() - Date.now() > MAX_AVAILABLE_DAYS_AHEAD * 24 * 3600e3) {
       ctx.addIssue({ code: "custom", message: "dateInvalid" });
       return z.NEVER;
     }
@@ -85,7 +99,14 @@ const schema = z.object({
   }),
   availableWeekdays: checkbox,
   availableWeekends: checkbox,
-  expectedPay: optionalInt(1, 100_000),
+  expectedPay: z.string().transform((v, ctx) => {
+    const amount = parseAmount(v);
+    if (amount === undefined) {
+      ctx.addIssue({ code: "custom", message: "payInvalid" });
+      return z.NEVER;
+    }
+    return amount;
+  }),
   expectedPayPeriod: z.enum(["MONTH", "DAY", "HOUR"]).catch("MONTH"),
   workplace: z.enum(["ONSITE", "REMOTE", "ANY"]).catch("ONSITE"),
   visible: checkbox,

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { cleanText } from "./validation-rules";
 
 // Who may review whom, and what a review must contain; no database here, so it is unit-tested
 
@@ -6,7 +7,7 @@ export type ReviewErrorKey = "ratingInvalid" | "commentShort" | "commentLong" | 
 
 export const reviewSchema = z.object({
   rating: z.coerce.number({ message: "ratingInvalid" }).int("ratingInvalid").min(1, "ratingInvalid").max(5, "ratingInvalid"),
-  comment: z.string().trim().min(5, "commentShort").max(1000, "commentLong"),
+  comment: z.string().transform(cleanText).pipe(z.string().min(5, "commentShort").max(1000, "commentLong")),
 });
 
 type JobForReview = { status: string; ownerId: string; hiredWorkerIds: string[] };

@@ -10,15 +10,23 @@ export function t(template: string, values: Record<string, string | number>) {
 
 type SalaryLabels = { negotiable: string; from: string; upTo: string };
 
+/** An amount in the page's language: whole ones as they are ("450"), others with 2 decimals ("3,50" / "3.50") */
+export function formatAmount(amount: number, locale: Locale) {
+  const decimals = Number.isInteger(amount) ? 0 : 2;
+  return new Intl.NumberFormat(locale, { minimumFractionDigits: decimals, maximumFractionDigits: 2, useGrouping: false }).format(amount);
+}
+
 export function formatSalary(
   min: number | null,
   max: number | null,
   labels: SalaryLabels,
+  locale: Locale,
 ) {
   const currency = site.currency;
-  if (min && max) return `${min}–${max} ${currency}`;
-  if (min) return t(labels.from, { min, currency });
-  if (max) return t(labels.upTo, { max, currency });
+  const fmt = (n: number) => formatAmount(n, locale);
+  if (min && max) return `${fmt(min)}–${fmt(max)} ${currency}`;
+  if (min) return t(labels.from, { min: fmt(min), currency });
+  if (max) return t(labels.upTo, { max: fmt(max), currency });
   return labels.negotiable;
 }
 

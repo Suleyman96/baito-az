@@ -50,7 +50,11 @@ export function OfferReplyForm({ lang, dict, offerId }: { lang: Locale; dict: Di
           aria-invalid={!!error("reply")}
           className={inputClass}
         />
-        {error("reply") && <span className="block text-sm text-error">{error("reply")}</span>}
+        {error("reply") ? (
+          <span className="block text-sm text-error">{error("reply")}</span>
+        ) : (
+          <span className="block text-xs text-muted">{dict.validation.maxChars.replace("{max}", String(OFFER_REPLY_MAX))}</span>
+        )}
       </label>
       <div className="flex flex-wrap gap-2">
         <button type="submit" name="decision" value="ACCEPTED" disabled={pending} className={`${buttonClass.primary} flex-1 sm:flex-none`}>

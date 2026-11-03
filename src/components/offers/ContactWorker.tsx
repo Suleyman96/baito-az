@@ -8,7 +8,8 @@ import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { t } from "@/lib/format";
 import { sendJobOffer, type OfferFormState } from "@/lib/job-offer-actions";
-import { OFFER_MESSAGE_MAX, type OfferErrorKey } from "@/lib/job-offers";
+import { OFFER_MESSAGE_MAX, OFFER_MESSAGE_MIN, type OfferErrorKey } from "@/lib/job-offers";
+import { useLiveValidation } from "../forms/useLiveValidation";
 
 type Viewer = "guest" | "employer" | "other";
 
@@ -108,9 +109,10 @@ function OfferForm({ lang, dict, workerId, jobs }: { lang: Locale; dict: Diction
       return { errors: { form: "failed" }, values: { message: String(formData.get("message") ?? ""), jobId: String(formData.get("jobId") ?? "") } };
     }
   }, undefined);
+  const live = useLiveValidation(state, dict.validation.required);
   const error = (field: string) => {
     const key = state?.errors[field];
-    return key ? o.errors[key as OfferErrorKey] : undefined;
+    return live.error(field, key ? o.errors[key as OfferErrorKey] : undefined);
   };
 
   if (state?.sent) {
@@ -129,7 +131,7 @@ function OfferForm({ lang, dict, workerId, jobs }: { lang: Locale; dict: Diction
 
   const v = state?.values ?? {};
   return (
-    <form key={JSON.stringify(v)} action={action} className="space-y-3" noValidate>
+    <form key={JSON.stringify(v)} action={action} className="space-y-3" {...live.formProps}>
       <p className="text-sm text-muted">{o.siteHint}</p>
       {error("form") && (
         <p role="alert" className="rounded-xl bg-error-soft p-3 text-sm text-error">
@@ -151,17 +153,30 @@ function OfferForm({ lang, dict, workerId, jobs }: { lang: Locale; dict: Diction
         </label>
       )}
       <label className="block space-y-1.5">
-        <span className="text-sm font-semibold">{o.message}</span>
+        <span className="text-sm font-semibold">
+          {o.message}
+          <span className="text-error" aria-hidden>
+            {" "}
+            *
+          </span>
+        </span>
         <textarea
           name="message"
           rows={4}
+          required
+          minLength={OFFER_MESSAGE_MIN}
           maxLength={OFFER_MESSAGE_MAX}
+          data-error={o.errors.messageShort}
           defaultValue={v.message ?? ""}
           placeholder={o.messagePlaceholder}
           aria-invalid={!!error("message")}
           className={inputClass}
         />
-        {error("message") && <span className="block text-sm text-error">{error("message")}</span>}
+        {error("message") ? (
+          <span className="block text-sm text-error">{error("message")}</span>
+        ) : (
+          <span className="block text-xs text-muted">{dict.validation.maxChars.replace("{max}", String(OFFER_MESSAGE_MAX))}</span>
+        )}
       </label>
       <button type="submit" disabled={pending} className={`${buttonClass.primary} w-full`}>
         <Send className="size-4" aria-hidden />

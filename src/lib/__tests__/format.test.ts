@@ -4,10 +4,10 @@ import { bakuMidnight, formatRelativeDate, formatSalary, formatWorkStart, t } fr
 const labels = { negotiable: "Negotiable", from: "From {min} {currency}", upTo: "Up to {max} {currency}" };
 
 describe("formatSalary", () => {
-  it("formats a range", () => expect(formatSalary(400, 600, labels)).toBe("400–600 AZN"));
-  it("formats a lower bound only", () => expect(formatSalary(500, null, labels)).toBe("From 500 AZN"));
-  it("formats an upper bound only", () => expect(formatSalary(null, 300, labels)).toBe("Up to 300 AZN"));
-  it("falls back to negotiable", () => expect(formatSalary(null, null, labels)).toBe("Negotiable"));
+  it("formats a range", () => expect(formatSalary(400, 600, labels, "en")).toBe("400–600 AZN"));
+  it("formats a lower bound only", () => expect(formatSalary(500, null, labels, "en")).toBe("From 500 AZN"));
+  it("formats an upper bound only", () => expect(formatSalary(null, 300, labels, "en")).toBe("Up to 300 AZN"));
+  it("falls back to negotiable", () => expect(formatSalary(null, null, labels, "en")).toBe("Negotiable"));
 });
 
 describe("t", () => {

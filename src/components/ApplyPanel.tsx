@@ -61,6 +61,7 @@ export function ApplyPanel({
           <label className="block space-y-1.5">
             <span className="text-sm font-semibold">{a.messageLabel}</span>
             <textarea name="message" rows={3} maxLength={1000} defaultValue={state?.message} placeholder={a.messagePlaceholder} className={inputClass} />
+            <span className="block text-xs text-muted">{dict.validation.maxChars.replace("{max}", "1000")}</span>
           </label>
           <button type="submit" disabled={pending} className={`${buttonClass.primary} w-full`}>
             {pending ? a.sending : a.submit}

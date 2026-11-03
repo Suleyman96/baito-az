@@ -97,11 +97,11 @@ export function JobFilters({
             <option value="JOB">{dict.postJob.payJob}</option>
           </select>
           <div className="flex items-center gap-2">
-            <input type="number" name="payMin" min={1} inputMode="numeric" defaultValue={filters.payMin} placeholder={dict.home.payMin} aria-label={dict.home.payMin} className={field} />
+            <input type="number" name="payMin" min={0.01} step={0.01} inputMode="decimal" defaultValue={filters.payMin} placeholder={dict.home.payMin} aria-label={dict.home.payMin} className={field} />
             <span className="text-muted" aria-hidden>
               –
             </span>
-            <input type="number" name="payMax" min={1} inputMode="numeric" defaultValue={filters.payMax} placeholder={dict.home.payMax} aria-label={dict.home.payMax} className={field} />
+            <input type="number" name="payMax" min={0.01} step={0.01} inputMode="decimal" defaultValue={filters.payMax} placeholder={dict.home.payMax} aria-label={dict.home.payMax} className={field} />
           </div>
         </div>
       </details>

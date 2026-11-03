@@ -106,7 +106,7 @@
     "registerTitle": "Sign up",
     "identifier": "Email or phone",
     "password": "Password",
-    "passwordHint": "At least 8 characters",
+    "passwordHint": "At least 8 characters, with a letter and a digit",
     "name": "Full name",
     "email": "Email",
     "phone": "Mobile number",
@@ -132,7 +132,7 @@
     "privacyLink": "Privacy Policy",
     "errors": {
       "nameRequired": "Please enter your name.",
-      "emailInvalid": "This email is not valid.",
+      "emailInvalid": "The email is not valid. For example: name@mail.az",
       "phoneInvalid": "This mobile number is not valid. For example: 050 123 45 67",
       "contactRequired": "Enter an email or a mobile number.",
       "passwordShort": "Password must be at least 8 characters.",
@@ -150,8 +150,16 @@
       "companyNameTaken": "This company name is taken. If you work there, leave the name empty (private employer). If it's another branch or company, make it specific: “Bərəkət Market — Qax”.",
       "confirmRequired": "Tick the box to confirm the deletion.",
       "deleteNotAllowed": "Admin accounts can't be deleted here.",
-      "termsRequired": "To continue, accept the Terms of Use and the Privacy Policy."
+      "termsRequired": "To continue, accept the Terms of Use and the Privacy Policy.",
+      "nameInvalid": "A name can only contain letters (spaces and hyphens are fine), at least 2 letters.",
+      "passwordWeak": "The password needs at least one letter and one digit.",
+      "passwordLong": "The password is too long.",
+      "companyNameInvalid": "The name can only contain letters, digits and marks like . , & « » ( ) - / №."
     }
+  },
+  "validation": {
+    "required": "Please fill in this field.",
+    "maxChars": "Up to {max} characters."
   },
   "passwordReset": {
     "forgotLink": "Forgot your password?",
@@ -250,7 +258,7 @@
     "chooseVillage": "Choose a village or town",
     "salaryMin": "Salary (min), AZN",
     "salaryMax": "Salary (max), AZN",
-    "salaryHint": "Leave empty to show “Negotiable”.",
+    "salaryHint": "Leave empty to show “Negotiable”. Decimals are fine: 3.50",
     "workDate": "Date",
     "startTime": "Start time",
     "durationHours": "Duration (hours)",
@@ -273,7 +281,7 @@
       "categoryRequired": "Choose a category.",
       "locationRequired": "Choose a village or town.",
       "phoneInvalid": "This mobile number is not valid. For example: 050 123 45 67",
-      "salaryInvalid": "This amount is not valid.",
+      "salaryInvalid": "The amount must be more than 0, with at most 2 decimals. For example: 3.50",
       "salaryRange": "The maximum cannot be lower than the minimum.",
       "dateRequired": "Choose a date and time.",
       "dateInPast": "This time has already passed.",
@@ -738,9 +746,11 @@
       "districtRequired": "Choose a district.",
       "numberInvalid": "This number is not valid.",
       "workTypeRequired": "Choose at least one work type.",
-      "dateInvalid": "This date is not valid.",
+      "dateInvalid": "The date is not valid (at most 1 year ahead).",
       "textTooLong": "The text is too long.",
-      "locationInvalid": "The village is not in the chosen district."
+      "locationInvalid": "The village is not in the chosen district.",
+      "nameInvalid": "A name can only contain letters (spaces and hyphens are fine).",
+      "payInvalid": "The amount must be more than 0, with at most 2 decimals. For example: 3.50"
     }
   },
   "workers": {

@@ -6,8 +6,10 @@ import { buttonClass, Field, inputClass } from "@/components/ui";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { requestPasswordReset, resetPassword } from "@/lib/auth/password-reset-actions";
+import { MAX_EMAIL_LENGTH } from "@/lib/validation-rules";
+import { useLiveValidation } from "../forms/useLiveValidation";
 
-type Texts = { t: Dictionary["passwordReset"]; auth: Dictionary["auth"] };
+type Texts = { t: Dictionary["passwordReset"]; auth: Dictionary["auth"]; checks: Dictionary["validation"] };
 
 function BackToLogin({ lang, t }: { lang: Locale; t: Texts["t"] }) {
   return (
@@ -20,8 +22,9 @@ function BackToLogin({ lang, t }: { lang: Locale; t: Texts["t"] }) {
 }
 
 /** "Forgot password": asks for the email; the answer is the same whether or not the account exists */
-export function ForgotPasswordForm({ lang, minutes, t, auth }: { lang: Locale; minutes: number } & Texts) {
+export function ForgotPasswordForm({ lang, minutes, t, auth, checks }: { lang: Locale; minutes: number } & Texts) {
   const [state, action, pending] = useActionState(requestPasswordReset, undefined);
+  const live = useLiveValidation(state, checks.required);
 
   if (state?.sent) {
     return (
@@ -34,13 +37,25 @@ export function ForgotPasswordForm({ lang, minutes, t, auth }: { lang: Locale; m
     );
   }
 
-  const error = state?.error ? auth.errors[state.error] : undefined;
+  const error = live.error("email", state?.error ? auth.errors[state.error] : undefined);
   return (
-    <form action={action} className="space-y-4" noValidate>
+    <form action={action} className="space-y-4" {...live.formProps}>
       <input type="hidden" name="lang" value={lang} />
       <p className="text-sm text-muted">{t.forgotText}</p>
-      <Field label={auth.email} error={error}>
-        <input name="email" type="email" defaultValue={state?.email} autoComplete="email" required aria-invalid={!!error} className={inputClass} />
+      <Field label={auth.email} error={error} required>
+        <input
+          name="email"
+          type="email"
+          inputMode="email"
+          defaultValue={state?.email}
+          autoComplete="email"
+          required
+          maxLength={MAX_EMAIL_LENGTH}
+          data-check="email"
+          data-error={auth.errors.emailInvalid}
+          aria-invalid={!!error}
+          className={inputClass}
+        />
       </Field>
       <button type="submit" disabled={pending} className={`${buttonClass.primary} w-full`}>
         {t.submitRequest}
@@ -68,19 +83,30 @@ export function InvalidResetLink({ lang, t }: { lang: Locale; t: Texts["t"] }) {
 }
 
 /** The new password, through a reset link */
-export function ResetPasswordForm({ lang, token, t, auth }: { lang: Locale; token: string } & Texts) {
+export function ResetPasswordForm({ lang, token, t, auth, checks }: { lang: Locale; token: string } & Texts) {
   const [state, action, pending] = useActionState(resetPassword, undefined);
+  const live = useLiveValidation(state, checks.required);
   // The link was used up or expired while the page was open
   if (state?.error === "linkInvalid") return <InvalidResetLink lang={lang} t={t} />;
 
-  const error = state?.error ? auth.errors[state.error] : undefined;
+  const error = live.error("password", state?.error ? auth.errors[state.error] : undefined);
   return (
-    <form action={action} className="space-y-4">
+    <form action={action} className="space-y-4" {...live.formProps}>
       <input type="hidden" name="lang" value={lang} />
       <input type="hidden" name="token" value={token} />
       <p className="text-sm text-muted">{t.resetText}</p>
-      <Field label={t.newPassword} hint={auth.passwordHint} error={error}>
-        <input name="password" type="password" autoComplete="new-password" required minLength={8} aria-invalid={!!error} className={inputClass} />
+      <Field label={t.newPassword} hint={auth.passwordHint} error={error} required>
+        <input
+          name="password"
+          type="password"
+          autoComplete="new-password"
+          required
+          minLength={8}
+          data-check="password"
+          data-error={auth.passwordHint}
+          aria-invalid={!!error}
+          className={inputClass}
+        />
       </Field>
       <button type="submit" disabled={pending} className={`${buttonClass.primary} w-full`}>
         {t.submitReset}

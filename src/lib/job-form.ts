@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { normalizePhone } from "@/lib/auth/validation";
 import { checkEndDate, oneDayExpiry, type EndDateError } from "@/lib/job-expiry";
+import { cleanText, isJobTitle, parseAmount, squeezeSpaces } from "@/lib/validation-rules";
 
 // Error messages are dictionary keys (postJob.errors.*), translated in the form
 export type JobFormErrorKey =
@@ -26,12 +27,21 @@ const MAX_DAYS_AHEAD = 90;
 const blankToUndefined = (v: unknown) => (typeof v === "string" && v.trim() === "" ? undefined : v);
 const optionalInt = (min: number, max: number, message: JobFormErrorKey) =>
   z.preprocess(blankToUndefined, z.coerce.number({ message }).int(message).min(min, message).max(max, message).optional());
+/** An amount in AZN with up to 2 decimals ("3,50"); empty = not given */
+const optionalAmount = z.string().optional().transform((v, ctx) => {
+  const amount = parseAmount(v ?? "");
+  if (amount === undefined) {
+    ctx.addIssue({ code: "custom", message: "salaryInvalid" });
+    return z.NEVER;
+  }
+  return amount ?? undefined;
+});
 
 const schema = z
   .object({
     employmentType: z.enum(["FULL_TIME", "PART_TIME", "ONE_DAY"]).catch("FULL_TIME"),
-    title: z.string().trim().min(3, "titleRequired").max(100, "titleRequired"),
-    description: z.string().trim().min(10, "descriptionRequired").max(3000, "descriptionRequired"),
+    title: z.string().transform(squeezeSpaces).refine(isJobTitle, "titleRequired"),
+    description: z.string().transform(cleanText).pipe(z.string().min(10, "descriptionRequired").max(3000, "descriptionRequired")),
     categoryId: z.coerce.number({ message: "categoryRequired" }).int().positive("categoryRequired"),
     locationId: z.coerce.number({ message: "locationRequired" }).int().positive("locationRequired"),
     contactPhone: z.string().transform((v, ctx) => {
@@ -43,14 +53,14 @@ const schema = z
       return phone;
     }),
     // Full-time / part-time: salary range per month or hour, both optional ("negotiable")
-    salaryMin: optionalInt(1, 100000, "salaryInvalid"),
-    salaryMax: optionalInt(1, 100000, "salaryInvalid"),
+    salaryMin: optionalAmount,
+    salaryMax: optionalAmount,
     // One-day jobs
     workDate: z.string().optional(),
     startTime: z.string().optional(),
     durationHours: optionalInt(1, 24, "durationInvalid"),
     workersNeeded: optionalInt(1, 100, "workersInvalid"),
-    payAmount: optionalInt(1, 100000, "salaryInvalid"),
+    payAmount: optionalAmount,
     payPeriod: z.enum(["JOB", "DAY", "HOUR"]).catch("JOB"),
     // Full-time / part-time: the salary range can be monthly, daily or hourly
     salaryPeriod: z.enum(["MONTH", "DAY", "HOUR"]).catch("MONTH"),

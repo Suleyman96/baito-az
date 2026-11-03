@@ -43,8 +43,29 @@ describe("registerSchema", () => {
 
   it("reports invalid fields with dictionary keys", () => {
     expect(errors({ ...base, name: "A", email: "nope", phone: "123", password: "short" })).toEqual(
-      expect.arrayContaining(["name:nameRequired", "email:emailInvalid", "phone:phoneInvalid", "password:passwordShort"]),
+      expect.arrayContaining(["name:nameInvalid", "email:emailInvalid", "phone:phoneInvalid", "password:passwordShort"]),
     );
+    expect(errors({ ...base, phone: "0501234567", name: "  " })).toEqual(["name:nameRequired"]);
+  });
+
+  it("accepts letters only in a name, and stores it with single spaces", () => {
+    expect(errors({ ...base, phone: "0501234567", name: "Əli123" })).toEqual(["name:nameInvalid"]);
+    expect(errors({ ...base, phone: "0501234567", name: "12345" })).toEqual(["name:nameInvalid"]);
+    expect(registerSchema.parse({ ...base, phone: "0501234567", name: "  Anna-Mariya   O'Neil " }).name).toBe("Anna-Mariya O'Neil");
+  });
+
+  it("wants a password with a letter and a digit, within bcrypt's 72 bytes", () => {
+    expect(errors({ ...base, phone: "0501234567", password: "abcdefgh" })).toEqual(["password:passwordWeak"]);
+    expect(errors({ ...base, phone: "0501234567", password: `a1${"ə".repeat(40)}` })).toEqual(["password:passwordLong"]);
+  });
+
+  it("refuses company names with characters real names do not use", () => {
+    expect(errors({ ...base, phone: "0501234567", role: "EMPLOYER", companyName: "Market <b>" })).toEqual(["companyName:companyNameInvalid"]);
+    expect(errors({ ...base, phone: "0501234567", role: "EMPLOYER", companyName: "x".repeat(101) })).toEqual(["companyName:companyNameLong"]);
+  });
+
+  it("refuses an email longer than 254 characters", () => {
+    expect(errors({ ...base, email: `${"a".repeat(250)}@x.az` })).toEqual(["email:emailInvalid"]);
   });
 
   it("treats an unknown role as job seeker, so nobody can sign up as admin", () => {

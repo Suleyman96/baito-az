@@ -9,7 +9,7 @@ export default async function ForgotPasswordPage() {
 
   return (
     <AuthCard title={dict.passwordReset.forgotTitle}>
-      <ForgotPasswordForm lang={lang} minutes={RESET_LINK_MINUTES} t={dict.passwordReset} auth={dict.auth} />
+      <ForgotPasswordForm lang={lang} minutes={RESET_LINK_MINUTES} t={dict.passwordReset} auth={dict.auth} checks={dict.validation} />
     </AuthCard>
   );
 }

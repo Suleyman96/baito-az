@@ -13,11 +13,22 @@ export const buttonClass = {
     "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-line-strong bg-surface px-4 py-2 font-medium transition hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/20",
 };
 
-/** Label + control + hint or error. Clicking the label focuses the control. */
-export function Field({ label, hint, error, children }: { label: string; hint?: string; error?: string; children: ReactNode }) {
+/**
+ * Label + control + hint or error. Clicking the label focuses the control. `required` marks the label with
+ * an asterisk (the control's own `required` attribute tells screen readers).
+ */
+export function Field({ label, hint, error, required, children }: { label: string; hint?: string; error?: string; required?: boolean; children: ReactNode }) {
   return (
     <label className="block space-y-1.5">
-      <span className="text-sm font-semibold">{label}</span>
+      <span className="text-sm font-semibold">
+        {label}
+        {required && (
+          <span className="text-error" aria-hidden>
+            {" "}
+            *
+          </span>
+        )}
+      </span>
       {children}
       {error ? (
         <span className="block text-sm text-error">{error}</span>

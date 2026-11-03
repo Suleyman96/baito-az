@@ -106,7 +106,7 @@
     "registerTitle": "Qeydiyyat",
     "identifier": "Email və ya telefon",
     "password": "Şifrə",
-    "passwordHint": "Ən azı 8 simvol",
+    "passwordHint": "Ən azı 8 simvol, hərf və rəqəm",
     "name": "Ad və soyad",
     "email": "Email",
     "phone": "Mobil nömrə",
@@ -132,7 +132,7 @@
     "privacyLink": "Məxfilik siyasəti",
     "errors": {
       "nameRequired": "Adınızı yazın.",
-      "emailInvalid": "Email düzgün deyil.",
+      "emailInvalid": "Email düzgün deyil. Məsələn: ad@mail.az",
       "phoneInvalid": "Mobil nömrə düzgün deyil. Məsələn: 050 123 45 67",
       "contactRequired": "Email və ya mobil nömrədən birini yazın.",
       "passwordShort": "Şifrə ən azı 8 simvol olmalıdır.",
@@ -150,8 +150,16 @@
       "companyNameTaken": "Bu adla şirkət artıq var. Orada işləyirsinizsə, adı boş saxlayın (fərdi işəgötürən kimi). Başqa filial və ya şirkətdirsə, adı dəqiqləşdirin: «Bərəkət Market — Qax».",
       "confirmRequired": "Silməni təsdiqləmək üçün qutunu işarələyin.",
       "deleteNotAllowed": "Admin hesabı buradan silinə bilməz.",
-      "termsRequired": "Davam etmək üçün İstifadə qaydalarını və Məxfilik siyasətini qəbul edin."
+      "termsRequired": "Davam etmək üçün İstifadə qaydalarını və Məxfilik siyasətini qəbul edin.",
+      "nameInvalid": "Ad yalnız hərflərdən ibarət olmalıdır (boşluq və defis ola bilər), ən azı 2 hərf.",
+      "passwordWeak": "Şifrədə ən azı bir hərf və bir rəqəm olmalıdır.",
+      "passwordLong": "Şifrə çox uzundur.",
+      "companyNameInvalid": "Adda yalnız hərf, rəqəm və . , & « » ( ) - / № kimi işarələr ola bilər."
     }
+  },
+  "validation": {
+    "required": "Bu sahəni doldurun.",
+    "maxChars": "Ən çox {max} simvol."
   },
   "passwordReset": {
     "forgotLink": "Şifrəni unutmusunuz?",
@@ -250,7 +258,7 @@
     "chooseVillage": "Kənd və ya şəhər seçin",
     "salaryMin": "Maaş (min), AZN",
     "salaryMax": "Maaş (max), AZN",
-    "salaryHint": "Boş saxlasanız, «Razılaşma yolu ilə» yazılacaq.",
+    "salaryHint": "Boş saxlasanız, «Razılaşma yolu ilə» yazılacaq. Qəpik də yaza bilərsiniz: 3,50",
     "workDate": "Tarix",
     "startTime": "Başlama saatı",
     "durationHours": "Müddət (saat)",
@@ -273,7 +281,7 @@
       "categoryRequired": "Kateqoriya seçin.",
       "locationRequired": "Kənd və ya şəhər seçin.",
       "phoneInvalid": "Mobil nömrə düzgün deyil. Məsələn: 050 123 45 67",
-      "salaryInvalid": "Məbləğ düzgün deyil.",
+      "salaryInvalid": "Məbləğ 0-dan böyük olmalıdır, ən çox 2 onluq rəqəmlə. Məsələn: 3,50",
       "salaryRange": "Maksimum məbləğ minimumdan az ola bilməz.",
       "dateRequired": "Tarix və saatı seçin.",
       "dateInPast": "Bu vaxt artıq keçib.",
@@ -738,9 +746,11 @@
       "districtRequired": "Rayonu seçin.",
       "numberInvalid": "Rəqəm düzgün deyil.",
       "workTypeRequired": "Ən azı bir iş növü seçin.",
-      "dateInvalid": "Tarix düzgün deyil.",
+      "dateInvalid": "Tarix düzgün deyil (ən çox 1 il sonrası).",
       "textTooLong": "Mətn çox uzundur.",
-      "locationInvalid": "Kənd seçilmiş rayona aid deyil."
+      "locationInvalid": "Kənd seçilmiş rayona aid deyil.",
+      "nameInvalid": "Ad yalnız hərflərdən ibarət olmalıdır (boşluq və defis ola bilər).",
+      "payInvalid": "Məbləğ 0-dan böyük olmalıdır, ən çox 2 onluq rəqəmlə. Məsələn: 3,50"
     }
   },
   "workers": {

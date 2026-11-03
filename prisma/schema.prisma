@@ -194,9 +194,9 @@ model Job {
   title          String
   description    String         @db.Text
   employmentType EmploymentType
-  /// Salary in AZN per payPeriod. One-day jobs use salaryMin only
-  salaryMin      Int?
-  salaryMax      Int?
+  /// Salary in AZN per payPeriod, up to 2 decimals (3.50 AZN an hour). One-day jobs use salaryMin only
+  salaryMin      Float?
+  salaryMax      Float?
   payPeriod      PayPeriod      @default(MONTH)
   /// One-day jobs: start date and time, length in hours, and how many workers are needed
   workStart      DateTime?
@@ -406,7 +406,7 @@ model WorkerProfile {
   availableFrom         DateTime?
   availableWeekdays     Boolean          @default(true)
   availableWeekends     Boolean          @default(false)
-  expectedPay           Int?
+  expectedPay           Float?
   expectedPayPeriod     PayPeriod        @default(MONTH)
   workplace             Workplace        @default(ONSITE)
   portfolio             Image[]

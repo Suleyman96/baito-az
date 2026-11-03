@@ -20,9 +20,10 @@ import {
   resetLinkUsable,
 } from "./password-reset";
 import { resetPasswordSchema, resetRequestSchema } from "./validation";
+import type { PasswordProblem } from "@/lib/validation-rules";
 
 export type ResetRequestState = { error?: "emailInvalid"; email: string; sent?: boolean } | undefined;
-export type ResetPasswordState = { error?: "passwordShort" | "linkInvalid" } | undefined;
+export type ResetPasswordState = { error?: PasswordProblem | "linkInvalid" } | undefined;
 export type AdminResetLinkState = { link?: string; error?: "notAllowed" } | undefined;
 
 const langOf = (formData: FormData): Locale => {
@@ -81,7 +82,8 @@ export async function resetPassword(_prev: ResetPasswordState, formData: FormDat
   const token = formData.get("token");
   if (!isResetTokenShaped(token)) return { error: "linkInvalid" };
   const parsed = resetPasswordSchema.safeParse({ password: String(formData.get("password") ?? "") });
-  if (!parsed.success) return { error: "passwordShort" };
+  // The rule it broke: too short, no letter or digit, or too long
+  if (!parsed.success) return { error: parsed.error.issues[0].message as PasswordProblem };
 
   const id = hashResetToken(token);
   const link = await db.passwordResetToken.findUnique({

@@ -5,6 +5,7 @@ import { Field, inputClass } from "@/components/ui";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { reactivateJob } from "@/lib/job-actions";
+import { useLiveValidation } from "./forms/useLiveValidation";
 
 /**
  * "Reactivate" on an archived job. Full-time / part-time: one button, a new month starts.
@@ -31,11 +32,12 @@ export function ReactivateJob({
   const [state, action, pending] = useActionState(reactivateJob, undefined);
   // The end date cannot be before the work date, so the date picker starts there (checked on the server too)
   const [workDate, setWorkDate] = useState<string>();
+  const live = useLiveValidation(state, dict.validation.required);
   const t = dict.myJobs;
   const errors = dict.postJob.errors;
-  const err = (field: "workDate" | "endDate") => {
-    const key = state?.errors[field];
-    return key ? errors[key] : undefined;
+  const err = (field: "workDate" | "startTime" | "endDate") => {
+    const key = field === "startTime" ? undefined : state?.errors[field];
+    return live.error(field, key ? errors[key] : undefined);
   };
   const hidden = (
     <>
@@ -60,18 +62,37 @@ export function ReactivateJob({
     // Open again after a failed try, so the errors are visible
     <details open={!!state} className="w-full">
       <summary className={`${buttonClassName} inline-block cursor-pointer list-none [&::-webkit-details-marker]:hidden`}>{t.reactivate}</summary>
-      <form action={action} className="mt-3 space-y-3 rounded-xl border border-line p-3">
+      <form action={action} className="mt-3 space-y-3 rounded-xl border border-line p-3" {...live.formProps}>
         {hidden}
         <p className="text-sm text-muted">{t.reactivateOneDayNote}</p>
         <div className="grid gap-3 sm:grid-cols-3">
-          <Field label={dict.postJob.workDate} error={err("workDate")}>
-            <input type="date" name="workDate" min={today} defaultValue={v.workDate} onChange={(e) => setWorkDate(e.target.value)} required aria-invalid={!!err("workDate")} className={inputClass} />
+          <Field label={dict.postJob.workDate} error={err("workDate")} required>
+            <input
+              type="date"
+              name="workDate"
+              min={today}
+              defaultValue={v.workDate}
+              onChange={(e) => setWorkDate(e.target.value)}
+              required
+              data-required={errors.dateRequired}
+              data-error={errors.dateInPast}
+              aria-invalid={!!err("workDate")}
+              className={inputClass}
+            />
           </Field>
-          <Field label={dict.postJob.startTime}>
-            <input type="time" name="startTime" defaultValue={v.startTime} required className={inputClass} />
+          <Field label={dict.postJob.startTime} error={err("startTime")} required>
+            <input type="time" name="startTime" defaultValue={v.startTime} required data-required={errors.dateRequired} aria-invalid={!!err("startTime")} className={inputClass} />
           </Field>
           <Field label={dict.postJob.endDate} error={err("endDate")}>
-            <input type="date" name="endDate" min={workDate || v.workDate || today} defaultValue={v.endDate} aria-invalid={!!err("endDate")} className={inputClass} />
+            <input
+              type="date"
+              name="endDate"
+              min={workDate || v.workDate || today}
+              defaultValue={v.endDate}
+              data-error={errors.endDateBeforeWork}
+              aria-invalid={!!err("endDate")}
+              className={inputClass}
+            />
           </Field>
         </div>
         <p className="text-xs text-muted">{dict.postJob.endDateNote}</p>

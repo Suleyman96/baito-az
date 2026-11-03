@@ -3,6 +3,7 @@
  * or declines with an optional answer. These are the pure input checks; the rules that need the
  * database (who may send, to whom, about which job) are in job-offer-actions.ts.
  */
+import { cleanText } from "./validation-rules";
 
 export const OFFER_MESSAGE_MIN = 10;
 export const OFFER_MESSAGE_MAX = 1000;
@@ -30,7 +31,7 @@ export type OfferStatusValue = "PENDING" | "ACCEPTED" | "DECLINED";
 export function parseOffer(input: { message?: string; jobId?: string }):
   | { success: true; data: { message: string; jobId: string | null } }
   | { success: false; errors: Partial<Record<"message", OfferErrorKey>> } {
-  const message = (input.message ?? "").trim();
+  const message = cleanText(input.message ?? "");
   if (message.length < OFFER_MESSAGE_MIN) return { success: false, errors: { message: "messageShort" } };
   if (message.length > OFFER_MESSAGE_MAX) return { success: false, errors: { message: "messageLong" } };
   const jobId = (input.jobId ?? "").trim();
@@ -43,7 +44,7 @@ export function parseReply(input: { decision?: string; reply?: string }):
   const errors: Partial<Record<"decision" | "reply", OfferErrorKey>> = {};
   const decision = input.decision;
   if (decision !== "ACCEPTED" && decision !== "DECLINED") errors.decision = "decisionRequired";
-  const reply = (input.reply ?? "").trim();
+  const reply = cleanText(input.reply ?? "");
   if (reply.length > OFFER_REPLY_MAX) errors.reply = "replyLong";
   if (Object.keys(errors).length) return { success: false, errors };
   return { success: true, data: { status: decision as "ACCEPTED" | "DECLINED", reply: reply || null } };

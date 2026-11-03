@@ -103,7 +103,7 @@ async function MyJobs({
                 </p>
                 <WorkTime job={job} lang={lang} dict={dict} className="mt-1 text-sm text-accent" />
                 <p className="mt-1 text-sm font-medium">
-                  <JobPay job={job} dict={dict} />
+                  <JobPay job={job} lang={lang} dict={dict} />
                 </p>
                 {live && job.expiresAt && (
                   <p className="mt-1 text-sm text-muted">{t(dict.myJobs.activeUntil, { date: day(lastListedDay(job.expiresAt)) })}</p>

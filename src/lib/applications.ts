@@ -1,5 +1,6 @@
 import { z } from "zod";
 import type { ResumeErrorKey } from "./resumes";
+import { cleanText } from "./validation-rules";
 
 // Rules for applying and for who may see a CV; kept free of the database so they are unit-tested
 
@@ -16,8 +17,8 @@ export function resumeRequired(employmentType: "FULL_TIME" | "PART_TIME" | "ONE_
 export const applySchema = z.object({
   message: z
     .string()
-    .trim()
-    .max(1000, "messageLong")
+    .transform(cleanText)
+    .pipe(z.string().max(1000, "messageLong"))
     .transform((v) => v || undefined),
 });
 

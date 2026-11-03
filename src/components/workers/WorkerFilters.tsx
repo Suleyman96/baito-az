@@ -92,7 +92,7 @@ export function WorkerFilters({ lang, dict, filters }: { lang: Locale; dict: Dic
               <option value="DAY">{dict.postJob.payDay}</option>
               <option value="HOUR">{dict.postJob.payHour}</option>
             </select>
-            <input type="number" name="payMax" min={1} inputMode="numeric" defaultValue={filters.payMax} placeholder={w.payMax} aria-label={w.payMax} className={field} />
+            <input type="number" name="payMax" min={0.01} step={0.01} inputMode="decimal" defaultValue={filters.payMax} placeholder={w.payMax} aria-label={w.payMax} className={field} />
           </div>
         </div>
       </details>

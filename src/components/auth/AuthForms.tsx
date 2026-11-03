@@ -6,8 +6,11 @@ import { buttonClass, Field, inputClass } from "@/components/ui";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { login, register, type AuthFormState } from "@/lib/auth/actions";
+import { MAX_EMAIL_LENGTH, NAME_CHARS, PHONE_CHARS } from "@/lib/validation-rules";
+import { useLiveValidation } from "../forms/useLiveValidation";
 
 type Texts = Dictionary["auth"];
+type CheckTexts = Dictionary["validation"];
 
 // "I accept the {terms} and the {privacy}" with both names as links. They open in a new tab,
 // so reading them does not lose what was typed in the form
@@ -32,15 +35,16 @@ function errorText(t: Texts, state: AuthFormState, field: string) {
   return key ? t.errors[key] : undefined;
 }
 
-export function RegisterForm({ lang, next, role, t }: { lang: Locale; next?: string; role: "SEEKER" | "EMPLOYER"; t: Texts }) {
+export function RegisterForm({ lang, next, role, t, checks }: { lang: Locale; next?: string; role: "SEEKER" | "EMPLOYER"; t: Texts; checks: CheckTexts }) {
   const [state, action, pending] = useActionState(register, undefined);
   const v = state?.values ?? {};
-  const err = (field: string) => errorText(t, state, field);
+  const live = useLiveValidation(state, checks.required);
+  const err = (field: string) => live.error(field, errorText(t, state, field));
   const selectedRole = v.role === "EMPLOYER" || v.role === "SEEKER" ? v.role : role;
 
   return (
     // "group" lets the company field react to the employer radio with CSS only, so it also works without JavaScript
-    <form action={action} className="group space-y-4" noValidate>
+    <form action={action} className="group space-y-4" {...live.formProps}>
       <input type="hidden" name="lang" value={lang} />
       {next && <input type="hidden" name="next" value={next} />}
 
@@ -70,28 +74,81 @@ export function RegisterForm({ lang, next, role, t }: { lang: Locale; next?: str
         </div>
       </fieldset>
 
-      <Field label={t.name} error={err("name")}>
-        <input name="name" defaultValue={v.name} autoComplete="name" required aria-invalid={!!err("name")} className={inputClass} />
+      <Field label={t.name} error={err("name")} required>
+        <input
+          name="name"
+          defaultValue={v.name}
+          autoComplete="name"
+          required
+          maxLength={80}
+          data-check="name"
+          data-allow={NAME_CHARS}
+          data-error={t.errors.nameInvalid}
+          aria-invalid={!!err("name")}
+          className={inputClass}
+        />
       </Field>
 
       <div className="hidden group-has-[#role-EMPLOYER:checked]:block">
         <Field label={t.companyName} hint={t.companyHint} error={err("companyName")}>
-          <input name="companyName" defaultValue={v.companyName} autoComplete="organization" aria-invalid={!!err("companyName")} className={inputClass} />
+          <input
+            name="companyName"
+            defaultValue={v.companyName}
+            autoComplete="organization"
+            maxLength={100}
+            data-check="company"
+            data-error={t.errors.companyNameInvalid}
+            aria-invalid={!!err("companyName")}
+            className={inputClass}
+          />
         </Field>
       </div>
 
       <div className="space-y-3 rounded-xl border border-line p-3">
         <p className="text-sm text-muted">{t.contactHint}</p>
         <Field label={t.phone} hint={t.phoneHint} error={err("phone")}>
-          <input name="phone" type="tel" inputMode="tel" defaultValue={v.phone} autoComplete="tel" aria-invalid={!!err("phone")} className={inputClass} />
+          <input
+            name="phone"
+            type="tel"
+            inputMode="tel"
+            defaultValue={v.phone}
+            autoComplete="tel"
+            maxLength={20}
+            data-check="phone"
+            data-allow={PHONE_CHARS}
+            data-error={t.errors.phoneInvalid}
+            aria-invalid={!!err("phone")}
+            className={inputClass}
+          />
         </Field>
         <Field label={t.email} error={err("email")}>
-          <input name="email" type="email" defaultValue={v.email} autoComplete="email" aria-invalid={!!err("email")} className={inputClass} />
+          <input
+            name="email"
+            type="email"
+            inputMode="email"
+            defaultValue={v.email}
+            autoComplete="email"
+            maxLength={MAX_EMAIL_LENGTH}
+            data-check="email"
+            data-error={t.errors.emailInvalid}
+            aria-invalid={!!err("email")}
+            className={inputClass}
+          />
         </Field>
       </div>
 
-      <Field label={t.password} hint={t.passwordHint} error={err("password")}>
-        <input name="password" type="password" autoComplete="new-password" required minLength={8} aria-invalid={!!err("password")} className={inputClass} />
+      <Field label={t.password} hint={t.passwordHint} error={err("password")} required>
+        <input
+          name="password"
+          type="password"
+          autoComplete="new-password"
+          required
+          minLength={8}
+          data-check="password"
+          data-error={t.passwordHint}
+          aria-invalid={!!err("password")}
+          className={inputClass}
+        />
       </Field>
 
       <div className="space-y-1.5">
@@ -101,6 +158,7 @@ export function RegisterForm({ lang, next, role, t }: { lang: Locale; next?: str
             name="acceptTerms"
             defaultChecked={v.acceptTerms === "on"}
             required
+            data-required={t.errors.termsRequired}
             aria-invalid={!!err("acceptTerms")}
             aria-describedby={err("acceptTerms") ? "acceptTerms-error" : undefined}
             className="mt-0.5 size-4 shrink-0 accent-accent"
@@ -130,12 +188,28 @@ export function RegisterForm({ lang, next, role, t }: { lang: Locale; next?: str
 }
 
 /** `notice`: a success message from the step before (e.g. "password updated") */
-export function LoginForm({ lang, next, notice, forgotLink, t }: { lang: Locale; next?: string; notice?: string; forgotLink: string; t: Texts }) {
+export function LoginForm({
+  lang,
+  next,
+  notice,
+  forgotLink,
+  t,
+  checks,
+}: {
+  lang: Locale;
+  next?: string;
+  notice?: string;
+  forgotLink: string;
+  t: Texts;
+  checks: CheckTexts;
+}) {
   const [state, action, pending] = useActionState(login, undefined);
   const formError = errorText(t, state, "form");
+  // Only "fill in" here: any password may be an old one, and the identifier is an email or a phone
+  const live = useLiveValidation(state, checks.required);
 
   return (
-    <form action={action} className="space-y-4">
+    <form action={action} className="space-y-4" {...live.formProps}>
       <input type="hidden" name="lang" value={lang} />
       {next && <input type="hidden" name="next" value={next} />}
 
@@ -150,10 +224,10 @@ export function LoginForm({ lang, next, notice, forgotLink, t }: { lang: Locale;
           </p>
         )
       )}
-      <Field label={t.identifier} hint={t.phoneHint}>
-        <input name="identifier" defaultValue={state?.values.identifier} autoComplete="username" required className={inputClass} />
+      <Field label={t.identifier} hint={t.phoneHint} error={live.error("identifier")} required>
+        <input name="identifier" defaultValue={state?.values.identifier} autoComplete="username" required maxLength={MAX_EMAIL_LENGTH} className={inputClass} />
       </Field>
-      <Field label={t.password}>
+      <Field label={t.password} error={live.error("password")} required>
         <input name="password" type="password" autoComplete="current-password" required className={inputClass} />
       </Field>
       <p className="-mt-2 text-right text-sm">

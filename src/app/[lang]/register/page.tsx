@@ -33,5 +33,5 @@ async function Register({
   const nextPath = safeNext(next, "") || undefined;
   if (await getCurrentUser()) redirect(nextPath ?? `/${lang}`);
 
-  return <RegisterForm lang={lang} next={nextPath} role={role === "EMPLOYER" ? "EMPLOYER" : "SEEKER"} t={dict.auth} />;
+  return <RegisterForm lang={lang} next={nextPath} role={role === "EMPLOYER" ? "EMPLOYER" : "SEEKER"} t={dict.auth} checks={dict.validation} />;
 }

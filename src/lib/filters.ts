@@ -10,8 +10,9 @@ const filtersSchema = z.object({
   location: z.coerce.number().int().positive().optional().catch(undefined),
   // Pay: amounts only make sense within one pay period (500 a month vs 8 an hour)
   pay: z.enum(["MONTH", "DAY", "HOUR", "JOB"]).optional().catch(undefined),
-  payMin: z.coerce.number().int().min(1).max(100000).optional().catch(undefined),
-  payMax: z.coerce.number().int().min(1).max(100000).optional().catch(undefined),
+  // Amounts may have decimals, like the pay itself (3.50 AZN an hour)
+  payMin: z.coerce.number().min(0.01).max(100000).transform((n) => Math.round(n * 100) / 100).optional().catch(undefined),
+  payMax: z.coerce.number().min(0.01).max(100000).transform((n) => Math.round(n * 100) / 100).optional().catch(undefined),
   page: z.coerce.number().int().min(1).max(1000).catch(1).default(1),
 });
 

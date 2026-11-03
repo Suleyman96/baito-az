@@ -7,6 +7,8 @@ import type { Dictionary } from "@/i18n/dictionaries";
 import type { JobFormState } from "@/lib/job-actions";
 import { MAX_JOB_IMAGES } from "@/lib/images";
 import { t as fill } from "@/lib/format";
+import { AMOUNT_CHARS, PHONE_CHARS } from "@/lib/validation-rules";
+import { useLiveValidation } from "./forms/useLiveValidation";
 import { ImagesField } from "./ImagesField";
 import { LocationSelect } from "./LocationSelect";
 
@@ -52,12 +54,17 @@ export function JobForm({
   const [state, action, pending] = useActionState(submit, undefined);
   const t = dict.postJob;
   const v = state?.values ?? initial ?? {};
-  const err = (field: string) => {
+  const live = useLiveValidation(state, dict.validation.required);
+  const serverError = (field: string) => {
     const key = state?.errors[field];
     if (!key) return undefined;
     // Image errors are shared with profile photos, so their texts live in dict.upload
     return key in t.errors ? t.errors[key as keyof typeof t.errors] : fill(dict.upload[key as keyof typeof dict.upload], { max: MAX_JOB_IMAGES });
   };
+  const err = (field: string) => live.error(field, serverError(field));
+  const limit = (max: number) => dict.validation.maxChars.replace("{max}", String(max));
+  // Pay fields: amounts with up to 2 decimals ("3,50"), with the decimal keyboard on phones
+  const amount = { type: "text", inputMode: "decimal", "data-check": "amount", "data-allow": AMOUNT_CHARS, "data-error": t.errors.salaryInvalid, maxLength: 9 } as const;
   // Chosen images live here, outside the <form> below (which remounts after a server error), so they survive it
   const [files, setFiles] = useState<File[]>([]);
   const [removed, setRemoved] = useState<string[]>([]);
@@ -70,7 +77,7 @@ export function JobForm({
   return (
     // "group" lets the one-day / monthly sections react to the job type radio with CSS only, so it also works without JavaScript
     // key: React resets uncontrolled fields after an action; remounting with the returned values keeps them
-    <form key={JSON.stringify(v)} action={action} className="group space-y-5" noValidate>
+    <form key={JSON.stringify(v)} action={action} className="group space-y-5" {...live.formProps}>
       <input type="hidden" name="lang" value={lang} />
 
       <fieldset>
@@ -86,13 +93,24 @@ export function JobForm({
         </div>
       </fieldset>
 
-      <Field label={t.titleLabel} error={err("title")}>
-        <input name="title" defaultValue={v.title} placeholder={t.titlePlaceholder} maxLength={100} aria-invalid={!!err("title")} className={inputClass} />
+      <Field label={t.titleLabel} error={err("title")} required>
+        <input
+          name="title"
+          defaultValue={v.title}
+          placeholder={t.titlePlaceholder}
+          required
+          minLength={3}
+          maxLength={100}
+          data-check="jobTitle"
+          data-error={t.errors.titleRequired}
+          aria-invalid={!!err("title")}
+          className={inputClass}
+        />
       </Field>
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <Field label={t.category} error={err("categoryId")}>
-          <select name="categoryId" defaultValue={v.categoryId ?? ""} aria-invalid={!!err("categoryId")} className={inputClass}>
+        <Field label={t.category} error={err("categoryId")} required>
+          <select name="categoryId" defaultValue={v.categoryId ?? ""} required data-required={t.errors.categoryRequired} aria-invalid={!!err("categoryId")} className={inputClass}>
             <option value="">{t.chooseCategory}</option>
             {categories.map((c) => (
               <option key={c.id} value={c.id}>
@@ -122,22 +140,56 @@ export function JobForm({
       {/* One-day job: date, time, duration, workers, pay */}
       <div className="hidden space-y-4 rounded-xl border border-line p-4 group-has-[#type-one-day:checked]:block">
         <div className="grid gap-4 sm:grid-cols-2">
-          <Field label={t.workDate} error={err("workDate")}>
-            <input type="date" name="workDate" min={today} defaultValue={v.workDate} onChange={(e) => setWorkDate(e.target.value)} aria-invalid={!!err("workDate")} className={inputClass} />
+          <Field label={t.workDate} error={err("workDate")} required>
+            <input
+              type="date"
+              name="workDate"
+              min={today}
+              defaultValue={v.workDate}
+              onChange={(e) => setWorkDate(e.target.value)}
+              required
+              data-required={t.errors.dateRequired}
+              data-error={t.errors.dateInPast}
+              aria-invalid={!!err("workDate")}
+              className={inputClass}
+            />
           </Field>
-          <Field label={t.startTime}>
-            <input type="time" name="startTime" defaultValue={v.startTime} className={inputClass} />
+          <Field label={t.startTime} error={err("startTime")} required>
+            <input type="time" name="startTime" defaultValue={v.startTime} required data-required={t.errors.dateRequired} aria-invalid={!!err("startTime")} className={inputClass} />
           </Field>
-          <Field label={t.durationHours} error={err("durationHours")}>
-            <input type="number" name="durationHours" min={1} max={24} inputMode="numeric" defaultValue={v.durationHours} aria-invalid={!!err("durationHours")} className={inputClass} />
+          <Field label={t.durationHours} error={err("durationHours")} required>
+            <input
+              type="number"
+              name="durationHours"
+              min={1}
+              max={24}
+              step={1}
+              inputMode="numeric"
+              defaultValue={v.durationHours}
+              required
+              data-error={t.errors.durationInvalid}
+              aria-invalid={!!err("durationHours")}
+              className={inputClass}
+            />
           </Field>
           <Field label={t.workersNeeded} error={err("workersNeeded")}>
-            <input type="number" name="workersNeeded" min={1} max={100} inputMode="numeric" defaultValue={v.workersNeeded || "1"} aria-invalid={!!err("workersNeeded")} className={inputClass} />
+            <input
+              type="number"
+              name="workersNeeded"
+              min={1}
+              max={100}
+              step={1}
+              inputMode="numeric"
+              defaultValue={v.workersNeeded || "1"}
+              data-error={t.errors.workersInvalid}
+              aria-invalid={!!err("workersNeeded")}
+              className={inputClass}
+            />
           </Field>
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label={t.payAmount} hint={t.salaryHint} error={err("payAmount")}>
-            <input type="number" name="payAmount" min={1} inputMode="numeric" defaultValue={v.payAmount} aria-invalid={!!err("payAmount")} className={inputClass} />
+            <input name="payAmount" {...amount} defaultValue={v.payAmount} aria-invalid={!!err("payAmount")} className={inputClass} />
           </Field>
           <fieldset className="space-y-1">
             <legend className="text-sm font-medium">{t.payType}</legend>
@@ -153,7 +205,15 @@ export function JobForm({
         </div>
         {/* Optional: when the listing ends; the rule for an empty field is shown before posting */}
         <Field label={t.endDate} hint={t.endDateNote} error={err("endDate")}>
-          <input type="date" name="endDate" min={workDate || v.workDate || today} defaultValue={v.endDate} aria-invalid={!!err("endDate")} className={inputClass} />
+          <input
+            type="date"
+            name="endDate"
+            min={workDate || v.workDate || today}
+            defaultValue={v.endDate}
+            data-error={t.errors.endDateBeforeWork}
+            aria-invalid={!!err("endDate")}
+            className={inputClass}
+          />
         </Field>
       </div>
 
@@ -174,15 +234,26 @@ export function JobForm({
           </div>
         </fieldset>
         <Field label={t.salaryMin} hint={t.salaryHint} error={err("salaryMin")}>
-          <input type="number" name="salaryMin" min={1} inputMode="numeric" defaultValue={v.salaryMin} aria-invalid={!!err("salaryMin")} className={inputClass} />
+          <input name="salaryMin" {...amount} defaultValue={v.salaryMin} aria-invalid={!!err("salaryMin")} className={inputClass} />
         </Field>
         <Field label={t.salaryMax} error={err("salaryMax")}>
-          <input type="number" name="salaryMax" min={1} inputMode="numeric" defaultValue={v.salaryMax} aria-invalid={!!err("salaryMax")} className={inputClass} />
+          <input name="salaryMax" {...amount} defaultValue={v.salaryMax} aria-invalid={!!err("salaryMax")} className={inputClass} />
         </Field>
       </div>
 
-      <Field label={t.description} error={err("description")}>
-        <textarea name="description" rows={6} defaultValue={v.description} placeholder={t.descriptionPlaceholder} maxLength={3000} aria-invalid={!!err("description")} className={inputClass} />
+      <Field label={t.description} hint={limit(3000)} error={err("description")} required>
+        <textarea
+          name="description"
+          rows={6}
+          defaultValue={v.description}
+          placeholder={t.descriptionPlaceholder}
+          required
+          minLength={10}
+          maxLength={3000}
+          data-error={t.errors.descriptionRequired}
+          aria-invalid={!!err("description")}
+          className={inputClass}
+        />
       </Field>
 
       <ImagesField
@@ -195,8 +266,21 @@ export function JobForm({
         texts={dict.upload}
       />
 
-      <Field label={t.contactPhone} hint={`${t.contactPhoneHint} ${dict.auth.phoneHint}`} error={err("contactPhone")}>
-        <input type="tel" name="contactPhone" inputMode="tel" autoComplete="tel" defaultValue={v.contactPhone ?? defaultPhone} aria-invalid={!!err("contactPhone")} className={inputClass} />
+      <Field label={t.contactPhone} hint={`${t.contactPhoneHint} ${dict.auth.phoneHint}`} error={err("contactPhone")} required>
+        <input
+          type="tel"
+          name="contactPhone"
+          inputMode="tel"
+          autoComplete="tel"
+          defaultValue={v.contactPhone ?? defaultPhone}
+          required
+          maxLength={20}
+          data-check="phone"
+          data-allow={PHONE_CHARS}
+          data-error={t.errors.phoneInvalid}
+          aria-invalid={!!err("contactPhone")}
+          className={inputClass}
+        />
       </Field>
 
       <div className="space-y-2">

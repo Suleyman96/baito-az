@@ -62,7 +62,7 @@ async function JobDetail({
           {formatPlace(job.location, dict)} · {formatRelativeDate(job.createdAt, lang)}
         </p>
         <p className="mt-4 text-xl font-semibold">
-          <JobPay job={job} dict={dict} unitClassName="text-base font-normal text-muted" />
+          <JobPay job={job} lang={lang} dict={dict} unitClassName="text-base font-normal text-muted" />
         </p>
         <WorkTime job={job} lang={lang} dict={dict} className="mt-2 font-medium text-accent" />
         <h2 className="mt-6 font-semibold">{dict.job.description}</h2>

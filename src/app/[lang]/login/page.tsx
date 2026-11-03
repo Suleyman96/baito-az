@@ -41,6 +41,7 @@ async function Login({
       notice={reset === "1" ? dict.passwordReset.doneNotice : undefined}
       forgotLink={dict.passwordReset.forgotLink}
       t={dict.auth}
+      checks={dict.validation}
     />
   );
 }

@@ -8,6 +8,8 @@ import { MAX_JOB_IMAGES } from "@/lib/images";
 import { t } from "@/lib/format";
 import { saveWorkerProfile, type WorkerProfileState } from "@/lib/worker-profile-actions";
 import { MAX_EXTRA_PROFESSIONS, MAX_SKILLS, NEGOTIABLE } from "@/lib/worker-profile";
+import { AMOUNT_CHARS, NAME_CHARS, PHONE_CHARS } from "@/lib/validation-rules";
+import { useLiveValidation } from "./forms/useLiveValidation";
 import { ImagesField } from "./ImagesField";
 import { LocationSelect } from "./LocationSelect";
 import { OptionPicker } from "./OptionPicker";
@@ -50,9 +52,12 @@ function ExpectedPayField({ dict, amount, period, error }: { dict: Dictionary; a
           <input
             id="expectedPay"
             name="expectedPay"
-            type="number"
-            min={1}
-            inputMode="numeric"
+            type="text"
+            inputMode="decimal"
+            maxLength={9}
+            data-check="amount"
+            data-allow={AMOUNT_CHARS}
+            data-error={p.errors.payInvalid}
             defaultValue={amount}
             aria-invalid={!!error}
             className={`${inputClass} min-h-11.5`}
@@ -127,26 +132,54 @@ export function WorkerProfileForm({
   const v = state?.values ?? initial;
   const one = (k: string) => (Array.isArray(v[k]) ? (v[k] as string[])[0] : (v[k] as string | undefined)) ?? "";
   const many = (k: string) => (Array.isArray(v[k]) ? (v[k] as string[]) : v[k] ? [v[k] as string] : []);
+  const live = useLiveValidation(state, dict.validation.required);
   const err = (field: string) => {
     const key = state?.errors[field];
-    if (!key) return undefined;
-    return key in p.errors ? p.errors[key as keyof typeof p.errors] : t(dict.upload[key as keyof typeof dict.upload], { max: MAX_JOB_IMAGES });
+    const server = !key ? undefined : key in p.errors ? p.errors[key as keyof typeof p.errors] : t(dict.upload[key as keyof typeof dict.upload], { max: MAX_JOB_IMAGES });
+    return live.error(field, server);
   };
+  const limit = (max: number) => dict.validation.maxChars.replace("{max}", String(max));
   const hasErrors = !!state && Object.keys(state.errors).length > 0;
   const pickerTexts = { search: p.search, noMatch: p.noMatch, remove: dict.upload.removeImage };
   const checked = (k: string, fallback = false) => (k in v ? one(k) === "on" || one(k) === "true" : fallback);
 
   return (
-    <form key={JSON.stringify(state?.values ?? {})} action={action} className="space-y-4" noValidate>
+    <form key={JSON.stringify(state?.values ?? {})} action={action} className="space-y-4" {...live.formProps}>
       <input type="hidden" name="lang" value={lang} />
 
       <Section title={p.personal}>
         <div className="grid gap-4 sm:grid-cols-2">
-          <Field label={p.name} error={err("name")}>
-            <input name="name" defaultValue={one("name")} autoComplete="name" aria-invalid={!!err("name")} className={inputClass} />
+          <Field label={p.name} error={err("name")} required>
+            <input
+              name="name"
+              defaultValue={one("name")}
+              autoComplete="name"
+              required
+              maxLength={80}
+              data-check="name"
+              data-allow={NAME_CHARS}
+              data-required={p.errors.nameRequired}
+              data-error={p.errors.nameInvalid}
+              aria-invalid={!!err("name")}
+              className={inputClass}
+            />
           </Field>
-          <Field label={p.phone} hint={p.phoneHint} error={err("phone")}>
-            <input name="phone" type="tel" inputMode="tel" defaultValue={one("phone")} autoComplete="tel" aria-invalid={!!err("phone")} className={inputClass} />
+          <Field label={p.phone} hint={p.phoneHint} error={err("phone")} required>
+            <input
+              name="phone"
+              type="tel"
+              inputMode="tel"
+              defaultValue={one("phone")}
+              autoComplete="tel"
+              required
+              maxLength={20}
+              data-check="phone"
+              data-allow={PHONE_CHARS}
+              data-required={p.errors.phoneRequired}
+              data-error={p.errors.phoneInvalid}
+              aria-invalid={!!err("phone")}
+              className={inputClass}
+            />
           </Field>
           <Field label={p.ageRange}>
             <select name="ageRange" defaultValue={one("ageRange")} className={inputClass}>
@@ -159,7 +192,7 @@ export function WorkerProfileForm({
             </select>
           </Field>
         </div>
-        <Field label={p.bio} error={err("bio")}>
+        <Field label={p.bio} hint={limit(500)} error={err("bio")}>
           <textarea name="bio" rows={3} maxLength={500} defaultValue={one("bio")} placeholder={p.bioPlaceholder} className={inputClass} />
         </Field>
       </Section>
@@ -182,13 +215,24 @@ export function WorkerProfileForm({
         </div>
         <div className="grid gap-4 sm:grid-cols-[200px_1fr]">
           <Field label={p.experienceYears} error={err("experienceYears")}>
-            <input name="experienceYears" type="number" min={0} max={60} inputMode="numeric" defaultValue={one("experienceYears")} aria-invalid={!!err("experienceYears")} className={inputClass} />
+            <input
+              name="experienceYears"
+              type="number"
+              min={0}
+              max={60}
+              step={1}
+              inputMode="numeric"
+              defaultValue={one("experienceYears")}
+              data-error={p.errors.numberInvalid}
+              aria-invalid={!!err("experienceYears")}
+              className={inputClass}
+            />
           </Field>
         </div>
-        <Field label={p.workHistory} error={err("workHistory")}>
+        <Field label={p.workHistory} hint={limit(2000)} error={err("workHistory")}>
           <textarea name="workHistory" rows={3} maxLength={2000} defaultValue={one("workHistory")} placeholder={p.workHistoryPlaceholder} className={inputClass} />
         </Field>
-        <Field label={p.certificates} error={err("certificates")}>
+        <Field label={p.certificates} hint={limit(1000)} error={err("certificates")}>
           <textarea name="certificates" rows={2} maxLength={1000} defaultValue={one("certificates")} placeholder={p.certificatesPlaceholder} className={inputClass} />
         </Field>
       </Section>
@@ -228,7 +272,18 @@ export function WorkerProfileForm({
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label={p.maxCommuteKm} error={err("maxCommuteKm")}>
-            <input name="maxCommuteKm" type="number" min={0} max={300} inputMode="numeric" defaultValue={one("maxCommuteKm")} aria-invalid={!!err("maxCommuteKm")} className={inputClass} />
+            <input
+              name="maxCommuteKm"
+              type="number"
+              min={0}
+              max={300}
+              step={1}
+              inputMode="numeric"
+              defaultValue={one("maxCommuteKm")}
+              data-error={p.errors.numberInvalid}
+              aria-invalid={!!err("maxCommuteKm")}
+              className={inputClass}
+            />
           </Field>
           <label className={`${choice} self-end`}>
             <input type="checkbox" name="willingToRelocate" defaultChecked={checked("willingToRelocate")} className="size-4 accent-accent" />
@@ -252,7 +307,7 @@ export function WorkerProfileForm({
         </fieldset>
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label={p.availableFrom} error={err("availableFrom")}>
-            <input name="availableFrom" type="date" min={today} defaultValue={one("availableFrom")} aria-invalid={!!err("availableFrom")} className={inputClass} />
+            <input name="availableFrom" type="date" max={yearAhead(today)} defaultValue={one("availableFrom")} data-error={p.errors.dateInvalid} aria-invalid={!!err("availableFrom")} className={inputClass} />
           </Field>
           <fieldset className="space-y-1.5">
             <legend className="text-sm font-semibold">{p.availability}</legend>
@@ -326,3 +381,6 @@ export function WorkerProfileForm({
     </form>
   );
 }
+
+/** The latest "available from" date: a year after today (YYYY-MM-DD), as on the server */
+const yearAhead = (today: string) => new Date(Date.parse(`${today}T00:00:00Z`) + 365 * 24 * 3600e3).toISOString().slice(0, 10);

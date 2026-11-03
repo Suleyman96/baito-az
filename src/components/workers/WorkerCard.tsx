@@ -3,7 +3,7 @@ import Link from "next/link";
 import { professionName } from "@/config/professions";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
-import { districtName, t } from "@/lib/format";
+import { districtName, formatAmount, t } from "@/lib/format";
 import type { searchWorkers } from "@/lib/worker-directory";
 import { Avatar } from "../Avatar";
 import { RatingSummary } from "../reviews/RatingSummary";
@@ -11,8 +11,8 @@ import { RatingSummary } from "../reviews/RatingSummary";
 type Worker = Awaited<ReturnType<typeof searchWorkers>>["workers"][number];
 
 /** "300 AZN / ay", or "Negotiable" when no amount is given. */
-export function expectedPayText(w: { expectedPay: number | null; expectedPayPeriod: "MONTH" | "DAY" | "HOUR" | "JOB" }, dict: Dictionary) {
-  return w.expectedPay ? `${w.expectedPay} AZN ${dict.job.per[w.expectedPayPeriod]}` : dict.workers.negotiable;
+export function expectedPayText(w: { expectedPay: number | null; expectedPayPeriod: "MONTH" | "DAY" | "HOUR" | "JOB" }, dict: Dictionary, lang: Locale) {
+  return w.expectedPay ? `${formatAmount(w.expectedPay, lang)} AZN ${dict.job.per[w.expectedPayPeriod]}` : dict.workers.negotiable;
 }
 
 /** "Available now" or "From 1 Nov", plus weekdays / weekends. */
@@ -64,7 +64,7 @@ export function WorkerCard({ worker, lang, dict }: { worker: Worker; lang: Local
           </span>
         </span>
         <span className="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-dashed border-line pt-3">
-          <span className="font-bold">{expectedPayText(worker, dict)}</span>
+          <span className="font-bold">{expectedPayText(worker, dict, lang)}</span>
           <span className="flex flex-wrap gap-1">
             {worker.workTypes.map((type) => (
               <span key={type} className="rounded-full bg-brand-soft px-2.5 py-1 text-xs font-semibold text-brand-strong">

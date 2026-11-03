@@ -53,7 +53,7 @@ describe("parseWorkerProfile", () => {
     expect(ok.success && ok.data.availableFrom?.toISOString()).toBe("2026-10-31T20:00:00.000Z");
 
     const bad = parseWorkerProfile({ ...minimal, experienceYears: "-2", expectedPay: "abc", availableFrom: "soon", bio: "x".repeat(501) });
-    expect(bad.success ? {} : bad.errors).toEqual({ experienceYears: "numberInvalid", expectedPay: "numberInvalid", availableFrom: "dateInvalid", bio: "textTooLong" });
+    expect(bad.success ? {} : bad.errors).toEqual({ experienceYears: "numberInvalid", expectedPay: "payInvalid", availableFrom: "dateInvalid", bio: "textTooLong" });
 
     const many = parseWorkerProfile({ ...minimal, skills: ["license_b", "license_c", "forklift", "lang_russian", "lang_english", "lang_turkish", "lang_georgian", "computer_basics", "ms_office", "accounting_software", "social_media", "electrical_work", "plumbing_work", "welding", "painting_work", "woodwork"] });
     expect(many.success ? {} : many.errors).toEqual({ skills: "tooManySkills" });
@@ -78,5 +78,25 @@ describe("profession data", () => {
     expect(matchingSlugs("Электрик").professions).toContain("electrician");
     expect(matchingSlugs("excel").skills).toContain("ms_office");
     expect(professionGroupOf("waiter")).toBe("hospitality");
+  });
+});
+
+describe("formats", () => {
+  it("takes pay with decimals", () => {
+    const r = parseWorkerProfile({ ...minimal, expectedPay: "3,50", expectedPayPeriod: "HOUR" });
+    expect(r.success && r.data.expectedPay).toBe(3.5);
+  });
+
+  it("wants letters only in the name", () => {
+    const r = parseWorkerProfile({ ...minimal, name: "Əli 2" });
+    expect(r.success ? {} : r.errors).toEqual({ name: "nameInvalid" });
+  });
+
+  it("refuses an impossible date, or one more than a year ahead", () => {
+    const later = new Date(Date.now() + 400 * 24 * 3600e3).toISOString().slice(0, 10);
+    for (const availableFrom of ["2026-02-30", later]) {
+      const r = parseWorkerProfile({ ...minimal, availableFrom });
+      expect(r.success ? {} : r.errors).toEqual({ availableFrom: "dateInvalid" });
+    }
   });
 });

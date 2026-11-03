@@ -92,7 +92,7 @@ async function AdminJobs({
                 </p>
                 <WorkTime job={job} lang={lang} dict={dict} className="mt-1 text-sm text-accent" />
                 <p className="mt-1 text-sm font-medium">
-                  <JobPay job={job} dict={dict} />
+                  <JobPay job={job} lang={lang} dict={dict} />
                 </p>
                 {query.tab === "PENDING" && <p className="mt-3 whitespace-pre-line text-sm leading-relaxed">{job.description}</p>}
                 {job.images.length > 0 && (

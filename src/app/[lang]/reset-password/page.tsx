@@ -32,5 +32,5 @@ async function Reset({ lang, dict, searchParams }: { lang: Locale; dict: Diction
   if (!isResetTokenShaped(token) || !link || !resetLinkUsable(link, link.user, new Date())) {
     return <InvalidResetLink lang={lang} t={dict.passwordReset} />;
   }
-  return <ResetPasswordForm lang={lang} token={token} t={dict.passwordReset} auth={dict.auth} />;
+  return <ResetPasswordForm lang={lang} token={token} t={dict.passwordReset} auth={dict.auth} checks={dict.validation} />;
 }

@@ -118,3 +118,28 @@ describe("daily pay", () => {
     expect(jobToFormValues({ ...parsed.data, location: { district: { slug: "qax" } } })).toMatchObject({ salaryMin: "20", salaryPeriod: "DAY" });
   });
 });
+
+describe("amounts and texts", () => {
+  const oneDay = { ...base, employmentType: "ONE_DAY", workDate: "2026-10-15", startTime: "09:30", durationHours: "5", payPeriod: "HOUR" };
+
+  it("accepts pay with up to 2 decimals, with a comma or a dot", () => {
+    const hourly = parseJobForm({ ...oneDay, payAmount: "3,50" }, now);
+    expect(hourly.success && hourly.data.salaryMin).toBe(3.5);
+    const monthly = parseJobForm({ ...base, salaryMin: "450.5", salaryMax: "600" }, now);
+    expect(monthly.success && [monthly.data.salaryMin, monthly.data.salaryMax]).toEqual([450.5, 600]);
+  });
+
+  it("refuses zero, negative, 3-decimal and non-numeric pay", () => {
+    for (const payAmount of ["0", "-5", "3.555", "üç"]) {
+      const result = parseJobForm({ ...oneDay, payAmount }, now);
+      expect(result.success ? null : result.errors.payAmount).toBe("salaryInvalid");
+    }
+  });
+
+  it("wants a letter in the title, and cleans the description", () => {
+    const digits = parseJobForm({ ...base, title: "12345" }, now);
+    expect(digits.success ? null : digits.errors.title).toBe("titleRequired");
+    const cleaned = parseJobForm({ ...base, title: "  Satış   məsləhətçisi ", description: "Mağazada iş.\u0000 Növbəli\r\nqrafik." }, now);
+    expect(cleaned.success && [cleaned.data.title, cleaned.data.description]).toEqual(["Satış məsləhətçisi", "Mağazada iş. Növbəli\nqrafik."]);
+  });
+});

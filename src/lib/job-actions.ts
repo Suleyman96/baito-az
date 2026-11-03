@@ -8,6 +8,7 @@ import { db } from "@/lib/db";
 import { MAX_JOB_IMAGES, type ImageErrorKey } from "@/lib/images";
 import { checkEndDate, monthlyExpiry, oneDayExpiry, type EndDateError } from "@/lib/job-expiry";
 import { parseJobForm, parseWorkStart, type JobFormErrorKey } from "@/lib/job-form";
+import { cleanText } from "@/lib/validation-rules";
 import { readUploadedImages, type CheckedImage } from "@/lib/storage";
 
 export type JobFormState = {
@@ -217,7 +218,7 @@ export async function reviewJob(formData: FormData) {
   await requireAdmin(formData);
   const id = String(formData.get("id") ?? "");
   const approve = formData.get("decision") === "approve";
-  const reason = String(formData.get("reason") ?? "").trim().slice(0, 300) || null;
+  const reason = cleanText(String(formData.get("reason") ?? "")).slice(0, 300) || null;
   if (!approve) {
     // Only pending jobs can be reviewed, so a double click cannot flip a decision
     await db.job.updateMany({ where: { id, status: "PENDING" }, data: { status: "REJECTED", rejectReason: reason } });

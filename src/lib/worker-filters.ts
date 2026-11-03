@@ -16,7 +16,8 @@ const filtersSchema = z.object({
   exp: z.coerce.number().refine((n) => (EXPERIENCE_STEPS as readonly number[]).includes(n)).optional().catch(undefined),
   pay: z.enum(["MONTH", "DAY", "HOUR"]).optional().catch(undefined),
   /** Highest expected pay the employer can offer, in the chosen period */
-  payMax: z.coerce.number().int().min(1).max(100000).optional().catch(undefined),
+  // Amounts may have decimals, like the pay itself (3.50 AZN an hour)
+  payMax: z.coerce.number().min(0.01).max(100000).transform((n) => Math.round(n * 100) / 100).optional().catch(undefined),
   avail: z.enum(["now", "weekdays", "weekends"]).optional().catch(undefined),
   sort: z.enum(["relevance", "rating"]).catch("relevance").default("relevance"),
   page: z.coerce.number().int().min(1).max(1000).catch(1).default(1),

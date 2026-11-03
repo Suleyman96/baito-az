@@ -1,12 +1,16 @@
 import { z } from "zod";
+import { cleanText, EMAIL, isCompanyName, isPersonName, MAX_EMAIL_LENGTH, normalizePhone, passwordProblem, squeezeSpaces } from "@/lib/validation-rules";
 
 // Error messages are dictionary keys (auth.errors.*), translated in the form
 export type AuthErrorKey =
   | "nameRequired"
+  | "nameInvalid"
   | "emailInvalid"
   | "phoneInvalid"
   | "contactRequired"
   | "passwordShort"
+  | "passwordWeak"
+  | "passwordLong"
   | "emailTaken"
   | "phoneTaken"
   | "invalidCredentials"
@@ -14,6 +18,7 @@ export type AuthErrorKey =
   | "tooManyAttempts"
   | "currentPasswordWrong"
   | "companyNameLong"
+  | "companyNameInvalid"
   | "descriptionLong"
   | "addressLong"
   | "locationInvalid"
@@ -23,22 +28,8 @@ export type AuthErrorKey =
   | "deleteNotAllowed"
   | "termsRequired";
 
-// Azerbaijani mobile operator codes (Azercell, Bakcell, Nar, Naxtel)
-const MOBILE_CODES = ["10", "50", "51", "55", "60", "70", "77", "99"];
-
-/**
- * Accepts the ways people write a local mobile number ("050 123 45 67", "+994 50 123-45-67",
- * "994501234567", "501234567") and returns "+994501234567", or null if it is not a valid mobile number.
- */
-export function normalizePhone(input: string): string | null {
-  let digits = input.replace(/[\s\-().]/g, "");
-  if (!/^\+?\d+$/.test(digits)) return null;
-  digits = digits.replace(/^\+/, "");
-  if (digits.startsWith("994")) digits = digits.slice(3);
-  else if (digits.startsWith("0")) digits = digits.slice(1);
-  if (digits.length !== 9 || !MOBILE_CODES.includes(digits.slice(0, 2))) return null;
-  return `+994${digits}`;
-}
+// Phone numbers: the rules live in validation-rules.ts (also used in the browser); imported from here by the server code
+export { normalizePhone } from "@/lib/validation-rules";
 
 // Empty form fields arrive as "", which should count as "not provided"
 const optionalText = z
@@ -47,13 +38,50 @@ const optionalText = z
   .transform((v) => v || undefined)
   .optional();
 
-const password = z.string().min(8, "passwordShort").max(100, "passwordShort");
+/** A new password (sign-up, change, reset): the rules of validation-rules.ts. Logging in checks none of them */
+const password = z.string().superRefine((v, ctx) => {
+  const problem = passwordProblem(v);
+  if (problem) ctx.addIssue({ code: "custom", message: problem });
+});
+
+/** A person's name: letters, spaces, hyphens and apostrophes; stored with single spaces */
+const personName = z
+  .string()
+  .transform(squeezeSpaces)
+  .superRefine((v, ctx) => {
+    if (!v) ctx.addIssue({ code: "custom", message: "nameRequired" });
+    else if (!isPersonName(v)) ctx.addIssue({ code: "custom", message: "nameInvalid" });
+  });
+
+/** An optional email: trimmed and lowercased, "" = not given */
+const optionalEmail = optionalText.pipe(z.email({ pattern: EMAIL, error: "emailInvalid" }).max(MAX_EMAIL_LENGTH, "emailInvalid").toLowerCase().optional());
+
+/** An optional company name ("" = a private person): the characters real names use, up to 100 */
+const optionalCompanyName = optionalText.pipe(
+  z
+    .string()
+    .transform(squeezeSpaces)
+    .superRefine((v, ctx) => {
+      if (v.length > 100) ctx.addIssue({ code: "custom", message: "companyNameLong" });
+      else if (!isCompanyName(v)) ctx.addIssue({ code: "custom", message: "companyNameInvalid" });
+    })
+    .optional(),
+);
+
+/** Optional free text (description, address): invisible control characters removed, "" = not given */
+const optionalFreeText = (max: number, message: AuthErrorKey) =>
+  z
+    .string()
+    .transform(cleanText)
+    .pipe(z.string().max(max, message))
+    .transform((v) => v || undefined)
+    .optional();
 
 export const registerSchema = z
   .object({
     role: z.enum(["SEEKER", "EMPLOYER"]).catch("SEEKER"),
-    name: z.string().trim().min(2, "nameRequired").max(80, "nameRequired"),
-    email: optionalText.pipe(z.email("emailInvalid").toLowerCase().optional()),
+    name: personName,
+    email: optionalEmail,
     phone: optionalText.transform((v, ctx) => {
       if (v === undefined) return undefined;
       const phone = normalizePhone(v);
@@ -65,7 +93,7 @@ export const registerSchema = z
     }),
     password,
     // Optional: private persons (e.g. someone hiring for one day) leave it empty
-    companyName: optionalText.pipe(z.string().max(100).optional()),
+    companyName: optionalCompanyName,
     // The Terms of Use and Privacy Policy checkbox: a ticked box sends "on", an unticked one nothing
     acceptTerms: z.literal("on", "termsRequired"),
   })
@@ -125,8 +153,8 @@ const phoneField = optionalText.transform((v, ctx) => {
 /** Profile: name and contacts. As at sign-up, at least one of email or phone stays set. */
 export const accountSchema = z
   .object({
-    name: z.string().trim().min(2, "nameRequired").max(80, "nameRequired"),
-    email: optionalText.pipe(z.email("emailInvalid").toLowerCase().optional()),
+    name: personName,
+    email: optionalEmail,
     phone: phoneField,
   })
   .superRefine((data, ctx) => {
@@ -148,10 +176,10 @@ const coordinate = (limit: number) =>
  */
 export const companySchema = z
   .object({
-    companyName: optionalText.pipe(z.string().max(100, "companyNameLong").optional()),
-    description: optionalText.pipe(z.string().max(1000, "descriptionLong").optional()),
+    companyName: optionalCompanyName,
+    description: optionalFreeText(1000, "descriptionLong"),
     phone: phoneField,
-    address: optionalText.pipe(z.string().max(200, "addressLong").optional()),
+    address: optionalFreeText(200, "addressLong"),
     latitude: coordinate(90),
     longitude: coordinate(180),
   })
@@ -163,7 +191,7 @@ export const companySchema = z
 
 /** "Forgot password": the account's email */
 export const resetRequestSchema = z.object({
-  email: z.string().trim().toLowerCase().pipe(z.email("emailInvalid")),
+  email: z.string().trim().toLowerCase().max(MAX_EMAIL_LENGTH, "emailInvalid").pipe(z.email({ pattern: EMAIL, error: "emailInvalid" })),
 });
 
 /** The new password set through a reset link */

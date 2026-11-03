@@ -6,6 +6,7 @@ import { buttonClass, inputClass } from "@/components/ui";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { deleteAccount, type AccountFormState } from "@/lib/auth/account-actions";
+import { useLiveValidation } from "../forms/useLiveValidation";
 
 const danger = "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-error px-5 py-2.5 font-semibold text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-error/30 disabled:opacity-60";
 
@@ -18,9 +19,10 @@ export function DeleteAccount({ lang, dict, role }: { lang: Locale; dict: Dictio
   const dialog = useRef<HTMLDialogElement>(null);
   // Called directly (no wrapper): after a successful delete the action redirects to the goodbye page
   const [state, action, pending] = useActionState<AccountFormState, FormData>(deleteAccount, undefined);
+  const live = useLiveValidation(state, dict.validation.required);
   const err = (field: string) => {
     const key = state?.errors[field];
-    return key ? dict.auth.errors[key] : undefined;
+    return live.error(field, key ? dict.auth.errors[key] : undefined);
   };
 
   return (
@@ -38,7 +40,7 @@ export function DeleteAccount({ lang, dict, role }: { lang: Locale; dict: Dictio
         onClick={(e) => e.target === dialog.current && !pending && dialog.current.close()}
         className="m-auto max-h-[90dvh] w-[min(94vw,480px)] overflow-y-auto rounded-2xl border border-line bg-surface p-0 text-foreground shadow-2xl backdrop:bg-black/40"
       >
-        <form action={action} className="space-y-4 p-5 sm:p-6" noValidate>
+        <form action={action} className="space-y-4 p-5 sm:p-6" {...live.formProps}>
           <input type="hidden" name="lang" value={lang} />
           <div className="flex items-start gap-3">
             <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-error-soft text-error">
@@ -63,11 +65,11 @@ export function DeleteAccount({ lang, dict, role }: { lang: Locale; dict: Dictio
           )}
           <label className="block space-y-1.5">
             <span className="text-sm font-semibold">{d.password}</span>
-            <input name="password" type="password" autoComplete="current-password" aria-invalid={!!err("password")} className={inputClass} />
+            <input name="password" type="password" autoComplete="current-password" required aria-invalid={!!err("password")} className={inputClass} />
             {err("password") && <span className="block text-sm text-error">{err("password")}</span>}
           </label>
           <label className="flex cursor-pointer items-start gap-2.5 text-sm">
-            <input type="checkbox" name="confirm" className="mt-0.5 size-4 accent-error" aria-invalid={!!err("confirm")} />
+            <input type="checkbox" name="confirm" required data-required={dict.auth.errors.confirmRequired} className="mt-0.5 size-4 accent-error" aria-invalid={!!err("confirm")} />
             <span>{d.confirm}</span>
           </label>
           {err("confirm") && <p className="text-sm text-error">{err("confirm")}</p>}

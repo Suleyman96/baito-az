@@ -45,7 +45,7 @@ export function JobCard({ job, lang, dict, now }: { job: Job; lang: Locale; dict
         </span>
         <span className="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-dashed border-line pt-3">
           <span className="font-bold">
-            <JobPay job={job} dict={dict} unitClassName="font-normal text-muted" />
+            <JobPay job={job} lang={lang} dict={dict} unitClassName="font-normal text-muted" />
           </span>
           <span
             className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
@@ -90,7 +90,7 @@ export function OneDayCard({ job, lang, dict }: { job: Job; lang: Locale; dict: 
           <span className="font-heading text-lg font-bold leading-snug group-hover:text-accent">{job.title}</span>
           <span className="text-sm text-muted">{details.join(" · ")}</span>
           <span className="font-bold text-brand-strong">
-            <JobPay job={job} dict={dict} unitClassName="font-normal text-muted" />
+            <JobPay job={job} lang={lang} dict={dict} unitClassName="font-normal text-muted" />
           </span>
         </span>
       </Link>
