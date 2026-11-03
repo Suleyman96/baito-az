@@ -61,6 +61,8 @@ export function JobForm({
   // Chosen images live here, outside the <form> below (which remounts after a server error), so they survive it
   const [files, setFiles] = useState<File[]>([]);
   const [removed, setRemoved] = useState<string[]>([]);
+  // The end date cannot be before the work date, so the date picker starts there (checked on the server too)
+  const [workDate, setWorkDate] = useState<string>();
   const type = TYPES.find((x) => x === v.employmentType) ?? "FULL_TIME";
   const hasErrors = !!state && Object.keys(state.errors).length > 0;
   const payLabel = { MONTH: t.payMonth, DAY: t.payDay, HOUR: t.payHour, JOB: t.payJob };
@@ -121,7 +123,7 @@ export function JobForm({
       <div className="hidden space-y-4 rounded-xl border border-line p-4 group-has-[#type-one-day:checked]:block">
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label={t.workDate} error={err("workDate")}>
-            <input type="date" name="workDate" min={today} defaultValue={v.workDate} aria-invalid={!!err("workDate")} className={inputClass} />
+            <input type="date" name="workDate" min={today} defaultValue={v.workDate} onChange={(e) => setWorkDate(e.target.value)} aria-invalid={!!err("workDate")} className={inputClass} />
           </Field>
           <Field label={t.startTime}>
             <input type="time" name="startTime" defaultValue={v.startTime} className={inputClass} />
@@ -151,7 +153,7 @@ export function JobForm({
         </div>
         {/* Optional: when the listing ends; the rule for an empty field is shown before posting */}
         <Field label={t.endDate} hint={t.endDateNote} error={err("endDate")}>
-          <input type="date" name="endDate" min={today} defaultValue={v.endDate} aria-invalid={!!err("endDate")} className={inputClass} />
+          <input type="date" name="endDate" min={workDate || v.workDate || today} defaultValue={v.endDate} aria-invalid={!!err("endDate")} className={inputClass} />
         </Field>
       </div>
 

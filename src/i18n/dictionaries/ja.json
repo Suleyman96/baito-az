@@ -277,6 +277,7 @@
       "workersInvalid": "募集人数は1〜100名にしてください。",
       "endDateInvalid": "終了日が正しくありません。",
       "endDateInPast": "終了日に過去の日付は指定できません。",
+      "endDateBeforeWork": "終了日は勤務日より前にできません。",
       "endDateTooFar": "終了日は勤務日の30日後までです。"
     },
     "monthlyNote": "求人は掲載日から1か月間公開されます。期間が終了すると自動的にアーカイブされます。",

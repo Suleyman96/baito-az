@@ -277,6 +277,7 @@
       "workersInvalid": "Nəfər sayı 1–100 arasında olmalıdır.",
       "endDateInvalid": "Bitmə tarixi düzgün deyil.",
       "endDateInPast": "Bitmə tarixi keçmişdə ola bilməz.",
+      "endDateBeforeWork": "Bitmə tarixi iş tarixindən əvvəl ola bilməz.",
       "endDateTooFar": "Bitmə tarixi iş tarixindən ən çox 30 gün sonra ola bilər."
     },
     "monthlyNote": "Elanınız yerləşdirildiyi tarixdən etibarən 1 ay aktiv olacaq. Müddət bitdikdə avtomatik arxivə keçiriləcək.",

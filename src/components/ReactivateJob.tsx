@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { Field, inputClass } from "@/components/ui";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
@@ -29,6 +29,8 @@ export function ReactivateJob({
   buttonClassName: string;
 }) {
   const [state, action, pending] = useActionState(reactivateJob, undefined);
+  // The end date cannot be before the work date, so the date picker starts there (checked on the server too)
+  const [workDate, setWorkDate] = useState<string>();
   const t = dict.myJobs;
   const errors = dict.postJob.errors;
   const err = (field: "workDate" | "endDate") => {
@@ -63,13 +65,13 @@ export function ReactivateJob({
         <p className="text-sm text-muted">{t.reactivateOneDayNote}</p>
         <div className="grid gap-3 sm:grid-cols-3">
           <Field label={dict.postJob.workDate} error={err("workDate")}>
-            <input type="date" name="workDate" min={today} defaultValue={v.workDate} required aria-invalid={!!err("workDate")} className={inputClass} />
+            <input type="date" name="workDate" min={today} defaultValue={v.workDate} onChange={(e) => setWorkDate(e.target.value)} required aria-invalid={!!err("workDate")} className={inputClass} />
           </Field>
           <Field label={dict.postJob.startTime}>
             <input type="time" name="startTime" defaultValue={v.startTime} required className={inputClass} />
           </Field>
           <Field label={dict.postJob.endDate} error={err("endDate")}>
-            <input type="date" name="endDate" min={today} defaultValue={v.endDate} aria-invalid={!!err("endDate")} className={inputClass} />
+            <input type="date" name="endDate" min={workDate || v.workDate || today} defaultValue={v.endDate} aria-invalid={!!err("endDate")} className={inputClass} />
           </Field>
         </div>
         <p className="text-xs text-muted">{dict.postJob.endDateNote}</p>

@@ -51,17 +51,18 @@ export function oneDayExpiry(workStart: Date, endDate: string | null): Date {
   return bakuMidnight(addDays(oneDayEndDate(workStart, endDate), 1));
 }
 
-export type EndDateError = "endDateInvalid" | "endDateInPast" | "endDateTooFar";
+export type EndDateError = "endDateInvalid" | "endDateInPast" | "endDateBeforeWork" | "endDateTooFar";
 
 /**
- * Checks an end date typed in the form ("" = use the default). It may not be in the past, and may be
- * at most ONE_DAY_MAX_EXTRA_DAYS after the work date.
+ * Checks an end date typed in the form ("" = use the default). It may not be in the past or before the
+ * work date (the listing would close before the work), and may be at most ONE_DAY_MAX_EXTRA_DAYS after it.
  */
 export function checkEndDate(input: string, workStart: Date, now: Date): { endDate: string | null } | { error: EndDateError } {
   const value = input.trim();
   if (value === "") return { endDate: null };
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value) || bakuDate(bakuMidnight(value)) !== value) return { error: "endDateInvalid" };
   if (value < bakuDate(now)) return { error: "endDateInPast" };
+  if (value < bakuDate(workStart)) return { error: "endDateBeforeWork" };
   if (value > addDays(bakuDate(workStart), ONE_DAY_MAX_EXTRA_DAYS)) return { error: "endDateTooFar" };
   return { endDate: value };
 }

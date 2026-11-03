@@ -56,13 +56,16 @@ describe("checkEndDate", () => {
     expect(checkEndDate("  ", work, now)).toEqual({ endDate: null });
   });
 
-  it("accepts today up to 30 days after the work date", () => {
-    expect(checkEndDate("2026-11-03", work, now)).toEqual({ endDate: "2026-11-03" });
+  it("accepts the work date up to 30 days after it", () => {
+    expect(checkEndDate("2026-11-07", work, now)).toEqual({ endDate: "2026-11-07" });
     expect(checkEndDate("2026-12-07", work, now)).toEqual({ endDate: "2026-12-07" });
   });
 
   it("refuses past, too late and malformed dates", () => {
     expect(checkEndDate("2026-11-02", work, now)).toEqual({ error: "endDateInPast" });
+    // 4 November is today or later, but before the work on 7 November
+    expect(checkEndDate("2026-11-04", work, now)).toEqual({ error: "endDateBeforeWork" });
+    expect(checkEndDate("2026-11-06", work, now)).toEqual({ error: "endDateBeforeWork" });
     expect(checkEndDate("2026-12-08", work, now)).toEqual({ error: "endDateTooFar" });
     expect(checkEndDate("2026-02-30", work, now)).toEqual({ error: "endDateInvalid" });
     expect(checkEndDate("08.11.2026", work, now)).toEqual({ error: "endDateInvalid" });

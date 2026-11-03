@@ -277,6 +277,7 @@
       "workersInvalid": "Workers needed must be 1–100.",
       "endDateInvalid": "The end date is not valid.",
       "endDateInPast": "The end date cannot be in the past.",
+      "endDateBeforeWork": "The end date cannot be before the work date.",
       "endDateTooFar": "The end date can be at most 30 days after the work date."
     },
     "monthlyNote": "Your job will be active for 1 month from the date it is posted. When that ends, it is archived automatically.",
