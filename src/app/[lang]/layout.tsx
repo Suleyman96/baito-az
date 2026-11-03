@@ -3,6 +3,7 @@ import { Montserrat, Noto_Sans } from "next/font/google";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { EmailReminder } from "@/components/auth/EmailReminder";
 import { ErrorTextsProvider } from "@/components/errors/ErrorTexts";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { MainNav, NavList, type NavItem } from "@/components/MainNav";
@@ -91,6 +92,9 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
           </div>
         </header>
         <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-6">
+          <Suspense>
+            <EmailReminder lang={lang} t={dict.account} />
+          </Suspense>
           <ErrorTextsProvider lang={lang} t={dict.errorPage}>
             {children}
           </ErrorTextsProvider>
