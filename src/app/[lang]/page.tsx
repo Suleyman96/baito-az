@@ -2,7 +2,6 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
-import { CategoryChips } from "@/components/home/CategoryChips";
 import { PageHero } from "@/components/home/PageHero";
 import { JobCard, OneDayCard } from "@/components/JobCard";
 import { JobFilters } from "@/components/JobFilters";
@@ -37,11 +36,6 @@ export default async function HomePage({ params, searchParams }: PageProps<"/[la
       <Suspense fallback={<JobGridSkeleton label={dict.home.loading} />}>
         <OneDayJobs lang={lang} dict={dict} />
       </Suspense>
-
-      <section className="space-y-4">
-        <h2 className="font-heading text-2xl font-bold">{dict.home.categories}</h2>
-        <CategoryChips lang={lang} dict={dict} filters={NO_FILTERS} />
-      </section>
 
       <Suspense fallback={<JobGridSkeleton label={dict.home.loading} />}>
         <LatestJobs lang={lang} dict={dict} />

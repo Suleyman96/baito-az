@@ -26,7 +26,7 @@
     "offersSent": "送信したオファー"
   },
   "home": {
-    "title": "近くで単発の仕事を探そう",
+    "title": "近くで単発の仕事・人材を探そう",
     "subtitle": "単発の仕事に加え、アルバイト・正社員の求人も。人手が必要なら求人を掲載。",
     "searchPlaceholder": "職種・キーワード",
     "search": "検索",
@@ -44,7 +44,6 @@
     "prev": "前へ",
     "next": "次へ",
     "moreFilters": "詳細な条件",
-    "categories": "カテゴリー",
     "oneDayTitle": "今週の単発の仕事",
     "seeAll": "すべて見る",
     "latest": "新着の求人",
@@ -392,8 +391,7 @@
   },
   "jobsPage": {
     "title": "すべての求人",
-    "subtitle": "すべての市・地区の掲載中の求人です。",
-    "typeAll": "すべて"
+    "subtitle": "すべての市・地区の掲載中の求人です。"
   },
   "companies": {
     "title": "企業",
