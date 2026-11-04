@@ -26,7 +26,7 @@
     "offersSent": "Sent offers"
   },
   "home": {
-    "title": "Find a one-day job near you",
+    "title": "Find a one-day job or worker near you",
     "subtitle": "One-day jobs, plus part-time and full-time vacancies. Need a worker? Post a job.",
     "searchPlaceholder": "Job title or keyword",
     "search": "Search",
@@ -44,7 +44,6 @@
     "prev": "Previous",
     "next": "Next",
     "moreFilters": "More filters",
-    "categories": "Categories",
     "oneDayTitle": "One-day jobs this week",
     "seeAll": "See all",
     "latest": "Latest jobs",

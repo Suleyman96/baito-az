@@ -26,7 +26,7 @@
     "offersSent": "Göndərilmiş təkliflər"
   },
   "home": {
-    "title": "Yaxınında günlük iş tap",
+    "title": "Yaxınında günlük iş / işçi tap",
     "subtitle": "Bir günlük işlər, həmçinin part-time və full-time vakansiyalar. İşçi lazımdırsa, elan yerləşdir.",
     "searchPlaceholder": "Vəzifə və ya açar söz",
     "search": "Axtar",
@@ -44,7 +44,6 @@
     "prev": "Əvvəlki",
     "next": "Növbəti",
     "moreFilters": "Ətraflı filtrlər",
-    "categories": "Kateqoriyalar",
     "oneDayTitle": "Bu həftə günlük işlər",
     "seeAll": "Hamısına bax",
     "latest": "Son vakansiyalar",
