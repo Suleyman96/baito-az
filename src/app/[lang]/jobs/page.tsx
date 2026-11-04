@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { ActiveFilters } from "@/components/home/ActiveFilters";
 import { PageHero } from "@/components/home/PageHero";
-import { TypeChips } from "@/components/home/TypeChips";
 import { JobCard } from "@/components/JobCard";
 import { JobFilters } from "@/components/JobFilters";
 import { PageHeader } from "@/components/PageHeader";
@@ -55,29 +54,25 @@ async function JobSearch({ lang, dict, searchParams }: { lang: Locale; dict: Dic
   const now = new Date();
 
   return (
-    <>
-      <TypeChips lang={lang} dict={dict} filters={filters} />
-
-      <section className="space-y-4">
-        <h2 className="font-heading text-xl font-bold">{t(dict.home.results, { count: total })}</h2>
-        {hasActiveFilters(filters) && <ActiveFilters lang={lang} dict={dict} filters={filters} villageName={village?.name} />}
-        {jobs.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-line-strong p-10 text-center">
-            <p className="text-muted">{dict.home.noResults}</p>
-            <Link href={`/${lang}/jobs`} className={`${buttonClass.secondary} mt-4`}>
-              {dict.home.clear}
-            </Link>
-          </div>
-        ) : (
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {jobs.map((job) => (
-              <JobCard key={job.id} job={job} lang={lang} dict={dict} now={now} />
-            ))}
-          </ul>
-        )}
-        {pageCount > 1 && <Pagination lang={lang} dict={dict} filters={filters} pageCount={pageCount} />}
-      </section>
-    </>
+    <section className="space-y-4">
+      <h2 className="font-heading text-xl font-bold">{t(dict.home.results, { count: total })}</h2>
+      {hasActiveFilters(filters) && <ActiveFilters lang={lang} dict={dict} filters={filters} villageName={village?.name} />}
+      {jobs.length === 0 ? (
+        <div className="rounded-2xl border border-dashed border-line-strong p-10 text-center">
+          <p className="text-muted">{dict.home.noResults}</p>
+          <Link href={`/${lang}/jobs`} className={`${buttonClass.secondary} mt-4`}>
+            {dict.home.clear}
+          </Link>
+        </div>
+      ) : (
+        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {jobs.map((job) => (
+            <JobCard key={job.id} job={job} lang={lang} dict={dict} now={now} />
+          ))}
+        </ul>
+      )}
+      {pageCount > 1 && <Pagination lang={lang} dict={dict} filters={filters} pageCount={pageCount} />}
+    </section>
   );
 }
 
