@@ -31,7 +31,7 @@ export function JobFilters({
   places?: Place[];
 }) {
   // The extra filters start open when one of them is in use, so the user sees what is applied
-  const moreOpen = !!(filters.type || filters.category || filters.pay || filters.payMin || filters.payMax);
+  const moreOpen = !!(filters.district || filters.location || filters.pay || filters.payMin || filters.payMax);
 
   return (
     // key: navigating keeps this form mounted, and its fields only read defaultValue once.
@@ -54,14 +54,21 @@ export function JobFilters({
           />
         </label>
         <div className="grid min-w-0 flex-[2_1_300px] grid-cols-2 gap-2">
-          <LocationSelect
-            districts={districts.map((d) => ({ slug: d.slug, label: districtName(dict, d.slug) }))}
-            district={filters.district}
-            location={filters.location}
-            places={places}
-            labels={{ allDistricts: dict.home.allDistricts, allVillages: dict.home.allVillages, loadFailed: dict.errorPage.placesFailed }}
-            className={field}
-          />
+          <select name="category" defaultValue={filters.category ?? ""} aria-label={dict.home.allCategories} className={field}>
+            <option value="">{dict.home.allCategories}</option>
+            {categories.map((c) => (
+              <option key={c.id} value={c.slug}>
+                {dict.categories[c.slug as keyof Dictionary["categories"]] ?? c.slug}
+              </option>
+            ))}
+          </select>
+          {/* One-day jobs first: they are the site's main offer */}
+          <select name="type" defaultValue={filters.type ?? ""} aria-label={dict.home.allTypes} className={field}>
+            <option value="">{dict.home.allTypes}</option>
+            <option value="ONE_DAY">{dict.jobType.ONE_DAY}</option>
+            <option value="PART_TIME">{dict.jobType.PART_TIME}</option>
+            <option value="FULL_TIME">{dict.jobType.FULL_TIME}</option>
+          </select>
         </div>
         <button type="submit" className={`${buttonClass.primary} flex-[1_0_auto] px-7 text-base`}>
           {dict.home.search}
@@ -74,20 +81,14 @@ export function JobFilters({
           {dict.home.moreFilters}
         </summary>
         <div className="grid gap-2 px-1 pb-1 pt-1 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_1.4fr]">
-          <select name="type" defaultValue={filters.type ?? ""} aria-label={dict.home.allTypes} className={field}>
-            <option value="">{dict.home.allTypes}</option>
-            <option value="ONE_DAY">{dict.jobType.ONE_DAY}</option>
-            <option value="PART_TIME">{dict.jobType.PART_TIME}</option>
-            <option value="FULL_TIME">{dict.jobType.FULL_TIME}</option>
-          </select>
-          <select name="category" defaultValue={filters.category ?? ""} aria-label={dict.home.allCategories} className={field}>
-            <option value="">{dict.home.allCategories}</option>
-            {categories.map((c) => (
-              <option key={c.id} value={c.slug}>
-                {dict.categories[c.slug as keyof Dictionary["categories"]] ?? c.slug}
-              </option>
-            ))}
-          </select>
+          <LocationSelect
+            districts={districts.map((d) => ({ slug: d.slug, label: districtName(dict, d.slug) }))}
+            district={filters.district}
+            location={filters.location}
+            places={places}
+            labels={{ allDistricts: dict.home.allDistricts, allVillages: dict.home.allVillages, loadFailed: dict.errorPage.placesFailed }}
+            className={field}
+          />
           {/* Pay: a period plus an optional range; amounts without a period count as monthly */}
           <select name="pay" defaultValue={filters.pay ?? ""} aria-label={dict.home.allPayTypes} className={field}>
             <option value="">{dict.home.allPayTypes}</option>
