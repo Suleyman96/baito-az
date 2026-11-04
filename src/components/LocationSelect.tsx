@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, use, useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type District = { slug: string; label: string };
 type Place = { id: number; name: string };
@@ -12,7 +12,20 @@ async function fetchPlaces(district: string): Promise<Place[]> {
   return res.json();
 }
 
-type LocationProps = {
+/**
+ * City/district + village pair. Picking a district loads only that district's places (a city or district
+ * can have hundreds), so the page does not carry all of Azerbaijan's ~4,600 places. The server renders the
+ * initially chosen district's places (`places`), so that choice also works without JavaScript.
+ */
+export function LocationSelect({
+  districts,
+  district: initialDistrict,
+  location,
+  places: initialPlaces,
+  labels,
+  className,
+  villageName = "location",
+}: {
   districts: District[];
   district?: string;
   location?: number;
@@ -20,41 +33,10 @@ type LocationProps = {
   places?: Place[];
   /** loadFailed: shown in the village select when its list could not be loaded */
   labels: { allDistricts: string; allVillages: string; loadFailed: string };
+  className: string;
   /** Form field name of the village select */
   villageName?: string;
-};
-
-const LocationContext = createContext<ReturnType<typeof useLocation> | null>(null);
-
-/**
- * City/district + village pair. Picking a district loads only that district's places (a city or district
- * can have hundreds), so the page does not carry all of Azerbaijan's ~4,600 places. The server renders the
- * initially chosen district's places (`places`), so that choice also works without JavaScript.
- */
-export function LocationSelect({ className, ...props }: LocationProps & { className: string }) {
-  return (
-    <LocationProvider {...props}>
-      <DistrictSelect className={className} />
-      <VillageSelect className={className} />
-    </LocationProvider>
-  );
-}
-
-/**
- * The same pair with the two selects placed apart (e.g. the village among the extra search filters):
- * put <DistrictSelect> and <VillageSelect> anywhere inside it.
- */
-export function LocationProvider({ children, ...props }: LocationProps & { children: ReactNode }) {
-  return <LocationContext value={useLocation(props)}>{children}</LocationContext>;
-}
-
-function useLocationContext() {
-  const value = use(LocationContext);
-  if (!value) throw new Error("DistrictSelect and VillageSelect go inside a LocationProvider");
-  return value;
-}
-
-function useLocation({ districts, district: initialDistrict, location, places: initialPlaces, labels, villageName = "location" }: LocationProps) {
+}) {
   const [district, setDistrict] = useState(initialDistrict ?? "");
   const [village, setVillage] = useState(location ? String(location) : "");
   const [places, setPlaces] = useState<Place[]>(initialPlaces ?? []);
@@ -106,53 +88,44 @@ function useLocation({ districts, district: initialDistrict, location, places: i
     }
   }, [initialDistrict, initialPlaces]);
 
-  return { districts, labels, villageName, district, setDistrict, village, setVillage, places, loading, failed, load };
-}
-
-export function DistrictSelect({ className }: { className: string }) {
-  const { districts, labels, district, setDistrict, setVillage, load } = useLocationContext();
   return (
-    <select
-      name="district"
-      value={district}
-      onChange={(e) => {
-        setDistrict(e.target.value);
-        setVillage("");
-        load(e.target.value);
-      }}
-      aria-label={labels.allDistricts}
-      className={className}
-    >
-      <option value="">{labels.allDistricts}</option>
-      {districts.map((d) => (
-        <option key={d.slug} value={d.slug}>
-          {d.label}
-        </option>
-      ))}
-    </select>
-  );
-}
-
-export function VillageSelect({ className }: { className: string }) {
-  const { labels, villageName, village, setVillage, places, loading, failed, load } = useLocationContext();
-  return (
-    <select
-      name={villageName}
-      value={village}
-      onChange={(e) => setVillage(e.target.value)}
-      onFocus={() => failed && load(failed)}
-      aria-label={labels.allVillages}
-      aria-invalid={!!failed || undefined}
-      aria-busy={loading}
-      disabled={loading}
-      className={className}
-    >
-      <option value="">{failed ? labels.loadFailed : labels.allVillages}</option>
-      {places.map((l) => (
-        <option key={l.id} value={l.id}>
-          {l.name}
-        </option>
-      ))}
-    </select>
+    <>
+      <select
+        name="district"
+        value={district}
+        onChange={(e) => {
+          setDistrict(e.target.value);
+          setVillage("");
+          load(e.target.value);
+        }}
+        aria-label={labels.allDistricts}
+        className={className}
+      >
+        <option value="">{labels.allDistricts}</option>
+        {districts.map((d) => (
+          <option key={d.slug} value={d.slug}>
+            {d.label}
+          </option>
+        ))}
+      </select>
+      <select
+        name={villageName}
+        value={village}
+        onChange={(e) => setVillage(e.target.value)}
+        onFocus={() => failed && load(failed)}
+        aria-label={labels.allVillages}
+        aria-invalid={!!failed || undefined}
+        aria-busy={loading}
+        disabled={loading}
+        className={className}
+      >
+        <option value="">{failed ? labels.loadFailed : labels.allVillages}</option>
+        {places.map((l) => (
+          <option key={l.id} value={l.id}>
+            {l.name}
+          </option>
+        ))}
+      </select>
+    </>
   );
 }
